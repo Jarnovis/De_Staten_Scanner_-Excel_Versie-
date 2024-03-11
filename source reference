@@ -1,0 +1,28 @@
+(1) García, B. (n.d.). WebDriverManager. Retrieved March 7, 2024, from https://bonigarcia.dev/webdrivermanager/
+
+(2) How to make frames (Main Windows) (The JavaTM Tutorials > Creating a GUI with Swing > Using swing components). (n.d.). Retrieved March 7, 2024, from https://docs.oracle.com/javase%2Ftutorial%2Fuiswing%2F%2F/components/frame.html
+
+(3) Java Program to determine when a Frame or Window is closing in Java. (n.d.). Retrieved March 7, 2024, from https://www.tutorialspoint.com/java-program-to-determine-when-a-frame-or-window-is-closing-in-java
+
+(4) Minh, N. H. (n.d.). JButton basic tutorial and examples. Retrieved March 7, 2024, from https://www.codejava.net/java-se/swing/jbutton-basic-tutorial-and-examples
+
+(5) Chat GPT. (n.d.). https://chat.openai.com. Retrieved March 7, 2024, from https://chat.openai.com
+Met als opgegeven vraag:
+public void connect(String URL_link){
+        try{
+            this.driver.getTitle();
+        } catch(WebDriverException e){
+            System.out.println("EEEEEEEEEEEEE");
+            this.driver.quit();
+            open();
+            connect(URL_link);
+        }
+
+        this.driver.get(URL_link);
+        collect();
+    }
+
+this.driver.getTitle() gets an error
+
+(6) Aziz, U. (2021, 10 november). How to Read Excel Files in Java. Aspose Blog. Geraadpleegd op 8 maart 2024, van https://blog.aspose.com/cells/how-to-read-excel-files-in-java/
+
