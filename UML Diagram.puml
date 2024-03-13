@@ -37,10 +37,9 @@ participant RightData[
 - Countries: ArrayList <String>
 - AllowData: Boolean
 ----
-+ RightData()
++ RightData(Connector connector, Gui gui)
 + ScanData()
 + Show()
-+ Check(): Boolean
 + ReadFile()
 + UploadFile()
 + getData(): ArrayList <String> UsedData
@@ -52,6 +51,8 @@ participant GUI[
 - Frame: JFrame
 - connector: Connector
 - rightData: RightData
+- Search: Boolean
+- URL-link: String
 ----
 + GUI(Connector connector, RightData rightData)
 - Window()
@@ -60,14 +61,15 @@ participant GUI[
 + UploadButton()
 + SearchButton()
 + ConfirmButton(): Boolean
++ GetURL(): String
 ]
 
 Connector <- GUI: 0.1 Geeft URL-link aan 0
 Writer <- RightData: 0.1 Geeft file aan 0
 Connector -> RightData: 0.1 Geeft data aan 0
 RightData -> GUI: 0.1 Geeft ArrayList aan 0
-RightData <- GUI: 1 Geeft toestemming om akoord te gaan met scrijven aan 0
-Writer <- RightData: 1 Geeft toestemming om te schrijven aan 0
+RightData <- GUI: 1 Geeft een de naam en positie van File door aan 0
+Writer <- GUI: 1 Geeft toestemming om  te gaan scrijven 0
 
 autonumber
 @enduml
