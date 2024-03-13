@@ -53,10 +53,5 @@ public class Connector {
         this.driver.close();
         this.closed = true;
     }
-
-    public boolean getStatus(){
-        //System.out.println(closed);
-        return this.closed;
-    }
 }
 
