@@ -7,9 +7,7 @@ import io.github.bonigarcia.wdm.WebDriverManager; //(1)
 import org.openqa.selenium.By;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.UnreachableBrowserException;
 
-import org.openqa.selenium.NoSuchWindowException;
 
 
 
