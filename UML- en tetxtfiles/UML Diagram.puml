@@ -1,68 +1,60 @@
 @startuml
 'https://plantuml.com/sequence-
-participant Connector[
-=Connector
-----
-- Driver: new Chromedriver
-- Gui: GUI
-- URL: String (String Link (als GUI.SearchBar() nog niet gemaakt is)
-- Data: ArrayList <WebElement>
-----
-+ Connector(GUI gui)
-+ Open()
-+ Connect(String Link (als GUI.SearchBar() nog niet gemaakt is) / null)
-- Collect(): ArrayList <WebElement>
-+ Close()
-]
+class Connector {
+    - Driver: Chromedriver
+    - Gui: GUI
+    - URL: String
+    - Data: ArrayList<WebElement>
 
-participant Writer[
-=Writer
-----
-- file: File
-- rightData: RightData
-----
-+ Writer(RightData rightData)
-+ ReadFie()
-+ WriteFile()
-+ ReturnStatus()
-]
+    + Connector(GUI gui)
+    + Open()
+    + Connect(String Link)
+    - Collect(): ArrayList<WebElement>
+    + Close()
+}
 
-participant RightData[
-=RightData
-----
-- connector: Connector
-- gui: GUI
-- UsedData: ArrayList <String>
-- file: File
-- Countries: ArrayList <String>
-- AllowData: Boolean
-----
-+ RightData(Connector connector, Gui gui)
-+ ScanData()
-+ Show()
-+ ReadFile()
-+ UploadFile()
-+ getData(): ArrayList <String> UsedData
-]
+class Writer{
+    - file: File
+    - rightData: RightData
 
-participant GUI[
-=GUI
-----
-- Frame: JFrame
-- connector: Connector
-- rightData: RightData
-- Search: Boolean
-- URL-link: String
-----
-+ GUI(Connector connector, RightData rightData)
-- Window()
-- Shower()
-- SearchBar(): String
-+ UploadButton()
-+ SearchButton()
-+ ConfirmButton(): Boolean
-+ GetURL(): String
-]
+    + Writer(RightData rightData)
+    + ReadFie()
+    + WriteFile()
+    + ReturnStatus()
+}
+
+class RightData{
+    - connector: Connector
+    - gui: GUI
+    - UsedData: ArrayList <String>
+    - file: File
+    - Countries: ArrayList <String>
+    - AllowData: Boolean
+
+    + RightData(Connector connector, Gui gui)
+    + ScanData()
+    + Show()
+    + ReadFile()
+    + UploadFile()
+    + getData(): ArrayList <String> UsedData
+ }
+
+class GUI{
+    - Frame: JFrame
+    - connector: Connector
+    - rightData: RightData
+    - Search: Boolean
+    - URL-link: String
+
+    + GUI(Connector connector, RightData rightData)
+    - Window()
+    - Shower()
+    - SearchBar(): String
+    + UploadButton()
+    + SearchButton()
+    + ConfirmButton(): Boolean
+    + GetURL(): String
+}
 
 Connector <- GUI: 0.1 Geeft URL-link aan 0
 Writer <- RightData: 0.1 Geeft file aan 0
@@ -71,5 +63,4 @@ RightData -> GUI: 0.1 Geeft ArrayList aan 0
 RightData <- GUI: 1 Geeft een de naam en positie van File door aan 0
 Writer <- GUI: 1 Geeft toestemming om  te gaan scrijven 0
 
-autonumber
 @enduml
