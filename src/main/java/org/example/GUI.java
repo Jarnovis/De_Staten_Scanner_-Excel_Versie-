@@ -7,10 +7,20 @@ import javax.swing.filechooser.*;
 
 public class GUI {
     private final JFrame frame;
+    private Connector connector;
+    private RightData rightData;
 
     public GUI(Connector connector, RightData rightData){
         this.frame = new JFrame("Scanner");
+        this.connector = connector;
+        this.rightData = rightData;
         window();
+    }
+
+    private void window(){
+        this.frame.pack(); //(2)
+        this.frame.setSize(new Dimension(400, 600));
+        this.frame.setVisible(true); //(2)
 
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -28,18 +38,11 @@ public class GUI {
         };
 
         frame.addWindowListener(Listener);
-
-        uploadButton(rightData);
-    }
-
-    private void window(){
-        this.frame.pack(); //(2)
-        this.frame.setSize(new Dimension(400, 600));
-        this.frame.setVisible(true); //(2)
+        uploadButton();
 
     }
 
-    private void uploadButton(RightData rightData){
+    private void uploadButton(){
         JButton button = new JButton("Upload Files");
         JPanel bottom = new JPanel();
         button.setPreferredSize(new Dimension(150, 25));

@@ -1,0 +1,101 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+class ConnectWebsite{
+    - driver: Chromedriver
+    - gui: GUI
+    - URL: String
+    - Data: ArrayList<WebElement>
+
+    + Connector(Gui gui)
+    + Open()
+    + Connect()
+    - Collect(): ArrayList<WebElement>
+    + Close()
+}
+
+class Writer{
+    - file: File
+    - rightData: RightData
+
+    + Writer(RightData rightData)
+    + ReadFie()
+    + WriteFile()
+    + ReturnStatus()
+}
+
+class RightData{
+    - connector: Connector
+    - gui: GUI
+    - file:
+    - AllowData: Boolean
+    - UsedData: ArrayList <String>
+    - Countries: ArrayList <String>
+
+    + RightData(Connector connector, Gui gui)
+    + ScanData()
+    + Show()
+    + ReadFile()
+    + UploadFile()
+    + getData(): ArrayList <String> UsedData
+ }
+
+class GUI{
+    - Frame: JFrame
+    - connector: Connector
+    - rightData: RightData
+    - Search: Boolean
+    - URL: String
+
+    + GUI(Connector connector, RightData rightData)
+    - Window()
+    - Shower()
+    - SearchBar(): String
+}
+
+interface IButton{
+    + createButton()
+    + action()
+}
+
+class uploadButton{
+    - rightData: RightData
+
+    + uploadButton(RightData rightData)
+}
+
+class confirmButton{
+    - writer: Writer
+
+    + confirmButton(Writer writer)
+}
+
+class cancelButton{
+    - writer: Writer
+
+    + cancelButton(Writer writer)
+}
+
+class searchButton{
+    - connector: ConnectWebsite
+
+    + searchButton(ConnectWebsite connector)
+}
+
+IButton <|.. uploadButton
+IButton <|.. confirmButton
+IButton <|.. cancelButton
+IButton <|.. searchButton
+
+GUI <|-|> ConnectWebsite
+
+RightData <|-|> GUI
+
+Writer <|- RightData
+
+uploadButton <|- RightData
+confirmButton <|- Writer
+cancelButton <|- (confirmButton, Writer)
+searchButton <|- ConnectWebsite
+
+@enduml
