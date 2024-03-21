@@ -21,7 +21,6 @@ public class Connector {
 
     public Connector(){
         WebDriverManager.chromedriver().setup(); //(1)
-        System.out.print("AWDWADADAW");
     }
 
     public void open(){

@@ -12,11 +12,12 @@ public class Main {
 
         boolean running = true;
         connector.open();
+        //System.out.println("Voor testen excek: uitschakelen URL LINK en zorgen dat de loop niet eindigt!!!!!!!!!!!!!!!!!!!!!!!!!");
 
         while (running){
-            System.out.println("Geef een URL-link op: ");
-            String URL = scanner.nextLine();
-            //String URL = "https://www.tutorialspoint.com/java-program-to-determine-when-a-frame-or-window-is-closing-in-java";
+            //System.out.println("Geef een URL-link op: ");
+            //String URL = scanner.nextLine();
+            String URL = "https://zonsopgang.info/delft/2024-06-06";
 
             if (URL.equalsIgnoreCase("S")){
                 connector.close();

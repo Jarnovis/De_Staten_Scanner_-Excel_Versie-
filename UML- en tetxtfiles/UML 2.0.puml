@@ -16,15 +16,15 @@ class ConnectWebsite{
 
 class Writer{
     - file: File
-    - rightData: RightData
+    - chekData: CheckData
 
-    + Writer(RightData rightData)
+    + Writer(CheckData checkData)
     + ReadFie()
     + WriteFile()
     + ReturnStatus()
 }
 
-class RightData{
+class CheckData{
     - connector: Connector
     - gui: GUI
     - file:
@@ -32,7 +32,7 @@ class RightData{
     - UsedData: ArrayList <String>
     - Countries: ArrayList <String>
 
-    + RightData(Connector connector, Gui gui)
+    + CheckData(Connector connector, Gui gui)
     + ScanData()
     + Show()
     + ReadFile()
@@ -43,11 +43,11 @@ class RightData{
 class GUI{
     - Frame: JFrame
     - connector: Connector
-    - rightData: RightData
+    - chekData: CheckData
     - Search: Boolean
     - URL: String
 
-    + GUI(Connector connector, RightData rightData)
+    + GUI(Connector connector, CheckData chekData)
     - Window()
     - Shower()
     - SearchBar(): String
@@ -59,9 +59,9 @@ interface IButton{
 }
 
 class uploadButton{
-    - rightData: RightData
+    - chekData: CheckData
 
-    + uploadButton(RightData rightData)
+    + uploadButton(CheckData checkData)
 }
 
 class confirmButton{
@@ -82,20 +82,24 @@ class searchButton{
     + searchButton(ConnectWebsite connector)
 }
 
-IButton <|.. uploadButton
-IButton <|.. confirmButton
-IButton <|.. cancelButton
-IButton <|.. searchButton
+IButton <.. uploadButton
+IButton <.. confirmButton
+IButton <.. cancelButton
+IButton <.. searchButton
 
-GUI <|-|> ConnectWebsite
+GUI <-> ConnectWebsite
 
-RightData <|-|> GUI
+CheckData <-> GUI
 
-Writer <|- RightData
+Writer <- CheckData
 
-uploadButton <|- RightData
-confirmButton <|- Writer
-cancelButton <|- (confirmButton, Writer)
-searchButton <|- ConnectWebsite
+uploadButton <- CheckData
+confirmButton <- Writer
+cancelButton <- (confirmButton, Writer)
+searchButton <- ConnectWebsite
+
+confirmButton <|- uploadButton
+confirmButton <|-- cancelButton
+confirmButton <|-- searchButton
 
 @enduml
