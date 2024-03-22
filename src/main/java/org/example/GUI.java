@@ -7,21 +7,28 @@ import javax.swing.filechooser.*;
 
 public class GUI {
     private final JFrame frame;
-    private Connector connector;
-    private RightData rightData;
+    private final Connector connector;
+    private final RightData rightData;
+    private JTextField box;
 
     public GUI(Connector connector, RightData rightData){
-        this.frame = new JFrame("Scanner");
+        this.frame = new JFrame("De Staten Scanner (Excel Versie)");
         this.connector = connector;
         this.rightData = rightData;
         window();
     }
 
     private void window(){
+        UploadButton uploadButton = new UploadButton(getFrame());
+        SearchButton searchButton = new SearchButton(getFrame());
+        // Compenenten eerst toevoegen, voordat frame gemaakt wordt
+        uploadButton.create();
+        searchButton.create();
+        searchBar();
+
         this.frame.pack(); //(2)
         this.frame.setSize(new Dimension(400, 600));
         this.frame.setVisible(true); //(2)
-
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         WindowListener Listener = new WindowAdapter() {
@@ -33,36 +40,63 @@ public class GUI {
                 finally {
                     System.exit(0);
                 }
-
             }
         };
 
+        // Alle acties laten uitvoeren
         frame.addWindowListener(Listener);
-        uploadButton();
-
+        uploadButton.action(rightData);
+        searchButton.action(box, connector);
     }
 
-    private void uploadButton(){
-        JButton button = new JButton("Upload Files");
-        JPanel bottom = new JPanel();
-        button.setPreferredSize(new Dimension(150, 25));
-        button.setBackground(Color.lightGray);
+    public void searchBar(){
+        // SearchBar implementatie
+        JPanel boxPosition = new JPanel();
+        this.box = new JTextField(30);
+        box.setPreferredSize(new Dimension(250, 25));
+        box.setVisible(true);
+        boxPosition.add(box);
+        frame.getContentPane().add(boxPosition, BorderLayout.NORTH);
+        final String[] input ={"https://www.google.com"};
 
+        // Checkt of er actie wordt ondernomen rondom de box
+        box.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
 
-        button.setVisible(true);
-        button.addActionListener(new ActionListener(){ //(4)
-            @Override //(4)
-            public void actionPerformed(ActionEvent evt){ //(4)
-                try {
-                    rightData.uploadFile();
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
+            }
+
+            // Als er in de box geklikt wordt, wordt de eerdere text weg gehaald
+            @Override
+            public void mousePressed(MouseEvent e) {
+                box.setText("");
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
             }
         });
 
-        bottom.add(button);
-        this.frame.add(bottom, BorderLayout.SOUTH);
+        box.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                input[0] = box.getText();
+                System.out.println(box.getText());
+            }
+        });
     }
-
+    public JFrame getFrame(){
+        return this.frame;
+    }
 }

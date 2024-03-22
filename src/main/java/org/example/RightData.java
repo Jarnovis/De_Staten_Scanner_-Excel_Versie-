@@ -38,12 +38,11 @@ public class RightData {
         }
     }
 
-    public File uploadFile() throws Exception {
+    public void uploadFile() throws Exception {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.showSaveDialog(null);
         File file = fileChooser.getSelectedFile();
         this.file = file;
         readFile();
-        return file;
     }
 }

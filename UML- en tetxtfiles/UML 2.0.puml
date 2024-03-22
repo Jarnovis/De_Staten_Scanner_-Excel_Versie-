@@ -82,10 +82,10 @@ class searchButton{
     + searchButton(ConnectWebsite connector)
 }
 
-IButton <.. uploadButton
-IButton <.. confirmButton
-IButton <.. cancelButton
-IButton <.. searchButton
+IButton ..> uploadButton
+IButton ..> confirmButton
+IButton ..> cancelButton
+IButton ..> searchButton
 
 GUI <-> ConnectWebsite
 
@@ -94,12 +94,18 @@ CheckData <-> GUI
 Writer <- CheckData
 
 uploadButton <- CheckData
-confirmButton <- Writer
-cancelButton <- (confirmButton, Writer)
-searchButton <- ConnectWebsite
+confirmButton <-> Writer
+cancelButton <--> Writer
+searchButton <-> ConnectWebsite
 
 confirmButton <|- uploadButton
 confirmButton <|-- cancelButton
 confirmButton <|-- searchButton
+
+uploadButton -> GUI
+confirmButton -> GUI
+cancelButton -> GUI
+searchButton -> GUI
+
 
 @enduml
