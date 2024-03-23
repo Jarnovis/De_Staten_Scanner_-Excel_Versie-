@@ -1,7 +1,5 @@
 package org.example;
 
-import org.openqa.selenium.NotFoundException;
-import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriverException;
 
 import javax.swing.*;
@@ -28,7 +26,6 @@ public class SearchButton extends UploadButton implements IButton{
         this.position.add(button);
         this.frame.getContentPane().add(position, BorderLayout.CENTER);
     }
-
 
     public void action(JTextField input, Connector connector){
         // Probeert om naar de website te gaan. Als de website niet bestaat / URL-link is ongeldig komt er een error melding

@@ -1,5 +1,7 @@
 package org.example;
 
+import javax.swing.*;
+
 public interface IButton {
-    public void create();
+    void create();
 }

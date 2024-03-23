@@ -11,19 +11,21 @@ public class GUI {
     private final RightData rightData;
     private JTextField box;
 
-    public GUI(Connector connector, RightData rightData){
+    public GUI(Connector connector, RightData rightData) throws Exception {
         this.frame = new JFrame("De Staten Scanner (Excel Versie)");
         this.connector = connector;
         this.rightData = rightData;
         window();
     }
 
-    private void window(){
-        UploadButton uploadButton = new UploadButton(getFrame());
-        SearchButton searchButton = new SearchButton(getFrame());
+    private void window() throws Exception {
+        IButton uploadButton = new UploadButton(getFrame());
+        IButton searchButton = new SearchButton(getFrame());
+        SelectSheed selectSheed = new SelectSheed(new JPanel(), getFrame());
         // Compenenten eerst toevoegen, voordat frame gemaakt wordt
         uploadButton.create();
         searchButton.create();
+        selectSheed.create();
         searchBar();
 
         this.frame.pack(); //(2)
@@ -45,8 +47,10 @@ public class GUI {
 
         // Alle acties laten uitvoeren
         frame.addWindowListener(Listener);
-        uploadButton.action(rightData);
-        searchButton.action(box, connector);
+        ((UploadButton) uploadButton).action(rightData, selectSheed);
+        ((SearchButton) searchButton).action(box, connector);
+        selectSheed.action(rightData);
+
     }
 
     public void searchBar(){
@@ -96,6 +100,8 @@ public class GUI {
             }
         });
     }
+
+
     public JFrame getFrame(){
         return this.frame;
     }

@@ -10,14 +10,12 @@ import java.util.Scanner;
 
 public class RightData {
     private File file;
-    Scanner scanner = new Scanner(System.in);
 
-    public void readFile() throws Exception {
+    public void readFile(String sheet) throws Exception {
         Workbook workbook = new Workbook(String.valueOf(file));
 
         WorksheetCollection collection = workbook.getWorksheets();
-        System.out.println("Geef de naam van de benodigde werksheet (1 sheet)");
-        String sheet = scanner.nextLine();
+        System.out.println(sheet);
 
         for (int worksheetIndex = 0; worksheetIndex < collection.getCount(); worksheetIndex++) {
             Worksheet worksheet = collection.get(worksheetIndex);
@@ -43,6 +41,9 @@ public class RightData {
         fileChooser.showSaveDialog(null);
         File file = fileChooser.getSelectedFile();
         this.file = file;
-        readFile();
+    }
+
+    public File getFile(){
+        return this.file;
     }
 }

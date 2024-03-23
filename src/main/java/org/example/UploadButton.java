@@ -22,12 +22,13 @@ public class UploadButton implements IButton {
         System.out.println("Created");
     }
 
-    public void action(RightData rightData){
+    public void action(RightData rightData, SelectSheed selectSheed){
         button.addActionListener(new ActionListener(){ //(4)
             @Override //(4)
             public void actionPerformed(ActionEvent evt){ //(4)
                 try {
                     rightData.uploadFile();
+                    selectSheed.getSheets(rightData);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
