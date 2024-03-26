@@ -1,38 +1,115 @@
 package org.example;
+import org.openqa.selenium.support.ui.Select;
+
 import javax.swing.*;
 import java.awt.*;
-import java.io.*;
 import java.awt.event.*;
-import javax.swing.filechooser.*;
 
 public class GUI {
     private final JFrame frame;
     private final Connector connector;
     private final RightData rightData;
-    private JTextField box;
+    private JPanel excelFilePanel = new JPanel(new GridBagLayout());
+    private JPanel searchPanel = new JPanel(new BorderLayout());
+    private JPanel headPanel = new JPanel();
+    private UploadButton uploadButton;
+    private SearchButton searchButton;
+    private SelectFromSheet selectFromSheet;
+    private SelectFromSheetButton selectFromSheetButton;
+    private SearchBar searchBar;
+    private GetKeySource getKeySource;
+    private SelectFromSheetButton selectKeySourceButton;
 
     public GUI(Connector connector, RightData rightData) throws Exception {
         this.frame = new JFrame("De Staten Scanner (Excel Versie)");
         this.connector = connector;
         this.rightData = rightData;
+
+        uploadButton = new UploadButton();
+        selectFromSheet = new SelectFromSheet();
+        selectFromSheetButton = new SelectFromSheetButton("Select Key Sheet");
+        getKeySource = new GetKeySource();
+        selectKeySourceButton = new SelectFromSheetButton("Select Key Source");
+
+        searchButton = new SearchButton("Search");
+        searchBar = new SearchBar();
+        // Compenenten eerst toevoegen, voordat frame gemaakt wordt
+        // Creëren componenten voor zoeken
         window();
+        actions();
     }
 
     private void window() throws Exception {
-        IButton uploadButton = new UploadButton(getFrame());
-        IButton searchButton = new SearchButton(getFrame());
-        SelectSheed selectSheed = new SelectSheed(new JPanel(), getFrame());
-        // Compenenten eerst toevoegen, voordat frame gemaakt wordt
+        // creëeren componenten voor excelFiles
+        selectFromSheet.create();
+        selectFromSheetButton.create();
         uploadButton.create();
-        searchButton.create();
-        selectSheed.create();
-        searchBar();
+        getKeySource.create();
+        searchBar.create();
 
+        positionPanels();
+
+        // Window creëren
         this.frame.pack(); //(2)
-        this.frame.setSize(new Dimension(400, 600));
+        this.frame.setSize(new Dimension(600, 800));
         this.frame.setVisible(true); //(2)
         this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
 
+    private void positionPanels(){
+        // Positioneren panels (8)
+        excelFilePanel.setLayout(new GridBagLayout());
+        searchPanel.setLayout(new GridBagLayout());
+        headPanel.setLayout(new GridBagLayout());
+        GridBagConstraints gbcExcel = new GridBagConstraints();
+        GridBagConstraints gbcSearch = new GridBagConstraints();
+        GridBagConstraints gbcHead = new GridBagConstraints();
+        gbcHead.gridx = 0;
+        gbcHead.gridy = 0;
+        gbcHead.weighty = 1;
+        gbcHead.weightx = 1;
+        gbcHead.anchor = GridBagConstraints.WEST;
+
+        gbcExcel.gridx = 0;
+        gbcExcel.gridy = 0;
+        gbcExcel.weightx = 1;
+        gbcExcel.weighty = 1;
+        gbcExcel.insets = new Insets(10, 10, 10, 10);
+
+        excelFilePanel.add(selectFromSheet.getBox(), gbcExcel);
+
+        gbcExcel.gridx ++;
+        excelFilePanel.add(selectFromSheetButton.getButton(), gbcExcel);
+        gbcExcel.gridy ++;
+        gbcExcel.gridx --;
+        excelFilePanel.add(uploadButton.getButton(), gbcExcel);
+
+        gbcExcel.gridy ++;
+        excelFilePanel.add(getKeySource.getBox(), gbcExcel);
+        headPanel.add(excelFilePanel, gbcHead);
+
+        gbcExcel.gridx ++;
+        excelFilePanel.add(selectKeySourceButton.getButton(), gbcExcel);
+
+        gbcSearch.gridx = 0;
+        gbcSearch.gridy = 0;
+        gbcSearch.weighty = 1;
+        gbcSearch.weightx = 1;
+        gbcSearch.insets = new Insets(10, 10, 10, 10);
+
+        searchPanel.add(searchBar.getBox(), gbcSearch);
+        gbcSearch.gridy ++;
+        searchPanel.add(searchButton.getButton(), gbcSearch);
+
+        gbcHead.anchor = GridBagConstraints.FIRST_LINE_START;
+        headPanel.add(searchPanel, gbcHead);
+
+
+        frame.add(headPanel);
+
+    }
+
+    private void actions(){
         WindowListener Listener = new WindowAdapter() {
             public void windowClosing(WindowEvent evt) {
                 try {
@@ -47,59 +124,13 @@ public class GUI {
 
         // Alle acties laten uitvoeren
         frame.addWindowListener(Listener);
-        ((UploadButton) uploadButton).action(rightData, selectSheed);
-        ((SearchButton) searchButton).action(box, connector);
-        selectSheed.action(rightData);
+        uploadButton.action(rightData, selectFromSheet);
+        searchButton.action(searchBar.getBox(), connector);
+        selectFromSheetButton.action(selectFromSheet, rightData, getKeySource, selectKeySourceButton);
+        selectKeySourceButton.action(rightData, getKeySource);
 
     }
 
-    public void searchBar(){
-        // SearchBar implementatie
-        JPanel boxPosition = new JPanel();
-        this.box = new JTextField(30);
-        box.setPreferredSize(new Dimension(250, 25));
-        box.setVisible(true);
-        boxPosition.add(box);
-        frame.getContentPane().add(boxPosition, BorderLayout.NORTH);
-        final String[] input ={"https://www.google.com"};
-
-        // Checkt of er actie wordt ondernomen rondom de box
-        box.addMouseListener(new MouseListener() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-
-            }
-
-            // Als er in de box geklikt wordt, wordt de eerdere text weg gehaald
-            @Override
-            public void mousePressed(MouseEvent e) {
-                box.setText("");
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-        });
-
-        box.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                input[0] = box.getText();
-                System.out.println(box.getText());
-            }
-        });
-    }
 
 
     public JFrame getFrame(){

@@ -25,9 +25,9 @@ class Writer{
 }
 
 class CheckData{
-    - connector: Connector
+    - ConnectWebsite: Connector
     - gui: GUI
-    - file:
+    - file: File
     - AllowData: Boolean
     - UsedData: ArrayList <String>
     - Countries: ArrayList <String>
@@ -50,7 +50,6 @@ class GUI{
     + GUI(Connector connector, CheckData chekData)
     - Window()
     - Shower()
-    - SearchBar(): String
 }
 
 interface IButton{
@@ -64,17 +63,6 @@ class uploadButton{
     + uploadButton(CheckData checkData)
 }
 
-class confirmButton{
-    - writer: Writer
-
-    + confirmButton(Writer writer)
-}
-
-class cancelButton{
-    - writer: Writer
-
-    + cancelButton(Writer writer)
-}
 
 class searchButton{
     - connector: ConnectWebsite
@@ -82,30 +70,58 @@ class searchButton{
     + searchButton(ConnectWebsite connector)
 }
 
+class SearchBar{
+    - box: JTextField
+
+    + create()
+    + action()
+}
+
+
+
+class SelectFromSheet{
+}
+
+class SelectButton{
+
+    + SelectButton(SelectFromSheet)
+}
+
+class WriterButton{
+    - writer: Writer
+    + WriterButton(Writer writer)
+    + Confirm()
+    + Cancel()
+}
+
 IButton ..> uploadButton
-IButton ..> confirmButton
-IButton ..> cancelButton
+IButton ..> WriterButton
 IButton ..> searchButton
+IButton ..> SelectSheetButton
+IButton ..> SelectKeySource
 
-GUI <-> ConnectWebsite
 
-CheckData <-> GUI
+GUI <- SearchBar
+
+CheckData -> GUI
 
 Writer <- CheckData
 
 uploadButton <- CheckData
-confirmButton <-> Writer
-cancelButton <--> Writer
-searchButton <-> ConnectWebsite
+WriterButton <- Writer
+searchButton <- ConnectWebsite
 
-confirmButton <|- uploadButton
-confirmButton <|-- cancelButton
-confirmButton <|-- searchButton
+WriterButton <|- uploadButton
+WriterButton <|-- searchButton
+WriterButton <|-- SelectFromSheetButton
 
 uploadButton -> GUI
-confirmButton -> GUI
-cancelButton -> GUI
+WriterButton -> GUI
 searchButton -> GUI
+SelectFromSheetButton -> GUI
+
+SelectFromSheet --> GUI
+
 
 
 @enduml

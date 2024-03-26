@@ -7,32 +7,28 @@ import java.awt.event.ActionListener;
 
 public class UploadButton implements IButton {
     private JButton button = new JButton("Upload Files");
-    private JFrame frame;
-    private JPanel position = new JPanel();
 
-    public UploadButton(JFrame getFrame){
-        this.frame = getFrame;
-    }
     public void create(){
-        this.button.setPreferredSize(new Dimension(150, 25));
+        this.button.setMaximumSize(new Dimension(150, 25));
         this.button.setBackground(Color.lightGray);
         this.button.setVisible(true);
-        this.position.add(button);
-        this.frame.getContentPane().add(position, BorderLayout.SOUTH);
-        System.out.println("Created");
     }
 
-    public void action(RightData rightData, SelectSheed selectSheed){
+    public void action(RightData rightData, SelectFromSheet selectFromSheetButton){
         button.addActionListener(new ActionListener(){ //(4)
             @Override //(4)
             public void actionPerformed(ActionEvent evt){ //(4)
                 try {
                     rightData.uploadFile();
-                    selectSheed.getSheets(rightData);
+                    selectFromSheetButton.getSheets(rightData);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
             }
         });
+    }
+
+    public JButton getButton(){
+        return button;
     }
 }

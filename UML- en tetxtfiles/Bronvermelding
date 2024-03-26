@@ -25,4 +25,6 @@ public void connect(String URL_link){
 this.driver.getTitle() gets an error
 
 (6) Aziz, U. (2021, 10 november). How to Read Excel Files in Java. Aspose Blog. Geraadpleegd op 8 maart 2024, van https://blog.aspose.com/cells/how-to-read-excel-files-in-java/
+(7) How to add spacing between JPanel and JFrame’s contentPane? (n.d.). Stack Overflow. Retrieved March 24, 2024, from https://stackoverflow.com/questions/66502178/how-to-add-spacing-between-jpanel-and-jframes-contentpane
+(8) Java GridBagLayout - javatpoint. (n.d.). www.javatpoint.com. Retrieved March 24, 2024, from https://www.javatpoint.com/java-gridbaglayout
 
