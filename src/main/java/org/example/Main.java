@@ -8,7 +8,7 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         Connector connector = new Connector();
         connector.open();
-        RightData rightData = new RightData();
+        RightData rightData = new RightData(connector);
         GUI gui = new GUI(connector, rightData);
 
         while (true) {

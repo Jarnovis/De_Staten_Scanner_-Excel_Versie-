@@ -25,6 +25,7 @@ public class Connector {
 
     public void open(){
         this.driver = new ChromeDriver();
+        this.driver.manage().window().setSize(new Dimension(1, 1));
         this.driver.manage().window().minimize();
         this.closed = false;
     }
@@ -38,10 +39,9 @@ public class Connector {
         }
 
         this.driver.get(URL_link);
-        collect();
     }
 
-    private List<WebElement> collect(){
+    public List<WebElement> collect(){
         this.Data = driver.findElements(By.tagName("table"));
         return Data;
     }
@@ -49,6 +49,10 @@ public class Connector {
     public void close(){
         this.driver.close();
         this.closed = true;
+    }
+
+    public WebDriver getDriver(){
+        return driver;
     }
 }
 
