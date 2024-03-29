@@ -11,10 +11,11 @@ import java.util.ArrayList;
 
 public class SelectFromSheet extends Component {
     private JComboBox box;
-    private String[] sheets = {"Upload excel File first"};
+    private String[] sheets;
 
-    public void create() {
-        box = new JComboBox(sheets);
+    public void create(String[] sheets) {
+        this.sheets = sheets;
+        box = new JComboBox(this.sheets);
         box.setMaximumSize(new Dimension(200, 25));
         box.setBackground(Color.LIGHT_GRAY);
         box.setVisible(true);

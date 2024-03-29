@@ -21,6 +21,7 @@ public class RightData {
     private Connector connector;
     private ArrayList<ArrayList<ArrayList<String>>> collected;
     private ArrayList<ArrayList> matches;
+    private String keySource;
 
     public RightData(Connector connector) {
         this.connector = connector;
@@ -58,10 +59,8 @@ public class RightData {
                             }
 
                             else{
-                                for (int row = 0; row < rows; row++) {
-                                    names.add(worksheet.getCells().get(row, col).getValue());
-                                    positions.add(new int[]{col});
-                                }
+                                names.add(worksheet.getCells().get(0, col).getValue());
+                                positions.add(new int[]{col});
                             }
 
                         }
@@ -85,13 +84,14 @@ public class RightData {
         }
     }
 
-    public void gatherKeySource(String source, String sheet) {
+    public boolean gatherKeySource(String source, String sheet) {
         System.out.println("KeySource");
-        keySources = readFile(sheet, source);
+        keySource = source;
+        keySources = readFile(sheet, keySource);
 
         gatherDataSource(null, sheet);
         getData();
-        checkData();
+        return checkData(null);
     }
 
     public void gatherDataSource(String source, String sheet){
@@ -130,7 +130,8 @@ public class RightData {
         }
     }
 
-    private void checkData() {
+    public boolean checkData(String neededColom) {
+        System.out.println("Searching for collom");
         matches = new ArrayList<>();
         boolean found = false;
         int positionsHead = -1;
@@ -139,39 +140,17 @@ public class RightData {
             for (String head : headTable) {
                 if (!found) {
                     positionsHead++;
-                    if (head.equals(keySources.getFirst().getFirst())) {
-                        found = true;
-                    }
-                }
-            }
-        }
-
-        ArrayList<int[]> positionsY = keySources.getLast();
-        ArrayList<Integer> positionsExcelY = new ArrayList<>();
-
-        for (int[] place : positionsY) {
-            positionsExcelY.add(place[1]);
-        }
-
-        found = false;
-        int positionsDataSource = 0;
-        int positionX = 0;
-        Object last = null;
-
-        for (ArrayList<String> dataTable : collected.getFirst()) {
-            for (String head : dataTable) {
-                if (!found) {
-                    positionX = 0;
-                    positionsDataSource++;
-                    for (int i = 0; i < dataSources.getFirst().size(); i++) {
-                        if (dataSources.getFirst().get(i) != last){
-                            positionX ++;
-                            last = dataSources.getFirst().get(i);
+                    for (int i = 0; i< keySources.getFirst().size(); i++){
+                        if (neededColom == null){
+                            if (head.equals(keySources.getFirst().get(i)) && !head.equals(keySource)) {
+                                System.out.println(keySources.getFirst().getFirst());
+                                found = true;
+                            }
                         }
 
-                        Object data = dataSources.getFirst().get(i);
-                        if (data != null) {
-                            if (head.equalsIgnoreCase(data.toString())) {
+                        else{
+                            if (head.equals(neededColom)) {
+                                System.out.println(keySources.getFirst().getFirst());
                                 found = true;
                             }
                         }
@@ -180,62 +159,99 @@ public class RightData {
             }
         }
 
-        ArrayList<int[]> positionsX = dataSources.getLast();
-        ArrayList<Integer> positionsExcelX = new ArrayList<>();
+        if (found){
+            ArrayList<int[]> positionsY = keySources.getLast();
+            ArrayList<Integer> positionsExcelY = new ArrayList<>();
 
-        for (int[] place : positionsX) {
-            positionsExcelX.add(place[0]);
-        }
+            for (int[] place : positionsY) {
+                positionsExcelY.add(place[1]);
+            }
 
-        ArrayList<Object> headSource = new ArrayList<>();
-        ArrayList<Object> headData = new ArrayList<>();
-        ArrayList<int[]> positioningData = new ArrayList<>();
-        for (ArrayList<ArrayList<String>> row : collected) {
-            for (ArrayList<String> get : row) {
-                boolean match = false;
-                if (!get.isEmpty()) {
-                    for (int pos = 0; pos < keySources.getFirst().size(); pos++) {
-                        if (!match) {
-                            if (keySources.getFirst().get(pos).toString().equalsIgnoreCase(get.get(positionsHead))) {
-                                int[] data = {positionX, positionsExcelY.get(pos)};
-                                headSource.add(keySources.getFirst().get(pos));
-                                headData.add(get.get(positionsDataSource));
-                                positioningData.add(data);
+            found = false;
+            int positionsDataSource = 0;
+            int positionX = 0;
+            Object last = null;
 
-                                match = true;
+            for (ArrayList<String> dataTable : collected.getFirst()) {
+                for (String head : dataTable) {
+                    if (!found) {
+                        positionX = 0;
+                        positionsDataSource++;
+                        for (int i = 0; i < dataSources.getFirst().size(); i++) {
+                            if (dataSources.getFirst().get(i) != last){
+                                positionX ++;
+                                last = dataSources.getFirst().get(i);
+                            }
 
-                                keySources.getFirst().remove(pos);
-                                positionsExcelX.remove(pos);
-                                positionsExcelY.remove(pos);
+                            Object data = dataSources.getFirst().get(i);
+                            if (data != null) {
+                                if (head.equalsIgnoreCase(data.toString())) {
+                                    found = true;
+                                }
                             }
                         }
                     }
                 }
             }
-            matches.add(headSource);
-            matches.add(headData);
-            matches.add(positioningData);
+
+            ArrayList<int[]> positionsX = dataSources.getLast();
+            ArrayList<Integer> positionsExcelX = new ArrayList<>();
+
+            for (int[] place : positionsX) {
+                positionsExcelX.add(place[0]);
+            }
+
+            ArrayList<Object> headSource = new ArrayList<>();
+            ArrayList<Object> headData = new ArrayList<>();
+            ArrayList<int[]> positioningData = new ArrayList<>();
+            for (ArrayList<ArrayList<String>> row : collected) {
+                for (ArrayList<String> get : row) {
+                    boolean match = false;
+                    if (!get.isEmpty()) {
+                        for (int pos = 0; pos < keySources.getFirst().size(); pos++) {
+                            if (!match) {
+                                if (keySources.getFirst().get(pos).toString().equalsIgnoreCase(get.get(positionsHead))) {
+                                    int[] data = {positionX, positionsExcelY.get(pos)};
+                                    headSource.add(keySources.getFirst().get(pos));
+                                    headData.add(get.get(positionsDataSource));
+                                    positioningData.add(data);
+
+                                    match = true;
+
+                                    keySources.getFirst().remove(pos);
+                                }
+                            }
+                        }
+                    }
+                }
+                matches.add(headSource);
+                matches.add(headData);
+                matches.add(positioningData);
+            }
+
+
+            //System.out.println(matches);
+            //System.out.println(keySources.getFirst());
+            //System.out.println(dataSources.get(positionsDataSourceInList).get(positionsDataSource));
+            ArrayList<int[]> positionsTogether = matches.getLast();
+            ArrayList<Integer> positionsLonely = new ArrayList<>();
+
+            for (int[] place : positionsTogether){
+                positionsLonely.add(place[0]);
+                positionsLonely.add(place[1]);
+            }
+
+            System.out.println(matches);
+            System.out.println(matches.getFirst());
+
+            for (int i = 0; i < matches.getFirst().size(); i++){
+                System.out.println(matches.getFirst().get(i) + " | " + matches.get(1).get(i).toString() + " | " + positionsLonely.get(i * 2) + " | " + positionsLonely.get(i * 2 + 1));
+            }
+
+            return true;
+
         }
-
-
-        //System.out.println(matches);
-        //System.out.println(keySources.getFirst());
-        //System.out.println(dataSources.get(positionsDataSourceInList).get(positionsDataSource));
-        ArrayList<int[]> positionsTogether = matches.getLast();
-        ArrayList<Integer> positionsLonely = new ArrayList<>();
-
-        for (int[] place : positionsTogether){
-            positionsLonely.add(place[0]);
-            positionsLonely.add(place[1]);
-        }
-
-        System.out.println(matches);
-        System.out.println(matches.getFirst());
-
-        for (int i = 0; i < matches.getFirst().size(); i++){
-            System.out.println(matches.getFirst().get(i) + " | " + matches.get(1).get(i).toString() + " | " + positionsLonely.get(i * 2) + " | " + positionsLonely.get(i * 2 + 1));
-        }
-
+        return false;
     }
 
 

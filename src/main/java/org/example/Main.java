@@ -1,5 +1,6 @@
 package org.example;
 
+import javax.swing.*;
 import java.util.Scanner;
 
 
@@ -12,7 +13,6 @@ public class Main {
         GUI gui = new GUI(connector, rightData);
 
         while (true) {
-            // Zorgt ervoor dat de loop niet eindigt
         }
     }
 }

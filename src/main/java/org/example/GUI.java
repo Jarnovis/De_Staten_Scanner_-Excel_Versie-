@@ -15,10 +15,16 @@ public class GUI {
     private UploadButton uploadButton;
     private SearchButton searchButton;
     private SelectFromSheet selectFromSheet;
+    private SelectFromSheet selectFromSheetFail;
     private SelectFromSheetButton selectFromSheetButton;
+    private SelectFromSheetButton selectFromSheetButtonFail;
     private SearchBar searchBar;
     private GetKeySource getKeySource;
     private SelectFromSheetButton selectKeySourceButton;
+    private GridBagConstraints gbcExcel;
+    private GridBagConstraints gbcSearch;
+    private GridBagConstraints gbcHead;
+    private boolean settingUp = true;
 
     public GUI(Connector connector, RightData rightData) throws Exception {
         this.frame = new JFrame("De Staten Scanner (Excel Versie)");
@@ -30,6 +36,8 @@ public class GUI {
         selectFromSheetButton = new SelectFromSheetButton("Select Key Sheet");
         getKeySource = new GetKeySource();
         selectKeySourceButton = new SelectFromSheetButton("Select Key Source");
+        selectFromSheetFail = new SelectFromSheet();
+        selectFromSheetButtonFail = new SelectFromSheetButton("Select Colom");
 
         searchButton = new SearchButton("Search");
         searchBar = new SearchBar();
@@ -41,8 +49,13 @@ public class GUI {
 
     private void window() throws Exception {
         // creëeren componenten voor excelFiles
-        selectFromSheet.create();
+        selectFromSheet.create(new String[] {"Upload excel File first"});
         selectFromSheetButton.create();
+        selectFromSheetFail.create(new String[] {"Failed to find needed colom"});
+        selectFromSheetFail.getBox();
+        selectFromSheetButtonFail.create();
+        selectFromSheetButtonFail.getButton();
+
         uploadButton.create();
         getKeySource.create();
         searchBar.create();
@@ -61,9 +74,9 @@ public class GUI {
         excelFilePanel.setLayout(new GridBagLayout());
         searchPanel.setLayout(new GridBagLayout());
         headPanel.setLayout(new GridBagLayout());
-        GridBagConstraints gbcExcel = new GridBagConstraints();
-        GridBagConstraints gbcSearch = new GridBagConstraints();
-        GridBagConstraints gbcHead = new GridBagConstraints();
+        gbcExcel = new GridBagConstraints();
+        gbcSearch = new GridBagConstraints();
+        gbcHead = new GridBagConstraints();
         gbcHead.gridx = 0;
         gbcHead.gridy = 0;
         gbcHead.weighty = 1;
@@ -106,10 +119,9 @@ public class GUI {
 
 
         frame.add(headPanel);
-
     }
 
-    private void actions(){
+    public void actions() throws Exception {
         WindowListener Listener = new WindowAdapter() {
             public void windowClosing(WindowEvent evt) {
                 try {
@@ -127,9 +139,43 @@ public class GUI {
         uploadButton.action(rightData, selectFromSheet);
         searchButton.action(searchBar.getBox(), connector);
         selectFromSheetButton.action(selectFromSheet, rightData, getKeySource, selectKeySourceButton);
-        selectKeySourceButton.action(rightData, getKeySource);
+        selectFromSheetButtonFail.action(rightData, selectFromSheetFail);
+
+        if(!selectKeySourceButton.action(rightData, getKeySource)[0]){
+            updateGUI(true);
+        }
+        else {
+            updateGUI(false);
+        }
 
     }
+
+    private void updateGUI(boolean show) throws Exception {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                if (show) {
+                    gbcExcel.gridy++;
+                    gbcExcel.gridx--;
+                    excelFilePanel.add(selectFromSheetFail.getBox(), gbcExcel);
+                    gbcExcel.gridx++;
+                    excelFilePanel.add(selectFromSheetButtonFail.getButton(), gbcExcel);
+                } else {
+                    excelFilePanel.remove(selectFromSheetFail.getBox());
+                    excelFilePanel.remove(selectFromSheetButtonFail.getButton());
+                    gbcExcel.gridy--;
+                    gbcExcel.gridx++;
+                }
+
+                excelFilePanel.revalidate();
+                excelFilePanel.repaint();
+
+                headPanel.revalidate();
+                headPanel.repaint();
+            }
+        });
+    }
+
 
 
 

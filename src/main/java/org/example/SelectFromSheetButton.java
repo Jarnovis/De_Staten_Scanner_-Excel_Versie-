@@ -42,13 +42,27 @@ public class SelectFromSheetButton extends UploadButton implements IButton{
 
     }
 
-    public void action(RightData rightData, GetKeySource getKeySource){
+    public boolean[] action(RightData rightData, GetKeySource getKeySource){
+        final boolean[] through = {true};
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println(getKeySource.getBox().getSelectedItem());
-                rightData.gatherKeySource((String) getKeySource.getBox().getSelectedItem(), sheet);
+                if (!rightData.gatherKeySource((String) getKeySource.getBox().getSelectedItem(), sheet)){
+                    through[0] = false;
+                }
             };
+        });
+        return through;
+
+    }
+
+    public void action(RightData rightData, SelectFromSheet selectFromSheetFail){
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                rightData.checkData((String) selectFromSheetFail.getBox().getSelectedItem());
+            }
         });
 
     }
