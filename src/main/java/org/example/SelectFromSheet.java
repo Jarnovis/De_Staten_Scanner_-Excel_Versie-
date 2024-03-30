@@ -13,12 +13,12 @@ public class SelectFromSheet extends Component {
     private JComboBox box;
     private String[] sheets;
 
-    public void create(String[] sheets) {
+    public void create(String[] sheets, boolean visable) {
         this.sheets = sheets;
         box = new JComboBox(this.sheets);
         box.setMaximumSize(new Dimension(200, 25));
         box.setBackground(Color.LIGHT_GRAY);
-        box.setVisible(true);
+        box.setVisible(visable);
     }
 
     public void getSheets(RightData rightData) throws Exception {
@@ -50,6 +50,10 @@ public class SelectFromSheet extends Component {
             box.revalidate();
             box.repaint();
         }
+    }
+
+    public void visible(boolean visiblity){
+        box.setVisible(visiblity);
     }
 
     public JComboBox getBox() {

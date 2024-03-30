@@ -8,13 +8,13 @@ import java.awt.event.ActionListener;
 public class UploadButton implements IButton {
     private JButton button = new JButton("Upload Files");
 
-    public void create(){
+    public void create(boolean visable){
         this.button.setMaximumSize(new Dimension(150, 25));
         this.button.setBackground(Color.lightGray);
-        this.button.setVisible(true);
+        this.button.setVisible(visable);
     }
 
-    public void action(RightData rightData, SelectFromSheet selectFromSheetButton){
+    public void action(RightData rightData, SelectFromSheet selectFromSheetButton, boolean updater){
         button.addActionListener(new ActionListener(){ //(4)
             @Override //(4)
             public void actionPerformed(ActionEvent evt){ //(4)
@@ -27,6 +27,11 @@ public class UploadButton implements IButton {
             }
         });
     }
+
+    public void visible(boolean visabilty){
+        button.setVisible(visabilty);
+    }
+
 
     public JButton getButton(){
         return button;

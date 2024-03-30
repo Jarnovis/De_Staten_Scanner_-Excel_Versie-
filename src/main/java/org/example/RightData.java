@@ -22,6 +22,7 @@ public class RightData {
     private ArrayList<ArrayList<ArrayList<String>>> collected;
     private ArrayList<ArrayList> matches;
     private String keySource;
+    private boolean passFound;
 
     public RightData(Connector connector) {
         this.connector = connector;
@@ -85,22 +86,18 @@ public class RightData {
     }
 
     public boolean gatherKeySource(String source, String sheet) {
-        System.out.println("KeySource");
         keySource = source;
         keySources = readFile(sheet, keySource);
 
         gatherDataSource(null, sheet);
-        getData();
         return checkData(null);
     }
 
     public void gatherDataSource(String source, String sheet){
-        System.out.println("DataSource");
         dataSources = readFile(sheet, source);
     }
 
-    private void getData() {
-        System.out.println("getData");
+    public void getData() {
         collected = new ArrayList<>();
         ArrayList<ArrayList<String>> collectedRows = new ArrayList<>();
         ArrayList<String> rowData = new ArrayList<>();
@@ -131,7 +128,6 @@ public class RightData {
     }
 
     public boolean checkData(String neededColom) {
-        System.out.println("Searching for collom");
         matches = new ArrayList<>();
         boolean found = false;
         int positionsHead = -1;
@@ -143,14 +139,12 @@ public class RightData {
                     for (int i = 0; i< keySources.getFirst().size(); i++){
                         if (neededColom == null){
                             if (head.equals(keySources.getFirst().get(i)) && !head.equals(keySource)) {
-                                System.out.println(keySources.getFirst().getFirst());
                                 found = true;
                             }
                         }
 
                         else{
                             if (head.equals(neededColom)) {
-                                System.out.println(keySources.getFirst().getFirst());
                                 found = true;
                             }
                         }
@@ -160,6 +154,7 @@ public class RightData {
         }
 
         if (found){
+            //passFound = true;
             ArrayList<int[]> positionsY = keySources.getLast();
             ArrayList<Integer> positionsExcelY = new ArrayList<>();
 
@@ -229,10 +224,6 @@ public class RightData {
                 matches.add(positioningData);
             }
 
-
-            //System.out.println(matches);
-            //System.out.println(keySources.getFirst());
-            //System.out.println(dataSources.get(positionsDataSourceInList).get(positionsDataSource));
             ArrayList<int[]> positionsTogether = matches.getLast();
             ArrayList<Integer> positionsLonely = new ArrayList<>();
 
@@ -248,14 +239,19 @@ public class RightData {
                 System.out.println(matches.getFirst().get(i) + " | " + matches.get(1).get(i).toString() + " | " + positionsLonely.get(i * 2) + " | " + positionsLonely.get(i * 2 + 1));
             }
 
-            return true;
+            return passFound;
 
         }
-        return false;
+
+        passFound = false;
+        return passFound;
     }
 
 
     public File getFile(){
         return this.file;
+    }
+    public ArrayList<ArrayList<ArrayList<String>>> getCollected(){
+        return collected;
     }
 }

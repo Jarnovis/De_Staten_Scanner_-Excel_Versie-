@@ -5,8 +5,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class GUI {
-    private final JFrame frame;
+public class GUI_Reworked extends JFrame {
     private final Connector connector;
     private final RightData rightData;
     private JPanel excelFilePanel = new JPanel(new GridBagLayout());
@@ -15,7 +14,8 @@ public class GUI {
     private UploadButton uploadButton;
     private SearchButton searchButton;
     private SelectFromSheet selectFromSheet;
-    private SelectFromSheet selectFromSheetFail;
+    private GetKeySource selectFromSheetFail;
+    private GetKeySource selectFromWebsiteFail;
     private SelectFromSheetButton selectFromSheetButton;
     private SelectFromSheetButton selectFromSheetButtonFail;
     private SearchBar searchBar;
@@ -24,10 +24,12 @@ public class GUI {
     private GridBagConstraints gbcExcel;
     private GridBagConstraints gbcSearch;
     private GridBagConstraints gbcHead;
-    private boolean settingUp = true;
+    private boolean showFailFirstTime = true;
+    private int loop = 0;
+    private TextString failBoxText;
 
-    public GUI(Connector connector, RightData rightData) throws Exception {
-        this.frame = new JFrame("De Staten Scanner (Excel Versie)");
+    public GUI_Reworked(Connector connector, RightData rightData) throws Exception {
+        super("De Staten Scanner (Excel Versie)");
         this.connector = connector;
         this.rightData = rightData;
 
@@ -36,8 +38,10 @@ public class GUI {
         selectFromSheetButton = new SelectFromSheetButton("Select Key Sheet");
         getKeySource = new GetKeySource();
         selectKeySourceButton = new SelectFromSheetButton("Select Key Source");
-        selectFromSheetFail = new SelectFromSheet();
+        selectFromSheetFail = new GetKeySource();
         selectFromSheetButtonFail = new SelectFromSheetButton("Select Colom");
+        failBoxText = new TextString();
+        selectFromWebsiteFail = new GetKeySource();
 
         searchButton = new SearchButton("Search");
         searchBar = new SearchBar();
@@ -49,24 +53,24 @@ public class GUI {
 
     private void window() throws Exception {
         // creëeren componenten voor excelFiles
-        selectFromSheet.create(new String[] {"Upload excel File first"});
-        selectFromSheetButton.create();
-        selectFromSheetFail.create(new String[] {"Failed to find needed colom"});
-        selectFromSheetFail.getBox();
-        selectFromSheetButtonFail.create();
-        selectFromSheetButtonFail.getButton();
+        selectFromSheet.create(new String[] {"Upload excel File first"}, true);
+        selectFromSheetButton.create(true);
+        selectFromSheetFail.create(new String[] {"Failed to find collum"}, false);
+        selectFromSheetButtonFail.create(false);
+        failBoxText.create("No matches found", false);
+        selectFromWebsiteFail.create(new String[] {"Failed to find collum"}, false);
 
-        uploadButton.create();
-        getKeySource.create();
+
+        uploadButton.create(true);
+        getKeySource.create(new String[] {"Upload excel file first"}, true);
         searchBar.create();
 
         positionPanels();
 
         // Window creëren
-        this.frame.pack(); //(2)
-        this.frame.setSize(new Dimension(600, 800));
-        this.frame.setVisible(true); //(2)
-        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(new Dimension(600, 800));
+        setVisible(true); //(2)
+        // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     private void positionPanels(){
@@ -93,6 +97,7 @@ public class GUI {
 
         gbcExcel.gridx ++;
         excelFilePanel.add(selectFromSheetButton.getButton(), gbcExcel);
+
         gbcExcel.gridy ++;
         gbcExcel.gridx --;
         excelFilePanel.add(uploadButton.getButton(), gbcExcel);
@@ -103,6 +108,20 @@ public class GUI {
 
         gbcExcel.gridx ++;
         excelFilePanel.add(selectKeySourceButton.getButton(), gbcExcel);
+
+        gbcExcel.gridy ++;
+        gbcExcel.gridx --;
+        excelFilePanel.add(failBoxText.getText(), gbcExcel);
+
+        gbcExcel.gridy ++;
+        excelFilePanel.add(selectFromSheetFail.getBox(), gbcExcel);
+
+        gbcExcel.gridx ++;
+        excelFilePanel.add(selectFromSheetButtonFail.getButton(), gbcExcel);
+
+        gbcExcel.gridy ++;
+        gbcExcel.gridx --;
+        excelFilePanel.add(selectFromWebsiteFail.getBox(), gbcExcel);
 
         gbcSearch.gridx = 0;
         gbcSearch.gridy = 0;
@@ -117,8 +136,7 @@ public class GUI {
         gbcHead.anchor = GridBagConstraints.FIRST_LINE_START;
         headPanel.add(searchPanel, gbcHead);
 
-
-        frame.add(headPanel);
+        add(headPanel);
     }
 
     public void actions() throws Exception {
@@ -135,51 +153,70 @@ public class GUI {
         };
 
         // Alle acties laten uitvoeren
-        frame.addWindowListener(Listener);
-        uploadButton.action(rightData, selectFromSheet);
-        searchButton.action(searchBar.getBox(), connector);
-        selectFromSheetButton.action(selectFromSheet, rightData, getKeySource, selectKeySourceButton);
+        addWindowListener(Listener);
+        uploadButton.action(rightData, selectFromSheet, updaterGUI());
+        searchButton.action(searchBar.getBox(), connector, rightData);
         selectFromSheetButtonFail.action(rightData, selectFromSheetFail);
 
-        if(!selectKeySourceButton.action(rightData, getKeySource)[0]){
-            updateGUI(true);
-        }
-        else {
-            updateGUI(false);
-        }
-
     }
 
-    private void updateGUI(boolean show) throws Exception {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                if (show) {
-                    gbcExcel.gridy++;
-                    gbcExcel.gridx--;
-                    excelFilePanel.add(selectFromSheetFail.getBox(), gbcExcel);
-                    gbcExcel.gridx++;
-                    excelFilePanel.add(selectFromSheetButtonFail.getButton(), gbcExcel);
-                } else {
-                    excelFilePanel.remove(selectFromSheetFail.getBox());
-                    excelFilePanel.remove(selectFromSheetButtonFail.getButton());
-                    gbcExcel.gridy--;
-                    gbcExcel.gridx++;
+    public boolean updaterGUI() { //(9)
+        (new GUI_Updater()).execute();
+        return true;
+    }
+
+    public SelectFromSheetButton getSelectFromSheetButton(){ //(9)
+        return selectFromSheetButton;
+    }
+
+    class GUI_Updater extends SwingWorker<String, Object>{ //(9)
+        @Override
+        public String doInBackground() throws Exception {
+            try{
+                Thread.currentThread().sleep(500);
+            } catch (InterruptedException ignore){}
+
+            System.out.println(showFailFirstTime + " | " + selectFromSheetButton.getThrough());
+
+            if (!selectKeySourceButton.getThrough()){
+                if (showFailFirstTime){
+                    selectFromSheetFail.getKey(rightData, selectFromSheet);
+                    selectFromWebsiteFail.getKey(rightData);
+                    showFailFirstTime = false;
                 }
 
-                excelFilePanel.revalidate();
-                excelFilePanel.repaint();
-
-                headPanel.revalidate();
-                headPanel.repaint();
+                selectFromSheetFail.visible(true);
+                selectFromSheetButtonFail.visible(true);
+                failBoxText.visible(true);
+                selectFromWebsiteFail.visible(true);
             }
-        });
-    }
 
+            else{
+                selectFromSheetFail.visible(false);
+                selectFromSheetButtonFail.visible(false);
+                failBoxText.visible(false);
+                selectFromWebsiteFail.visible(false);
+                showFailFirstTime = true;
+            }
 
+            return "refresh";
+        }
 
+        @Override
+        protected void done(){ //(9)
+            updaterGUI();
 
-    public JFrame getFrame(){
-        return this.frame;
+            if (loop == 0){
+                selectFromSheetButton.action(selectFromSheet, rightData, getKeySource, selectKeySourceButton);
+                selectKeySourceButton.action(rightData, getKeySource);
+            }
+
+            loop ++;
+            if (loop == 35){
+                loop = 0;
+            }
+
+        }
+
     }
 }

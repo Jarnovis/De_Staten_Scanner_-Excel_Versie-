@@ -15,19 +15,21 @@ public class SearchButton extends UploadButton implements IButton{
     }
 
     @Override
-    public void create(){
+    public void create(boolean visable){
         button.setMaximumSize(new Dimension(150, 25));
         button.setBackground(Color.lightGray);
-        button.setVisible(true);
+        button.setVisible(visable);
     }
 
-    public void action(JTextField input, Connector connector){
+    public void action(JTextField input, Connector connector, RightData rightData){
         // Probeert om naar de website te gaan. Als de website niet bestaat / URL-link is ongeldig komt er een error melding
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
                     connector.connect(input.getText());
+                    rightData.getData();
+
                 } catch(WebDriverException exception){
                     input.setText(input.getText() + " is not found.\nPlease enter a valid URL-Link");
                 }

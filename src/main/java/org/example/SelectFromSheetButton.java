@@ -9,6 +9,7 @@ public class SelectFromSheetButton extends UploadButton implements IButton{
     private JButton button;
     private String name;
     private String sheet;
+    private final boolean[] through = {true};
 
     public SelectFromSheetButton(String name){
         button = new JButton(name);
@@ -16,10 +17,10 @@ public class SelectFromSheetButton extends UploadButton implements IButton{
     }
 
     @Override
-    public void create(){
+    public void create(boolean visable){
         this.button.setMaximumSize(new Dimension(150, 25));
         this.button.setBackground(Color.lightGray);
-        this.button.setVisible(true);
+        this.button.setVisible(visable);
     }
 
 
@@ -42,19 +43,19 @@ public class SelectFromSheetButton extends UploadButton implements IButton{
 
     }
 
-    public boolean[] action(RightData rightData, GetKeySource getKeySource){
-        final boolean[] through = {true};
+    public void action(RightData rightData, GetKeySource getKeySource){
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println(getKeySource.getBox().getSelectedItem());
                 if (!rightData.gatherKeySource((String) getKeySource.getBox().getSelectedItem(), sheet)){
                     through[0] = false;
                 }
+
+                else{
+                    through[0] = true;
+                }
             };
         });
-        return through;
-
     }
 
     public void action(RightData rightData, SelectFromSheet selectFromSheetFail){
@@ -67,12 +68,21 @@ public class SelectFromSheetButton extends UploadButton implements IButton{
 
     }
 
+    @Override
+    public void visible(boolean visabilty){
+        button.setVisible(visabilty);
+    }
+
     public JButton getButton(){
         return button;
     }
 
     public void setSheet(String sheet){
         this.sheet = sheet;
+    }
+
+    public boolean getThrough(){
+        return through[0];
     }
 
 }

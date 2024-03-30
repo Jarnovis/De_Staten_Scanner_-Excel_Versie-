@@ -14,12 +14,13 @@ public class GetKeySource extends SelectFromSheet {
     private String[] sheets = {"Upload excel File first"};
 
     private  Object boxInhoud;
-    public void create(){
-        box = new JComboBox(sheets);
+    public void create(String[] sheets, boolean visable){
+        this.sheets = sheets;
+        box = new JComboBox(this.sheets);
         box.setMaximumSize(new Dimension(200, 25));
         box.setPreferredSize(new Dimension(200, 25));
         box.setBackground(Color.LIGHT_GRAY);
-        box.setVisible(true);
+        box.setVisible(visable);
     }
     public void getKey(RightData rightData, SelectFromSheet selectFromSheet) throws Exception{
         // Opent alle sheets van het excelfile
@@ -31,8 +32,6 @@ public class GetKeySource extends SelectFromSheet {
 
             Workbook workbook = new Workbook(String.valueOf(file));
             WorksheetCollection collection = workbook.getWorksheets();
-            ArrayList<String> save = new ArrayList<>();
-
 
             for (int worksheetIndex = 0; worksheetIndex < collection.getCount(); worksheetIndex++) {
                 Worksheet worksheet = collection.get(worksheetIndex);
@@ -50,6 +49,28 @@ public class GetKeySource extends SelectFromSheet {
             box.revalidate();
             box.repaint();
         }
+    }
+
+    public void getKey(RightData rightData){
+        ArrayList<ArrayList<ArrayList<String>>> collected = rightData.getCollected();
+
+        box.removeAllItems();
+
+        for (ArrayList<String> row : collected.getFirst()){
+            for (String collum : row){
+                box.addItem(collum);
+            }
+        }
+
+        box.revalidate();
+        box.repaint();
+    }
+
+    public void visible (boolean visability){
+        if (visability){
+            System.out.println("SHOULD BE VISIBLE");
+        }
+        box.setVisible(visability);
     }
 
     public JComboBox getBox(){
