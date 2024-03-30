@@ -90,7 +90,7 @@ public class RightData {
         keySources = readFile(sheet, keySource);
 
         gatherDataSource(null, sheet);
-        return checkData(null);
+        return checkData(null, null);
     }
 
     public void gatherDataSource(String source, String sheet){
@@ -127,7 +127,7 @@ public class RightData {
         }
     }
 
-    public boolean checkData(String neededColom) {
+    public boolean checkData(String neededCollom, String neededCollomWebsite) {
         matches = new ArrayList<>();
         boolean found = false;
         int positionsHead = -1;
@@ -137,14 +137,14 @@ public class RightData {
                 if (!found) {
                     positionsHead++;
                     for (int i = 0; i< keySources.getFirst().size(); i++){
-                        if (neededColom == null){
+                        if (neededCollom == null){
                             if (head.equals(keySources.getFirst().get(i)) && !head.equals(keySource)) {
                                 found = true;
                             }
                         }
 
                         else{
-                            if (head.equals(neededColom)) {
+                            if (head.equals(neededCollom)) {
                                 found = true;
                             }
                         }
@@ -154,7 +154,7 @@ public class RightData {
         }
 
         if (found){
-            //passFound = true;
+            passFound = true;
             ArrayList<int[]> positionsY = keySources.getLast();
             ArrayList<Integer> positionsExcelY = new ArrayList<>();
 

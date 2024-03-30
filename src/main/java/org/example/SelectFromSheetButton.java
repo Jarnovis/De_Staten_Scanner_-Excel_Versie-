@@ -62,7 +62,7 @@ public class SelectFromSheetButton extends UploadButton implements IButton{
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                rightData.checkData((String) selectFromSheetFail.getBox().getSelectedItem());
+                rightData.checkData((String) selectFromSheetFail.getBox().getSelectedItem(), null);
             }
         });
 
@@ -83,6 +83,9 @@ public class SelectFromSheetButton extends UploadButton implements IButton{
 
     public boolean getThrough(){
         return through[0];
+    }
+    public void setThrough(boolean set){
+        through[0] = set;
     }
 
 }

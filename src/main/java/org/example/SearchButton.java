@@ -21,12 +21,13 @@ public class SearchButton extends UploadButton implements IButton{
         button.setVisible(visable);
     }
 
-    public void action(JTextField input, Connector connector, RightData rightData){
+    public void action(JTextField input, Connector connector, RightData rightData, SelectFromSheetButton selectFromKeySourceButton){
         // Probeert om naar de website te gaan. Als de website niet bestaat / URL-link is ongeldig komt er een error melding
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
+                    selectFromKeySourceButton.setThrough(true);
                     connector.connect(input.getText());
                     rightData.getData();
 

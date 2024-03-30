@@ -39,7 +39,7 @@ public class GUI_Reworked extends JFrame {
         getKeySource = new GetKeySource();
         selectKeySourceButton = new SelectFromSheetButton("Select Key Source");
         selectFromSheetFail = new GetKeySource();
-        selectFromSheetButtonFail = new SelectFromSheetButton("Select Colom");
+        selectFromSheetButtonFail = new SelectFromSheetButton("Commit collums");
         failBoxText = new TextString();
         selectFromWebsiteFail = new GetKeySource();
 
@@ -116,12 +116,11 @@ public class GUI_Reworked extends JFrame {
         gbcExcel.gridy ++;
         excelFilePanel.add(selectFromSheetFail.getBox(), gbcExcel);
 
+        gbcExcel.gridy ++;
+        excelFilePanel.add(selectFromWebsiteFail.getBox(), gbcExcel);
+
         gbcExcel.gridx ++;
         excelFilePanel.add(selectFromSheetButtonFail.getButton(), gbcExcel);
-
-        gbcExcel.gridy ++;
-        gbcExcel.gridx --;
-        excelFilePanel.add(selectFromWebsiteFail.getBox(), gbcExcel);
 
         gbcSearch.gridx = 0;
         gbcSearch.gridy = 0;
@@ -155,7 +154,7 @@ public class GUI_Reworked extends JFrame {
         // Alle acties laten uitvoeren
         addWindowListener(Listener);
         uploadButton.action(rightData, selectFromSheet, updaterGUI());
-        searchButton.action(searchBar.getBox(), connector, rightData);
+        searchButton.action(searchBar.getBox(), connector, rightData, selectKeySourceButton);
         selectFromSheetButtonFail.action(rightData, selectFromSheetFail);
 
     }
