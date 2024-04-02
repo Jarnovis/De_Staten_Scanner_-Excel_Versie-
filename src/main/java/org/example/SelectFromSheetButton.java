@@ -7,13 +7,11 @@ import java.awt.event.ActionListener;
 
 public class SelectFromSheetButton extends UploadButton implements IButton{
     private JButton button;
-    private String name;
     private String sheet;
     private final boolean[] through = {true};
 
     public SelectFromSheetButton(String name){
         button = new JButton(name);
-        this.name = name;
     }
 
     @Override
@@ -66,6 +64,15 @@ public class SelectFromSheetButton extends UploadButton implements IButton{
             }
         });
 
+    }
+
+    public void action(RightData rightData, SelectFromSheet selectFromSheetFail, GetKeySource selectFromWebsiteFail){
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                rightData.checkData((String) selectFromSheetFail.getBox().getSelectedItem(), (String) selectFromWebsiteFail.getBox().getSelectedItem());
+            }
+        });
     }
 
     @Override

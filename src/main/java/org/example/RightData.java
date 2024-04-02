@@ -20,6 +20,7 @@ public class RightData {
     private ArrayList<ArrayList> dataSources;
     private Connector connector;
     private ArrayList<ArrayList<ArrayList<String>>> collected;
+    private ArrayList<ArrayList> firstRow;
     private ArrayList<ArrayList> matches;
     private String keySource;
     private boolean passFound;
@@ -88,6 +89,7 @@ public class RightData {
     public boolean gatherKeySource(String source, String sheet) {
         keySource = source;
         keySources = readFile(sheet, keySource);
+        firstRow = readFile(sheet, null);
 
         gatherDataSource(null, sheet);
         return checkData(null, null);
@@ -130,22 +132,24 @@ public class RightData {
     public boolean checkData(String neededCollom, String neededCollomWebsite) {
         matches = new ArrayList<>();
         boolean found = false;
-        int positionsHead = -1;
+        int positionsHead = 1;
 
-        for (ArrayList<String> headTable : collected.getFirst()) {
-            for (String head : headTable) {
-                if (!found) {
-                    positionsHead++;
-                    for (int i = 0; i< keySources.getFirst().size(); i++){
-                        if (neededCollom == null){
-                            if (head.equals(keySources.getFirst().get(i)) && !head.equals(keySource)) {
-                                found = true;
+        if (neededCollomWebsite == null){
+            for (ArrayList<String> headTable : collected.getFirst()) {
+                for (String head : headTable) {
+                    if (!found) {
+                        positionsHead++;
+                        for (int i = 0; i< firstRow.getFirst().size(); i++){
+                            if (neededCollom == null){
+                                if (head.equals(firstRow.getFirst().get(i)) && !head.equals(keySource)) {
+                                    found = true;
+                                }
                             }
-                        }
 
-                        else{
-                            if (head.equals(neededCollom)) {
-                                found = true;
+                            else{
+                                if (head.equals(neededCollom)) {
+                                    found = true;
+                                }
                             }
                         }
                     }
@@ -153,7 +157,7 @@ public class RightData {
             }
         }
 
-        if (found){
+        if (found || neededCollomWebsite != null){
             passFound = true;
             ArrayList<int[]> positionsY = keySources.getLast();
             ArrayList<Integer> positionsExcelY = new ArrayList<>();
@@ -165,23 +169,21 @@ public class RightData {
             found = false;
             int positionsDataSource = 0;
             int positionX = 0;
-            Object last = null;
 
             for (ArrayList<String> dataTable : collected.getFirst()) {
+                System.out.println(dataTable);
                 for (String head : dataTable) {
                     if (!found) {
                         positionX = 0;
                         positionsDataSource++;
                         for (int i = 0; i < dataSources.getFirst().size(); i++) {
-                            if (dataSources.getFirst().get(i) != last){
-                                positionX ++;
-                                last = dataSources.getFirst().get(i);
-                            }
+                            positionX ++;
 
                             Object data = dataSources.getFirst().get(i);
                             if (data != null) {
-                                if (head.equalsIgnoreCase(data.toString())) {
+                                if ((head.equalsIgnoreCase(data.toString()) || (head.equals(neededCollomWebsite) && neededCollom.equals(data.toString()))) && !head.equals(keySource)) {
                                     found = true;
+                                    break;
                                 }
                             }
                         }
@@ -205,6 +207,7 @@ public class RightData {
                     if (!get.isEmpty()) {
                         for (int pos = 0; pos < keySources.getFirst().size(); pos++) {
                             if (!match) {
+                                System.out.println(keySources.getFirst().get(pos) + " | " + get.get(positionsHead));
                                 if (keySources.getFirst().get(pos).toString().equalsIgnoreCase(get.get(positionsHead))) {
                                     int[] data = {positionX, positionsExcelY.get(pos)};
                                     headSource.add(keySources.getFirst().get(pos));

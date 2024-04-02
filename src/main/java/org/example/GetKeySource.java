@@ -13,7 +13,6 @@ public class GetKeySource extends SelectFromSheet {
     private JComboBox box;
     private String[] sheets = {"Upload excel File first"};
 
-    private  Object boxInhoud;
     public void create(String[] sheets, boolean visable){
         this.sheets = sheets;
         box = new JComboBox(this.sheets);
@@ -67,9 +66,6 @@ public class GetKeySource extends SelectFromSheet {
     }
 
     public void visible (boolean visability){
-        if (visability){
-            System.out.println("SHOULD BE VISIBLE");
-        }
         box.setVisible(visability);
     }
 

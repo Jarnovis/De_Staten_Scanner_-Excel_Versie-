@@ -15,9 +15,7 @@ import java.util.List;
 
 public class Connector {
     private WebDriver driver;
-    private String URL;
-    private List<WebElement> Data;
-    private boolean closed;
+    static List<WebElement> Data;
 
     public Connector(){
         WebDriverManager.chromedriver().setup(); //(1)
@@ -27,7 +25,6 @@ public class Connector {
         this.driver = new ChromeDriver();
         this.driver.manage().window().setSize(new Dimension(1, 1));
         this.driver.manage().window().minimize();
-        this.closed = false;
     }
 
     public void connect(String URL_link){
@@ -43,12 +40,14 @@ public class Connector {
 
     public List<WebElement> collect(){
         this.Data = driver.findElements(By.tagName("table"));
+        if (this.Data.isEmpty()){
+            collect();
+        }
         return Data;
     }
 
     public void close(){
         this.driver.close();
-        this.closed = true;
     }
 
     public WebDriver getDriver(){

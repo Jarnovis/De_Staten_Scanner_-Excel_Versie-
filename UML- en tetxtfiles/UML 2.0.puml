@@ -1,17 +1,32 @@
 @startuml
 'https://plantuml.com/sequence-diagram
 
-class ConnectWebsite{
-    - driver: Chromedriver
-    - gui: GUI
-    - URL: String
-    - Data: ArrayList<WebElement>
+class Connector{
+    - driver: WebDriver
+    static Data: ArrayList<WebElement>
 
-    + Connector(Gui gui)
+    + Connector()
     + Open()
     + Connect()
     - Collect(): ArrayList<WebElement>
     + Close()
+    + getDriver(): WebDriver
+}
+
+class GetKeySource{
+    - box: JComboBox
+    - sheets: String[]
+
+    + create(String[] sheets, boolean visable)
+    + getKey(RightData rightData, SelectFromSheet selectFromSheet)
+    + getKey(RightData rightData)
+    + visible(boolean visability)
+    + getBox() JComboBox
+
+}
+
+class Confirm{
+    + create()
 }
 
 class Writer{
@@ -24,32 +39,108 @@ class Writer{
     + ReturnStatus()
 }
 
-class CheckData{
-    - ConnectWebsite: Connector
-    - gui: GUI
+class RightData{
     - file: File
-    - AllowData: Boolean
-    - UsedData: ArrayList <String>
-    - Countries: ArrayList <String>
+    - collection WorksheetCollection
+    - keySources: ArrayList<ArrayList>
+    - dataSources: ArrayList<ArrayList>
+    - connector: Connector
+    - collected: <ArrayList<ArrayList<ArrayList<String>>>
+    - matches: ArrayList<ArrayList>
+    - keySource: String
+    - passFound: boolean
 
-    + CheckData(Connector connector, Gui gui)
-    + ScanData()
-    + Show()
-    + ReadFile()
-    + UploadFile()
-    + getData(): ArrayList <String> UsedData
+    + RightData(Connector connector)
+    + createWorkbook()
+    + readFile(String sheet, String source): ArrayList<ArrayList>
+    + uploadFile()
+    + gatherKeySource(String source, String sheet): boolean
+    + gatherDataSource(String source, String sheet)
+    + getData()
+    + checkData(String neededCollom, String neededCollomWebsite): boolean
+    + getFile(): File
+    + getCollected(): ArrayList<ArrayList<ArrayList<String>>>
  }
 
 class GUI{
-    - Frame: JFrame
     - connector: Connector
-    - chekData: CheckData
-    - Search: Boolean
-    - URL: String
+    - rightData: RightData
+    - excelFilePanel: JPanel
+    - searchPanel: JPanel
+    - headPanel: JPanel
+    - uploadButton: UploadButton
+    - searchButton: SearchButton
+    - selectFromSheet: SelectFromSheet
+    - selectFromSheetFail: GetKeySource
+    - selectFromWebsiteFail: GetKeySource
+    - selectFromSheetButton: SelectFromSheetButton
+    - selectFromSheetButtonFail: selectFromSheetButton
+    - searchBar: SearchBar
+    - getKeySource: GetKeySource
+    - SelectKeySourceButton: SelectFromSheetButton
+    - gbcExcel: GridBagConstraints
+    - gbcSearch: GridBagConstraints
+    - gbcHead: GridBagConstraints
+    - showFailFirstTime: boolean
+    - loop: interface
+    - failBoxText: TextString
 
-    + GUI(Connector connector, CheckData chekData)
+    + GUI(Connector connector, RightData rightData)
     - Window()
-    - Shower()
+    - positionPanels
+    + actions()
+
+}
+
+class SearchBar{
+    - box: JTextField
+    + create()
+    + action()
+    + getBox(): JTextField
+
+}
+
+class SearchButton{
+    static button: JButton
+    + SearchButton(String name)
+    + create(boolean visable)
+    + action(JtextField input, Connector connector, RightData rightData, SelectFromSheetButton selectFromSheetButton)
+    + geButton(): JButton
+}
+
+class SelectFromSheet{
+    - box: JComboBox
+    - sheets: String[]
+
+    + create(String[] sheets, boolean visable)
+    + getSheets(RightData rightData)
+    + visible(boolean visibility)
+    + getBox(): JComboBox
+}
+
+class SelectFromSheetButton{
+    - button: JButton
+    - sheet: String
+    - through = boolean[]
+
+    + SelectFromSheetButton(String name)
+    + create(boolean visible)
+    + action(SelectFromSheet selectFromSheet, RightData rightData, getKeySource getKeySource, SelectFromSheetButton selectKeySource)
+    + action(RightData rightData, GetKeySource getKeySource)
+    + action(RightData rightDatam, SelectFromSheet selectFromSheet)
+}
+
+class TextString{
+    - label: JLabel
+
+    + create(String text, boolean visible)
+}
+
+class UploadButton{
+    - button: JButton
+
+    + create(boolean visible)
+    + action(RightData rightData, SelectFromSheet, selectFromSheet)
 }
 
 interface IButton{
@@ -57,70 +148,49 @@ interface IButton{
     + action()
 }
 
-class uploadButton{
-    - chekData: CheckData
+Connector <-- SearchBar
 
-    + uploadButton(CheckData checkData)
-}
+GetKeySource <-- RightData
+GetKeySource <-- SelectFromSheet
 
+GUI <-- Connector
+GUI <-- RightData
+GUI <-- UploadButton
+GUI <-- SearchButton
+GUI <-- SelectFromSheet
+GUI <-- GetKeySource
+GUI <-- SelectFromSheetButton
+GUI <-- SearchBar
+GUI <-- TextString
+GUI <-- Confirm
 
-class searchButton{
-    - connector: ConnectWebsite
+RightData <-- Connector
 
-    + searchButton(ConnectWebsite connector)
-}
+SearchButton <-- SearchBar
+SearchButton <-- Connector
+SearchButton <-- RightData
+SearchButton <-- SelectFromSheetButton
 
-class SearchBar{
-    - box: JTextField
+SelectFromSheet <-- RightData
 
-    + create()
-    + action()
-}
+SelectFromSheetButton <-- SelectFromSheet
+SelectFromSheetButton <-- RightData
+SelectFromSheetButton <-- GetKeySource
 
+UploadButton <-- RightData
+UploadButton <-- SelectFromSheet
+UploadButton <|-- SearchButton
 
+IButton --|> UploadButton
+IButton --|> SearchButton
 
-class SelectFromSheet{
-}
+Confirm <-- Writer
 
-class SelectButton{
-
-    + SelectButton(SelectFromSheet)
-}
-
-class WriterButton{
-    - writer: Writer
-    + WriterButton(Writer writer)
-    + Confirm()
-    + Cancel()
-}
-
-IButton ..> uploadButton
-IButton ..> WriterButton
-IButton ..> searchButton
-IButton ..> SelectSheetButton
-IButton ..> SelectKeySource
+SelectFromSheet --|> GetKeySource
 
 
-GUI <- SearchBar
 
-CheckData -> GUI
 
-Writer <- CheckData
-
-uploadButton <- CheckData
-WriterButton <- Writer
-searchButton <- ConnectWebsite
-
-WriterButton <|- uploadButton
-WriterButton <|-- searchButton
-WriterButton <|-- SelectFromSheetButton
-
-uploadButton -> GUI
-WriterButton -> GUI
-searchButton -> GUI
-SelectFromSheetButton -> GUI
-
-SelectFromSheet --> GUI
 
 
 

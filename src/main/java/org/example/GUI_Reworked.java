@@ -70,7 +70,6 @@ public class GUI_Reworked extends JFrame {
         // Window creëren
         setSize(new Dimension(600, 800));
         setVisible(true); //(2)
-        // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     private void positionPanels(){
@@ -155,7 +154,7 @@ public class GUI_Reworked extends JFrame {
         addWindowListener(Listener);
         uploadButton.action(rightData, selectFromSheet, updaterGUI());
         searchButton.action(searchBar.getBox(), connector, rightData, selectKeySourceButton);
-        selectFromSheetButtonFail.action(rightData, selectFromSheetFail);
+        selectFromSheetButtonFail.action(rightData, selectFromSheetFail, selectFromWebsiteFail);
 
     }
 
@@ -174,8 +173,6 @@ public class GUI_Reworked extends JFrame {
             try{
                 Thread.currentThread().sleep(500);
             } catch (InterruptedException ignore){}
-
-            System.out.println(showFailFirstTime + " | " + selectFromSheetButton.getThrough());
 
             if (!selectKeySourceButton.getThrough()){
                 if (showFailFirstTime){
@@ -214,6 +211,7 @@ public class GUI_Reworked extends JFrame {
             if (loop == 35){
                 loop = 0;
             }
+            searchBar.action();
 
         }
 
