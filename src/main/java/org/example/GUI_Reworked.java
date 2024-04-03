@@ -34,6 +34,8 @@ public class GUI_Reworked extends JFrame {
     private JPanel fieldPanel = new JPanel();
     private GridBagConstraints gbcField;
     private TextString infoMatches;
+    private TextString notFound;
+    private ScrollField noMatchesField;
 
     public GUI_Reworked(Connector connector, RightData rightData) throws Exception {
         super("De Staten Scanner (Excel Versie)");
@@ -53,6 +55,8 @@ public class GUI_Reworked extends JFrame {
         failWebsiteCollomText = new TextString();
         matchesField = new ScrollField(new int[] {5, 25});
         infoMatches = new TextString();
+        noMatchesField = new ScrollField(new int[] {5, 25});
+        notFound = new TextString();
 
         searchButton = new SearchButton("Search");
         searchBar = new SearchBar();
@@ -72,7 +76,8 @@ public class GUI_Reworked extends JFrame {
         failExcelCollomText.create("Excel Collom:", false, null);
         failWebsiteCollomText.create("Website Collom: ", false, null);
         selectFromWebsiteFail.create(new String[] {"Failed to find collum"}, false);
-        infoMatches.create(null, true, new int[] {1, 25});
+        infoMatches.create("Matches will be shown here", true, new int[] {200, 25});
+        notFound.create("No matches", true, new int[] {75, 25});
 
 
         uploadButton.create(true);
@@ -163,11 +168,19 @@ public class GUI_Reworked extends JFrame {
         gbcField.gridy = 0;
         gbcField.weighty = 1;
         gbcField.weightx = 1;
-        gbcField.insets = new Insets(2, 2, 0, 20);
+        gbcField.insets = new Insets(0, 2, 0, 20);
 
         fieldPanel.add(infoMatches.getText(), gbcField);
-        gbcField.gridy++;
+
+        gbcField.gridx ++;
+        fieldPanel.add(notFound.getText(), gbcField);
+
+        gbcField.gridy ++;
+        gbcField.gridx --;
         fieldPanel.add(matchesField.getScroll(), gbcField);
+
+        gbcField.gridx ++;
+        fieldPanel.add(noMatchesField.getScroll(), gbcField);
 
         gbcHead.anchor = GridBagConstraints.EAST;
         headPanel.add(fieldPanel, gbcHead);
@@ -236,6 +249,11 @@ public class GUI_Reworked extends JFrame {
                 showFailFirstTime = true;
             }
 
+            if (selectFromSheetButtonFail.getPressed()[0]){
+                infoMatches.setText(rightData.getMatches());
+                infoMatches.visible(true);
+            }
+
             return "refresh";
         }
 
@@ -246,14 +264,11 @@ public class GUI_Reworked extends JFrame {
             if (loop == 0){
                 selectFromSheetButton.action(selectFromSheet, rightData, getKeySource, selectKeySourceButton);
                 selectKeySourceButton.action(rightData, getKeySource);
-                if (selectFromSheetButtonFail.action(rightData, selectFromSheetFail, selectFromWebsiteFail, matchesField)[0]){
-                    infoMatches.visible(true);
-                    infoMatches.setText(rightData.getMatches());
-                }
+                selectFromSheetButtonFail.action(rightData, selectFromSheetFail, selectFromWebsiteFail, matchesField, noMatchesField);
             }
 
             loop ++;
-            if (loop == 35){
+            if (loop == 37){
                 loop = 0;
             }
             searchBar.action();

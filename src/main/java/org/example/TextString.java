@@ -27,7 +27,7 @@ public class TextString {
     }
 
     public void setText(ArrayList<ArrayList> info){
-        String text = info.getFirst().getFirst() + " | " + info.getFirst().get(1) + " | " + "Excel X | Excel Y";
+        String text = info.getFirst().getFirst() + " | " + info.get(1).getFirst() + " | " + "Excel X | Excel Y";
         label.setText(text);
     }
 

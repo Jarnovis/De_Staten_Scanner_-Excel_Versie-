@@ -9,6 +9,7 @@ public class SelectFromSheetButton extends UploadButton implements IButton{
     private JButton button;
     private String sheet;
     private final boolean[] through = {true};
+    private final boolean[] pressed = {false};
 
     public SelectFromSheetButton(String name){
         button = new JButton(name);
@@ -66,24 +67,14 @@ public class SelectFromSheetButton extends UploadButton implements IButton{
 
     }
 
-    public boolean[] action(RightData rightData, SelectFromSheet selectFromSheetFail, GetKeySource selectFromWebsiteFail, ScrollField scrollField){
-        final boolean pressed[] = {false};
+    public void action(RightData rightData, SelectFromSheet selectFromSheetFail, GetKeySource selectFromWebsiteFail, ScrollField matchesField, ScrollField noMatchesField){
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 rightData.checkData((String) selectFromSheetFail.getBox().getSelectedItem(), (String) selectFromWebsiteFail.getBox().getSelectedItem());
-                scrollField.setTextScrollField(rightData.getMatches(), rightData.getPositions());
+                matchesField.setTextScrollField(rightData.getMatches(), rightData.getPositions(), null);
+                noMatchesField.setTextScrollField(null,  null, rightData.getNoMatches());
                 pressed[0] = true;
-            }
-        });
-        return pressed;
-    }
-
-    public void action(ScrollField scrollField, RightData rightData){
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                scrollField.setTextScrollField(rightData.getMatches(), rightData.getPositions());
             }
         });
     }
@@ -106,6 +97,13 @@ public class SelectFromSheetButton extends UploadButton implements IButton{
     }
     public void setThrough(boolean set){
         through[0] = set;
+    }
+
+    public boolean[] getPressed(){
+        // pressed clonen, zodat pressed_old niet ook meteen naar false gezet wordt
+        boolean[] pressed_old = pressed.clone();
+        pressed[0] = false;
+        return pressed_old;
     }
 
 }

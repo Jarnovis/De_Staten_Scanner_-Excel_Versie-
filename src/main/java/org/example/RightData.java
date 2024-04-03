@@ -15,6 +15,7 @@ public class RightData {
     private File file;
     private WorksheetCollection collection;
     private ArrayList<ArrayList> keySources;
+    private ArrayList<Object> noMatches;
     private ArrayList<ArrayList> dataSources;
     private Connector connector;
     private ArrayList<ArrayList<ArrayList<String>>> collected;
@@ -129,7 +130,6 @@ public class RightData {
     }
 
     public boolean checkData(String neededCollom, String neededCollomWebsite) {
-        System.out.println("Check in");
         matches = new ArrayList<>();
         boolean found = false;
         int positionsHead = 1;
@@ -156,8 +156,6 @@ public class RightData {
                 }
             }
         }
-
-        System.out.println(found + " | " + neededCollomWebsite);
 
         if (found || neededCollomWebsite != null){
             passFound = true;
@@ -192,8 +190,6 @@ public class RightData {
                 }
             }
 
-            System.out.println(1);
-
             ArrayList<int[]> positionsX = dataSources.getLast();
             ArrayList<Integer> positionsExcelX = new ArrayList<>();
 
@@ -215,19 +211,34 @@ public class RightData {
                                     headSource.add(keySources.getFirst().get(pos));
                                     headData.add(get.get(positionsDataSource));
                                     positioningData.add(data);
-
                                     match = true;
                                 }
                             }
                         }
                     }
                 }
+
                 matches.add(headSource);
                 matches.add(headData);
                 matches.add(positioningData);
-            }
 
-            System.out.println(2);
+                noMatches = new ArrayList<>();
+                ArrayList<Object> noNames = new ArrayList<>();
+
+                for (Object name : keySources.getFirst()){
+                    boolean matching = false;
+                    for (Object match : matches.getFirst()){
+                        if (name == match){
+                            matching = true;
+                        }
+                    }
+
+                    if (!matching){
+                        noMatches.add(name);
+                    }
+                }
+                System.out.println(matches);
+            }
 
             ArrayList<int[]> positionsTogether = matches.getLast();
             positionsLonely = new ArrayList<>();
@@ -236,15 +247,6 @@ public class RightData {
                 positionsLonely.add(place[0]);
                 positionsLonely.add(place[1]);
             }
-
-            System.out.println(matches);
-            System.out.println(matches.getFirst());
-
-            for (int i = 0; i < matches.getFirst().size(); i++){
-                System.out.println(matches.getFirst().get(i) + " | " + matches.get(1).get(i).toString() + " | " + positionsLonely.get(i * 2) + " | " + positionsLonely.get(i * 2 + 1));
-            }
-
-            System.out.println("Done");
 
             return passFound;
 
@@ -263,11 +265,13 @@ public class RightData {
     }
 
     public ArrayList<ArrayList> getMatches(){
-        System.out.println(matches);
         return matches;
     }
 
     public ArrayList<Integer> getPositions(){
         return positionsLonely;
+    }
+    public ArrayList<Object> getNoMatches() {
+        return noMatches;
     }
 }
