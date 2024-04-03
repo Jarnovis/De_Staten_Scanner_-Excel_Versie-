@@ -28,4 +28,6 @@ this.driver.getTitle() gets an error
 (7) How to add spacing between JPanel and JFrame’s contentPane? (n.d.). Stack Overflow. Retrieved March 24, 2024, from https://stackoverflow.com/questions/66502178/how-to-add-spacing-between-jpanel-and-jframes-contentpane
 (8) Java GridBagLayout - javatpoint. (n.d.). www.javatpoint.com. Retrieved March 24, 2024, from https://www.javatpoint.com/java-gridbaglayout
 (9) Niemeyer, P., & Leuck, D. (z.d.). Learning Java, 4th Edition. O’Reilly Online Learning. Geraadpleegd op 30 maart 2024, van https://www.oreilly.com/library/view/learning-java-4th/9781449372477/ch16s05.html
+(10) https://stackoverflow.com/questions/10177183/add-scroll-into-text-area
+(11) Aspose. (z.d.). Copying and Moving Worksheets. Aspose Documentation. Geraadpleegd op 3 april 2024, van https://docs.aspose.com/cells/java/copying-and-moving-worksheets/
 

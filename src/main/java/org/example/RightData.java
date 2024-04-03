@@ -2,15 +2,13 @@ package org.example;
 import com.aspose.cells.Workbook;
 import com.aspose.cells.Worksheet;
 import com.aspose.cells.WorksheetCollection;
-import org.checkerframework.checker.units.qual.A;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 public class RightData {
@@ -22,6 +20,7 @@ public class RightData {
     private ArrayList<ArrayList<ArrayList<String>>> collected;
     private ArrayList<ArrayList> firstRow;
     private ArrayList<ArrayList> matches;
+    private ArrayList<Integer> positionsLonely;
     private String keySource;
     private boolean passFound;
 
@@ -130,6 +129,7 @@ public class RightData {
     }
 
     public boolean checkData(String neededCollom, String neededCollomWebsite) {
+        System.out.println("Check in");
         matches = new ArrayList<>();
         boolean found = false;
         int positionsHead = 1;
@@ -157,6 +157,8 @@ public class RightData {
             }
         }
 
+        System.out.println(found + " | " + neededCollomWebsite);
+
         if (found || neededCollomWebsite != null){
             passFound = true;
             ArrayList<int[]> positionsY = keySources.getLast();
@@ -167,11 +169,10 @@ public class RightData {
             }
 
             found = false;
-            int positionsDataSource = 0;
+            int positionsDataSource = -1;
             int positionX = 0;
 
             for (ArrayList<String> dataTable : collected.getFirst()) {
-                System.out.println(dataTable);
                 for (String head : dataTable) {
                     if (!found) {
                         positionX = 0;
@@ -191,6 +192,8 @@ public class RightData {
                 }
             }
 
+            System.out.println(1);
+
             ArrayList<int[]> positionsX = dataSources.getLast();
             ArrayList<Integer> positionsExcelX = new ArrayList<>();
 
@@ -207,16 +210,13 @@ public class RightData {
                     if (!get.isEmpty()) {
                         for (int pos = 0; pos < keySources.getFirst().size(); pos++) {
                             if (!match) {
-                                System.out.println(keySources.getFirst().get(pos) + " | " + get.get(positionsHead));
                                 if (keySources.getFirst().get(pos).toString().equalsIgnoreCase(get.get(positionsHead))) {
-                                    int[] data = {positionX, positionsExcelY.get(pos)};
+                                    int[] data = {positionX+2, positionsExcelY.get(pos)};
                                     headSource.add(keySources.getFirst().get(pos));
                                     headData.add(get.get(positionsDataSource));
                                     positioningData.add(data);
 
                                     match = true;
-
-                                    keySources.getFirst().remove(pos);
                                 }
                             }
                         }
@@ -227,8 +227,10 @@ public class RightData {
                 matches.add(positioningData);
             }
 
+            System.out.println(2);
+
             ArrayList<int[]> positionsTogether = matches.getLast();
-            ArrayList<Integer> positionsLonely = new ArrayList<>();
+            positionsLonely = new ArrayList<>();
 
             for (int[] place : positionsTogether){
                 positionsLonely.add(place[0]);
@@ -241,6 +243,8 @@ public class RightData {
             for (int i = 0; i < matches.getFirst().size(); i++){
                 System.out.println(matches.getFirst().get(i) + " | " + matches.get(1).get(i).toString() + " | " + positionsLonely.get(i * 2) + " | " + positionsLonely.get(i * 2 + 1));
             }
+
+            System.out.println("Done");
 
             return passFound;
 
@@ -256,5 +260,14 @@ public class RightData {
     }
     public ArrayList<ArrayList<ArrayList<String>>> getCollected(){
         return collected;
+    }
+
+    public ArrayList<ArrayList> getMatches(){
+        System.out.println(matches);
+        return matches;
+    }
+
+    public ArrayList<Integer> getPositions(){
+        return positionsLonely;
     }
 }

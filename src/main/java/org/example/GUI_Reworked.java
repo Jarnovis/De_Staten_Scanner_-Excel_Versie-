@@ -1,4 +1,5 @@
 package org.example;
+import org.apache.poi.ss.formula.functions.T;
 import org.openqa.selenium.support.ui.Select;
 
 import javax.swing.*;
@@ -27,6 +28,12 @@ public class GUI_Reworked extends JFrame {
     private boolean showFailFirstTime = true;
     private int loop = 0;
     private TextString failBoxText;
+    private TextString failExcelCollomText;
+    private TextString failWebsiteCollomText;
+    private ScrollField matchesField;
+    private JPanel fieldPanel = new JPanel();
+    private GridBagConstraints gbcField;
+    private TextString infoMatches;
 
     public GUI_Reworked(Connector connector, RightData rightData) throws Exception {
         super("De Staten Scanner (Excel Versie)");
@@ -42,6 +49,10 @@ public class GUI_Reworked extends JFrame {
         selectFromSheetButtonFail = new SelectFromSheetButton("Commit collums");
         failBoxText = new TextString();
         selectFromWebsiteFail = new GetKeySource();
+        failExcelCollomText = new TextString();
+        failWebsiteCollomText = new TextString();
+        matchesField = new ScrollField(new int[] {5, 25});
+        infoMatches = new TextString();
 
         searchButton = new SearchButton("Search");
         searchBar = new SearchBar();
@@ -57,8 +68,11 @@ public class GUI_Reworked extends JFrame {
         selectFromSheetButton.create(true);
         selectFromSheetFail.create(new String[] {"Failed to find collum"}, false);
         selectFromSheetButtonFail.create(false);
-        failBoxText.create("No matches found", false);
+        failBoxText.create("No matches found", false, new int[] {200, 15});
+        failExcelCollomText.create("Excel Collom:", false, null);
+        failWebsiteCollomText.create("Website Collom: ", false, null);
         selectFromWebsiteFail.create(new String[] {"Failed to find collum"}, false);
+        infoMatches.create(null, true, new int[] {1, 25});
 
 
         uploadButton.create(true);
@@ -76,10 +90,14 @@ public class GUI_Reworked extends JFrame {
         // Positioneren panels (8)
         excelFilePanel.setLayout(new GridBagLayout());
         searchPanel.setLayout(new GridBagLayout());
+        fieldPanel.setLayout(new GridBagLayout());
         headPanel.setLayout(new GridBagLayout());
+
         gbcExcel = new GridBagConstraints();
         gbcSearch = new GridBagConstraints();
+        gbcField = new GridBagConstraints();
         gbcHead = new GridBagConstraints();
+
         gbcHead.gridx = 0;
         gbcHead.gridy = 0;
         gbcHead.weighty = 1;
@@ -113,9 +131,16 @@ public class GUI_Reworked extends JFrame {
         excelFilePanel.add(failBoxText.getText(), gbcExcel);
 
         gbcExcel.gridy ++;
+        excelFilePanel.add(failExcelCollomText.getText(), gbcExcel);
+
+        gbcExcel.gridx ++;
         excelFilePanel.add(selectFromSheetFail.getBox(), gbcExcel);
 
         gbcExcel.gridy ++;
+        gbcExcel.gridx --;
+        excelFilePanel.add(failWebsiteCollomText.getText(), gbcExcel);
+
+        gbcExcel.gridx ++;
         excelFilePanel.add(selectFromWebsiteFail.getBox(), gbcExcel);
 
         gbcExcel.gridx ++;
@@ -133,6 +158,19 @@ public class GUI_Reworked extends JFrame {
 
         gbcHead.anchor = GridBagConstraints.FIRST_LINE_START;
         headPanel.add(searchPanel, gbcHead);
+
+        gbcField.gridx = 0;
+        gbcField.gridy = 0;
+        gbcField.weighty = 1;
+        gbcField.weightx = 1;
+        gbcField.insets = new Insets(2, 2, 0, 20);
+
+        fieldPanel.add(infoMatches.getText(), gbcField);
+        gbcField.gridy++;
+        fieldPanel.add(matchesField.getScroll(), gbcField);
+
+        gbcHead.anchor = GridBagConstraints.EAST;
+        headPanel.add(fieldPanel, gbcHead);
 
         add(headPanel);
     }
@@ -154,7 +192,6 @@ public class GUI_Reworked extends JFrame {
         addWindowListener(Listener);
         uploadButton.action(rightData, selectFromSheet, updaterGUI());
         searchButton.action(searchBar.getBox(), connector, rightData, selectKeySourceButton);
-        selectFromSheetButtonFail.action(rightData, selectFromSheetFail, selectFromWebsiteFail);
 
     }
 
@@ -185,6 +222,8 @@ public class GUI_Reworked extends JFrame {
                 selectFromSheetButtonFail.visible(true);
                 failBoxText.visible(true);
                 selectFromWebsiteFail.visible(true);
+                failExcelCollomText.visible(true);
+                failWebsiteCollomText.visible(true);
             }
 
             else{
@@ -192,6 +231,8 @@ public class GUI_Reworked extends JFrame {
                 selectFromSheetButtonFail.visible(false);
                 failBoxText.visible(false);
                 selectFromWebsiteFail.visible(false);
+                failWebsiteCollomText.visible(false);
+                failExcelCollomText.visible(false);
                 showFailFirstTime = true;
             }
 
@@ -205,6 +246,10 @@ public class GUI_Reworked extends JFrame {
             if (loop == 0){
                 selectFromSheetButton.action(selectFromSheet, rightData, getKeySource, selectKeySourceButton);
                 selectKeySourceButton.action(rightData, getKeySource);
+                if (selectFromSheetButtonFail.action(rightData, selectFromSheetFail, selectFromWebsiteFail, matchesField)[0]){
+                    infoMatches.visible(true);
+                    infoMatches.setText(rightData.getMatches());
+                }
             }
 
             loop ++;

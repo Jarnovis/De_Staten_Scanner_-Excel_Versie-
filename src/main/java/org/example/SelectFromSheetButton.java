@@ -66,11 +66,24 @@ public class SelectFromSheetButton extends UploadButton implements IButton{
 
     }
 
-    public void action(RightData rightData, SelectFromSheet selectFromSheetFail, GetKeySource selectFromWebsiteFail){
+    public boolean[] action(RightData rightData, SelectFromSheet selectFromSheetFail, GetKeySource selectFromWebsiteFail, ScrollField scrollField){
+        final boolean pressed[] = {false};
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 rightData.checkData((String) selectFromSheetFail.getBox().getSelectedItem(), (String) selectFromWebsiteFail.getBox().getSelectedItem());
+                scrollField.setTextScrollField(rightData.getMatches(), rightData.getPositions());
+                pressed[0] = true;
+            }
+        });
+        return pressed;
+    }
+
+    public void action(ScrollField scrollField, RightData rightData){
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                scrollField.setTextScrollField(rightData.getMatches(), rightData.getPositions());
             }
         });
     }
