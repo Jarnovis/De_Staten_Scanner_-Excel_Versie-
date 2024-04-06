@@ -7,8 +7,13 @@ import java.awt.event.ActionListener;
 
 public class UploadButton implements IButton {
     private JButton button = new JButton("Upload Files");
+    private boolean visable;
 
-    public void create(boolean visable){
+    public UploadButton(boolean visable){
+        this.visable = visable;
+    }
+
+    public void create(){
         this.button.setMaximumSize(new Dimension(150, 25));
         this.button.setBackground(Color.lightGray);
         this.button.setVisible(visable);

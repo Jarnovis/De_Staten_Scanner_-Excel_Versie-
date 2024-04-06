@@ -5,6 +5,7 @@ import org.openqa.selenium.support.ui.Select;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class GUI_Reworked extends JFrame {
     private final Connector connector;
@@ -13,13 +14,12 @@ public class GUI_Reworked extends JFrame {
     private JPanel searchPanel = new JPanel(new BorderLayout());
     private JPanel headPanel = new JPanel();
     private UploadButton uploadButton;
-    private SearchButton searchButton;
+    private Search search;
     private SelectFromSheet selectFromSheet;
     private GetKeySource selectFromSheetFail;
     private GetKeySource selectFromWebsiteFail;
     private SelectFromSheetButton selectFromSheetButton;
     private SelectFromSheetButton selectFromSheetButtonFail;
-    private SearchBar searchBar;
     private GetKeySource getKeySource;
     private SelectFromSheetButton selectKeySourceButton;
     private GridBagConstraints gbcExcel;
@@ -36,30 +36,31 @@ public class GUI_Reworked extends JFrame {
     private TextString infoMatches;
     private TextString notFound;
     private ScrollField noMatchesField;
+    private ArrayList<IButton> buttons = new ArrayList<>();
+    private ArrayList<IComboBox> comboBoxes = new ArrayList<>();
 
     public GUI_Reworked(Connector connector, RightData rightData) throws Exception {
         super("De Staten Scanner (Excel Versie)");
         this.connector = connector;
         this.rightData = rightData;
 
-        uploadButton = new UploadButton();
-        selectFromSheet = new SelectFromSheet();
-        selectFromSheetButton = new SelectFromSheetButton("Select Key Sheet");
-        getKeySource = new GetKeySource();
-        selectKeySourceButton = new SelectFromSheetButton("Select Key Source");
-        selectFromSheetFail = new GetKeySource();
-        selectFromSheetButtonFail = new SelectFromSheetButton("Commit collums");
+        buttons.add(uploadButton = new UploadButton(true));
+        comboBoxes.add(selectFromSheet = new SelectFromSheet(new String[] {"Upload excel File first"}, true));
+        selectFromSheetButton = new SelectFromSheetButton("Select Key Sheet", true);
+        comboBoxes.add(getKeySource = new GetKeySource(new String[] {"Select Key Sheet First"}, true));
+        buttons.add(selectKeySourceButton = new SelectFromSheetButton("Select Key Source", true));
+        comboBoxes.add(selectFromSheetFail = new GetKeySource(new String[] {"Failed To Tind Tollum"}, false));
+        buttons.add(selectFromSheetButtonFail = new SelectFromSheetButton("Commit Collums", false));
         failBoxText = new TextString();
-        selectFromWebsiteFail = new GetKeySource();
+        comboBoxes.add(selectFromWebsiteFail = new GetKeySource(new String[] {"Failed To Find Collum"}, false));
         failExcelCollomText = new TextString();
         failWebsiteCollomText = new TextString();
-        matchesField = new ScrollField(new int[] {5, 25});
+        matchesField = new ScrollField(new int[] {10, 25});
         infoMatches = new TextString();
-        noMatchesField = new ScrollField(new int[] {5, 25});
+        noMatchesField = new ScrollField(new int[] {10, 25});
         notFound = new TextString();
 
-        searchButton = new SearchButton("Search");
-        searchBar = new SearchBar();
+        search = new Search("Search", true);
         // Compenenten eerst toevoegen, voordat frame gemaakt wordt
         // Creëren componenten voor zoeken
         window();
@@ -68,21 +69,20 @@ public class GUI_Reworked extends JFrame {
 
     private void window() throws Exception {
         // creëeren componenten voor excelFiles
-        selectFromSheet.create(new String[] {"Upload excel File first"}, true);
-        selectFromSheetButton.create(true);
-        selectFromSheetFail.create(new String[] {"Failed to find collum"}, false);
-        selectFromSheetButtonFail.create(false);
+        for (IButton button : buttons){
+            button.create();
+        }
+
+        for (IComboBox comboBox : comboBoxes){
+            comboBox.create();
+        }
+
         failBoxText.create("No matches found", false, new int[] {200, 15});
         failExcelCollomText.create("Excel Collom:", false, null);
         failWebsiteCollomText.create("Website Collom: ", false, null);
-        selectFromWebsiteFail.create(new String[] {"Failed to find collum"}, false);
         infoMatches.create("Matches will be shown here", true, new int[] {200, 25});
         notFound.create("No matches", true, new int[] {75, 25});
-
-
-        uploadButton.create(true);
-        getKeySource.create(new String[] {"Upload excel file first"}, true);
-        searchBar.create();
+        search.create();
 
         positionPanels();
 
@@ -157,9 +157,9 @@ public class GUI_Reworked extends JFrame {
         gbcSearch.weightx = 1;
         gbcSearch.insets = new Insets(10, 10, 10, 10);
 
-        searchPanel.add(searchBar.getBox(), gbcSearch);
+        searchPanel.add(search.getBox(), gbcSearch);
         gbcSearch.gridy ++;
-        searchPanel.add(searchButton.getButton(), gbcSearch);
+        searchPanel.add(search.getButton(), gbcSearch);
 
         gbcHead.anchor = GridBagConstraints.FIRST_LINE_START;
         headPanel.add(searchPanel, gbcHead);
@@ -204,7 +204,7 @@ public class GUI_Reworked extends JFrame {
         // Alle acties laten uitvoeren
         addWindowListener(Listener);
         uploadButton.action(rightData, selectFromSheet, updaterGUI());
-        searchButton.action(searchBar.getBox(), connector, rightData, selectKeySourceButton);
+        search.action(connector, rightData, selectKeySourceButton);
 
     }
 
@@ -226,8 +226,8 @@ public class GUI_Reworked extends JFrame {
 
             if (!selectKeySourceButton.getThrough()){
                 if (showFailFirstTime){
-                    selectFromSheetFail.getKey(rightData, selectFromSheet);
-                    selectFromWebsiteFail.getKey(rightData);
+                    selectFromSheetFail.getKey(rightData, selectFromSheet, getKeySource);
+                    selectFromWebsiteFail.getKey(rightData, getKeySource);
                     showFailFirstTime = false;
                 }
 
@@ -271,7 +271,7 @@ public class GUI_Reworked extends JFrame {
             if (loop == 37){
                 loop = 0;
             }
-            searchBar.action();
+            search.action();
 
         }
 

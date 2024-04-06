@@ -19,19 +19,15 @@ public class ScrollField {
         scroll.setVerticalScrollBarPolicy(VERTICAL_SCROLLBAR_ALWAYS);
     }
 
-    public void setTextScrollField(ArrayList<ArrayList> text, ArrayList<Integer> positions, ArrayList<Object> names){
+    public void setTextScrollField(ArrayList<ArrayList> text, boolean match, ArrayList<Object> names){
         String info = "";
 
-        if (positions != null){
+        if (match){
             for (int i = 1; i < text.getFirst().size(); i++){
-                if (i == text.getFirst().size()-1){
-                    info += text.getFirst().get(i) + " | " + text.get(1).get(i) + " | " + positions.get(i * 2) + " | " + (positions.get(i * 2 + 1)+1);
-                }
-
-                else{
-                    info += text.getFirst().get(i) + " | " + text.get(1).get(i) + " | " + positions.get(i * 2) + " | " + (positions.get(i * 2 + 1)+1) + "\n";
-                }
+                info += text.getFirst().get(i) + " | " + text.get(1).get(i) + "\n";
             }
+
+            info += text.getFirst().size() + " matches out of " + (Integer) (text.getFirst().size() + names.size()) + " " + text.getFirst().getFirst() + " " + " (" + (Double.valueOf(((double) text.getFirst().size() /(text.getFirst().size() + names.size())*100)))  + "%";
         }
 
         else{

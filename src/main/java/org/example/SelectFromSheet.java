@@ -9,13 +9,18 @@ import java.awt.Color;
 import java.io.File;
 import java.util.ArrayList;
 
-public class SelectFromSheet extends Component {
+public class SelectFromSheet extends Component implements IComboBox{
     private JComboBox box;
     private String[] sheets;
+    private boolean visable;
 
-    public void create(String[] sheets, boolean visable) {
+    public SelectFromSheet(String[] sheets, boolean visable){
         this.sheets = sheets;
-        box = new JComboBox(this.sheets);
+        this.visable = visable;
+    }
+
+    public void create() {
+        box = new JComboBox(sheets);
         box.setMaximumSize(new Dimension(200, 25));
         box.setBackground(Color.LIGHT_GRAY);
         box.setVisible(visable);

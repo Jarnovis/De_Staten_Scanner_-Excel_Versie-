@@ -10,13 +10,16 @@ public class SelectFromSheetButton extends UploadButton implements IButton{
     private String sheet;
     private final boolean[] through = {true};
     private final boolean[] pressed = {false};
+    private boolean visable;
 
-    public SelectFromSheetButton(String name){
+    public SelectFromSheetButton(String name, boolean visable){
+        super(visable);
         button = new JButton(name);
+        this.visable = visable;
     }
 
     @Override
-    public void create(boolean visable){
+    public void create(){
         this.button.setMaximumSize(new Dimension(150, 25));
         this.button.setBackground(Color.lightGray);
         this.button.setVisible(visable);
@@ -47,10 +50,12 @@ public class SelectFromSheetButton extends UploadButton implements IButton{
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!rightData.gatherKeySource((String) getKeySource.getBox().getSelectedItem(), sheet)){
+                    System.out.println(false);
                     through[0] = false;
                 }
 
                 else{
+                    System.out.println(true);
                     through[0] = true;
                 }
             };
@@ -72,8 +77,9 @@ public class SelectFromSheetButton extends UploadButton implements IButton{
             @Override
             public void actionPerformed(ActionEvent e) {
                 rightData.checkData((String) selectFromSheetFail.getBox().getSelectedItem(), (String) selectFromWebsiteFail.getBox().getSelectedItem());
-                matchesField.setTextScrollField(rightData.getMatches(), rightData.getPositions(), null);
-                noMatchesField.setTextScrollField(null,  null, rightData.getNoMatches());
+                matchesField.setTextScrollField(rightData.getMatches(), true, rightData.getNoMatches());
+                System.out.println("NOMATCH");
+                noMatchesField.setTextScrollField(rightData.getMatches(),  false, rightData.getNoMatches());
                 pressed[0] = true;
             }
         });

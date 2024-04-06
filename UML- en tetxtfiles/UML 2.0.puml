@@ -1,5 +1,6 @@
 @startuml
 'https://plantuml.com/sequence-diagram
+skinparam linetype ortho
 
 class Connector{
     - driver: WebDriver
@@ -62,36 +63,6 @@ class RightData{
     + getCollected(): ArrayList<ArrayList<ArrayList<String>>>
  }
 
-class GUI{
-    - connector: Connector
-    - rightData: RightData
-    - excelFilePanel: JPanel
-    - searchPanel: JPanel
-    - headPanel: JPanel
-    - uploadButton: UploadButton
-    - searchButton: SearchButton
-    - selectFromSheet: SelectFromSheet
-    - selectFromSheetFail: GetKeySource
-    - selectFromWebsiteFail: GetKeySource
-    - selectFromSheetButton: SelectFromSheetButton
-    - selectFromSheetButtonFail: selectFromSheetButton
-    - searchBar: SearchBar
-    - getKeySource: GetKeySource
-    - SelectKeySourceButton: SelectFromSheetButton
-    - gbcExcel: GridBagConstraints
-    - gbcSearch: GridBagConstraints
-    - gbcHead: GridBagConstraints
-    - showFailFirstTime: boolean
-    - loop: interface
-    - failBoxText: TextString
-
-    + GUI(Connector connector, RightData rightData)
-    - Window()
-    - positionPanels
-    + actions()
-
-}
-
 class SearchBar{
     - box: JTextField
     + create()
@@ -153,17 +124,6 @@ Connector <-- SearchBar
 GetKeySource <-- RightData
 GetKeySource <-- SelectFromSheet
 
-GUI <-- Connector
-GUI <-- RightData
-GUI <-- UploadButton
-GUI <-- SearchButton
-GUI <-- SelectFromSheet
-GUI <-- GetKeySource
-GUI <-- SelectFromSheetButton
-GUI <-- SearchBar
-GUI <-- TextString
-GUI <-- Confirm
-
 RightData <-- Connector
 
 SearchButton <-- SearchBar
@@ -183,7 +143,6 @@ UploadButton <|-- SearchButton
 
 IButton --|> UploadButton
 IButton --|> SearchButton
-
 Confirm <-- Writer
 
 SelectFromSheet --|> GetKeySource
@@ -195,3 +154,33 @@ SelectFromSheet --|> GetKeySource
 
 
 @enduml
+
+class GUI{
+    - connector: Connector
+    - rightData: RightData
+    - excelFilePanel: JPanel
+    - searchPanel: JPanel
+    - headPanel: JPanel
+    - uploadButton: UploadButton
+    - searchButton: SearchButton
+    - selectFromSheet: SelectFromSheet
+    - selectFromSheetFail: GetKeySource
+    - selectFromWebsiteFail: GetKeySource
+    - selectFromSheetButton: SelectFromSheetButton
+    - selectFromSheetButtonFail: selectFromSheetButton
+    - searchBar: SearchBar
+    - getKeySource: GetKeySource
+    - SelectKeySourceButton: SelectFromSheetButton
+    - gbcExcel: GridBagConstraints
+    - gbcSearch: GridBagConstraints
+    - gbcHead: GridBagConstraints
+    - showFailFirstTime: boolean
+    - loop: interface
+    - failBoxText: TextString
+
+    + GUI(Connector connector, RightData rightData)
+    - Window()
+    - positionPanels
+    + actions()
+
+}
