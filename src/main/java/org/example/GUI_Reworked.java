@@ -87,7 +87,7 @@ public class GUI_Reworked extends JFrame {
         positionPanels();
 
         // Window creëren
-        setSize(new Dimension(600, 800));
+        setSize(Toolkit.getDefaultToolkit().getScreenSize()); //(12)
         setVisible(true); //(2)
     }
 
