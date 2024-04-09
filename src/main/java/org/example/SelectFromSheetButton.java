@@ -34,7 +34,7 @@ public class SelectFromSheetButton extends UploadButton implements IButton{
                     rightData.createWorkbook();
                     sheet = (String) selectFromSheet.getBox().getSelectedItem();
                     rightData.readFile(sheet, null);
-                    getKeySource.getKey(rightData, selectFromSheet);
+                    getKeySource.getKey(rightData, selectFromSheet, null);
                     selectKeySourceButton.setSheet(sheet);
 
                 } catch (Exception ex) {

@@ -27,7 +27,7 @@ public class ScrollField {
                 info += text.getFirst().get(i) + " | " + text.get(1).get(i) + "\n";
             }
 
-            info += text.getFirst().size() + " matches out of " + (Integer) (text.getFirst().size() + names.size()) + " " + text.getFirst().getFirst() + " " + " (" + (Double.valueOf(((double) text.getFirst().size() /(text.getFirst().size() + names.size())*100)))  + "%";
+            info += text.getFirst().size()-1 + " matches out of " + (Integer) (text.getFirst().size()-1 + names.size()) + " " + text.getFirst().getFirst() + " " + " (" + (Double.valueOf(((double) text.getFirst().size() /(text.getFirst().size() + names.size())*100)))  + "%";
         }
 
         else{

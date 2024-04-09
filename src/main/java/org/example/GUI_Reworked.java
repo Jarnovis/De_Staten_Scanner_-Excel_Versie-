@@ -1,6 +1,4 @@
 package org.example;
-import org.apache.poi.ss.formula.functions.T;
-import org.openqa.selenium.support.ui.Select;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,10 +38,9 @@ public class GUI_Reworked extends JFrame {
     private ArrayList<IComboBox> comboBoxes = new ArrayList<>();
 
     public GUI_Reworked(Connector connector, RightData rightData) throws Exception {
-        super("De Staten Scanner (Excel Versie)");
+        // Private variabelen worden geset.
         this.connector = connector;
         this.rightData = rightData;
-
         buttons.add(uploadButton = new UploadButton(true));
         comboBoxes.add(selectFromSheet = new SelectFromSheet(new String[] {"Upload excel File first"}, true));
         selectFromSheetButton = new SelectFromSheetButton("Select Key Sheet", true);
@@ -61,14 +58,13 @@ public class GUI_Reworked extends JFrame {
         notFound = new TextString();
 
         search = new Search("Search", true);
-        // Compenenten eerst toevoegen, voordat frame gemaakt wordt
-        // Creëren componenten voor zoeken
+
         window();
         actions();
     }
 
     private void window() throws Exception {
-        // creëeren componenten voor excelFiles
+        // Creëeren van alle interface elementen voor op het window
         for (IButton button : buttons){
             button.create();
         }
@@ -77,6 +73,7 @@ public class GUI_Reworked extends JFrame {
             comboBox.create();
         }
 
+        // Creëren van alle overige elementen voor op het window
         failBoxText.create("No matches found", false, new int[] {200, 15});
         failExcelCollomText.create("Excel Collom:", false, null);
         failWebsiteCollomText.create("Website Collom: ", false, null);
@@ -84,14 +81,17 @@ public class GUI_Reworked extends JFrame {
         notFound.create("No matches", true, new int[] {75, 25});
         search.create();
 
+        // Zorgt ervoor dat alle elementen een aangewezen positie op het window krijgen
         positionPanels();
 
         // Window creëren
         setSize(Toolkit.getDefaultToolkit().getScreenSize()); //(12)
         setVisible(true); //(2)
+        setName("De Staten Scanner (Excel versie)");
     }
 
     private void positionPanels(){
+        // Miscchien Head panel eruit halen. Note to self: Vergeet het niet uit de documentatie te halen
         // Positioneren panels (8)
         excelFilePanel.setLayout(new GridBagLayout());
         searchPanel.setLayout(new GridBagLayout());
@@ -201,10 +201,18 @@ public class GUI_Reworked extends JFrame {
             }
         };
 
-        // Alle acties laten uitvoeren
         addWindowListener(Listener);
-        uploadButton.action(rightData, selectFromSheet, updaterGUI());
         search.action(connector, rightData, selectKeySourceButton);
+        uploadButton.action(rightData, selectFromSheet);
+
+        // Alle acties laten uitvoeren
+        //addWindowListener(Listener);
+        //uploadButton.action(rightData, selectFromSheet, updaterGUI());
+        //search.action(connector, rightData, selectKeySourceButton);
+        //selectFromSheetButton.action(selectFromSheet, rightData, getKeySource, selectKeySourceButton);
+        //selectKeySourceButton.action(rightData, getKeySource);
+        //selectFromSheetButtonFail.action(rightData, selectFromSheetFail, selectFromWebsiteFail, matchesField, noMatchesField);
+        updaterGUI();
 
     }
 
@@ -220,10 +228,6 @@ public class GUI_Reworked extends JFrame {
     class GUI_Updater extends SwingWorker<String, Object>{ //(9)
         @Override
         public String doInBackground() throws Exception {
-            try{
-                Thread.currentThread().sleep(500);
-            } catch (InterruptedException ignore){}
-
             if (!selectKeySourceButton.getThrough()){
                 if (showFailFirstTime){
                     selectFromSheetFail.getKey(rightData, selectFromSheet, getKeySource);
@@ -265,13 +269,13 @@ public class GUI_Reworked extends JFrame {
                 selectFromSheetButton.action(selectFromSheet, rightData, getKeySource, selectKeySourceButton);
                 selectKeySourceButton.action(rightData, getKeySource);
                 selectFromSheetButtonFail.action(rightData, selectFromSheetFail, selectFromWebsiteFail, matchesField, noMatchesField);
+                search.action();
             }
 
             loop ++;
             if (loop == 37){
                 loop = 0;
             }
-            search.action();
 
         }
 

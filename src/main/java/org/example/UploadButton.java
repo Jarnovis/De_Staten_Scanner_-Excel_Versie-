@@ -19,7 +19,7 @@ public class UploadButton implements IButton {
         this.button.setVisible(visable);
     }
 
-    public void action(RightData rightData, SelectFromSheet selectFromSheetButton, boolean updater){
+    public void action(RightData rightData, SelectFromSheet selectFromSheetButton){
         button.addActionListener(new ActionListener(){ //(4)
             @Override //(4)
             public void actionPerformed(ActionEvent evt){ //(4)

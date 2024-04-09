@@ -5,12 +5,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.WebElement;
 import io.github.bonigarcia.wdm.WebDriverManager; //(1)
 import org.openqa.selenium.By;
-
 import org.openqa.selenium.WebDriver;
-
-
-
-
 import java.util.List;
 
 public class Connector {
@@ -42,18 +37,18 @@ public class Connector {
     }
 
     public List<WebElement> collect(){
-        loop++;
-
-        this.Data = driver.findElements(By.tagName("table"));
-        if (this.Data.isEmpty() && loop <= 4 ){
+        Data = driver.findElements(By.tagName("table"));
+        if (Data.isEmpty()){
+            close();
             connect(URL);
             collect();
         }
+
         return Data;
     }
 
     public void close(){
-        this.driver.close();
+        driver.quit();
     }
 
     public WebDriver getDriver(){

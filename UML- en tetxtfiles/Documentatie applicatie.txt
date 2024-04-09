@@ -1,0 +1,34 @@
+GUI_Reworked:
+
+Constructor:
+Alle private variabelen die nodig zijn om de GUI op te kunnen starten, worden hierin geset. 
+Het aanroepen van het creëren van het window en de actie wordt hier ook gedaan.
+
+Window:
+In het window worden eerst alle elementen die gebruik maken van een interface gemaakt. Vervolgens worden alle losse elementen gemaakt.
+De positionPanels functie wordt hier aangeroepen om te zorgen dat alle elementen naar de juiste positie worden gezet.
+setSize(Toolkit.getDefaultToolkit().getScreenSize()) zorgt ervoor dat het window op fullscreen gezet wordt.
+setVisble(true) zorgt ervoor dat het window te zien is.
+setName("De Staten Scanner (Excel versie)") zet de naam van het window.
+
+positionPanels:
+De layouts voor de verschillende panels worden gecreëerd met een nieuwe GridBagLayout, zodat de elementen in de pannels te positioneren zijn.
+De GBC's zorgen ervoor dat er specifieke locaties aan de elementen gegeven kunnen worden.
+gbc.weight specificeert hoe extra ruimte (x = horizontaal, y = verticaal) benut moet worden.
+gbc.insets(top, left, bottom, right) zorgt voor de afstand tussen alle elementen in pixels.
+Panel.add(element.get(), gbc) zorgt ervoor dat het benodigde element weergeven wordt op de panel en dat het de juiste locaties krijgt (positie op x- en y-as en de afstanden tussen elk element binnen het panel)
+gbc.anchor zorgt ervoor dat de panel gelocked is op een specifieke hoek (bijvoorbeeld: Noord, Oost, Zuid, West op het window)
+Alle panels worden in een headpanel gezet, zodat er meerdere panels in 1 panel kunnen staan.
+
+actions:
+Er wordt een window listner toegevoegd, zodat het window kan sluiten op het moment van drukken op het kruisje.
+Element.action verwijst naar de actie(s) die het element moet uitvoeren op het moment van drukken
+
+updaterGUI:
+Zorgt ervoor dat GUI_Updater aangeroepen wordt.
+
+GUI_Updater:
+
+doInBackGround()
+elke 500 miliseconden (0,5 sec) wordt het window geupdate als er sprake is van een ondernome actie vanuit uploadButton.
+XXXXXXXXX if(!SelectKeySource) uitleggen

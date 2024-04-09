@@ -22,6 +22,7 @@ public class SelectFromSheet extends Component implements IComboBox{
     public void create() {
         box = new JComboBox(sheets);
         box.setMaximumSize(new Dimension(200, 25));
+        box.setPreferredSize(new Dimension(200, 25));
         box.setBackground(Color.LIGHT_GRAY);
         box.setVisible(visable);
     }
@@ -44,7 +45,7 @@ public class SelectFromSheet extends Component implements IComboBox{
                 save.add(sheet.getName());
             }
 
-            String[] sheets = new String[save.size()];
+            //String[] sheets = new String[save.size()];
 
             // Voegt alle Strings toe aan de box
             for (String sheetName : save) {
