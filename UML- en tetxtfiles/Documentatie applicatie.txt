@@ -1,4 +1,83 @@
+************************************************************************************************************************************************************In dit bestand zijn de classes met de functionaliteiten op volgorde van bestanden uitgelegd. Onduidelijkheden worden in de tekst verwezen naar een andere class. De eerste tekstregel(s) is een korte samenvatting van wat de class / functionaliteit doet. Na de witregel worden de lines in stappen uitgelegd.
+************************************************************************************************************************************************************
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+Connector:
+In de connector wordt gebruikt gemaakt van de externe library ChromeDriver van Selenium. Hierbij kan er een chromedriver geopend worden en geinteract worden met de searchbar. Selenium leest de html code van de website uit en geeft deze af in de vorm van WebElements.
+
+Constructor:
+WebdriverManager is een utilty class vanuit de WebDriverManger library, zodat er mee gewerkt kan worden.
+
+chromedriver() zorgt ervoor dat er met een chromedriver gewerkt kan worden.
+setup() wordt gebruikt om het environment van WebDriverManager op te zetten.
+
+open:
+open() zorgt ervoor dat er een nieuwe driver geopend wordt.
+
+Er wordt binnen deze functionaliteit een nieuwe chromeDriver aangemaakt.
+Vervolgens wordt de chromeDriver zo klein mogelijk gemaakt.
+Daarna wordt de chromeDriver geminimaliseerd om er zo voor te zorgen dat de driver niet in de weg zit.
+
+connect:
+connect() zorgt ervoor dat de driver verbonden wordt met de opgegeven URL-link.
+
+Er wordt een URL-link meegegeven.
+Vervolgens wordt er gekeken met getTitle() of er een pagina geladen is.
+Als er een error wordt gegenereerd wordt de driver afgesloten samen met alle instanties (driver.quit()) en een nieuwe driver wordt geopend (open()).
+Vervolgens bezoekt de driver de meegegeven url-link (driver.get(URL)).
+
+collect:
+collect() zorgt ervoor dat alle gegevens vanuit de website die in een "table" element staan in een lijst gestopt worden.
+
+Er wordt een lijst met alle gevonden gegevens opgeslagen die gevonden zijn op de opgegeven website in de vorm van WebElementen, waar de gegevens in een "table" stonden in de html code.
+Vervolgens wordt er gekeken of de verzamelde data leeg is. Als dit zo is, was er een fout gemaakt in het opzetten van de driver en wordt deze gesloten.
+Daarna wordt een nieuwe driver gestart en gebeurt het collecten weer opnieuw.
+
+close:
+close() zorgt ervoor dat de driver gesloten wordt.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+GetKeySource:
+GetKeySource wordt gebruikt om de hoofdzoekterm te zoeken waarop (automatisch) gezocht wordt door de applicatie.
+
+Constructor:
+Er wordt een tekst met een actie geset, samen met de zichtbaarheid.
+
+create:
+create() overschijft de create() functionaliteit van SelectFromSheet en zorgt ervoor dat de nieuwe combobox gemaakt kan worden met alle zoektermen in het geselecteerde excel sheet.
+
+Er wordt een nieuwe box gemaakt, waarin alle verzamelde sheets geïmplementeerd worden.
+Er wordt een maximale grote gegeven aan de box.
+Er wordt een voorkeur gegeven aan de grote van de box.
+Er wordt een kleur gegegven aan de achtergrond van de box.
+Er wordt bepaald of de box zichtbaar is.
+
+getKey:
+getKey(Rightdata rightdata, SelectFromSheet selectFromSheet) zorgt ervoor dat alle key woorden verschijnen vanuit de geselecteerde sheet vanuit het geselecteerde exel bestand in de combobox.
+
+* GetKey(RightData rightData, getKeySource keySource) zorgt ervoor dat alle key woorden verschijnen vanuit de geselecteerde website in de combobox gestopt  * Als er geen automatische match gevonden was.
+
+via rightData wordt het geselecteerde excel bestand geselecteerd.
+Als file toegewezen is worden alle eerdere items in de combobox verwijderd.
+Daarna wordt de file gebruikt zodat er een nieuwe Workbook instantie gecreëerd kan worden.
+Vanuit deze Workbook instantie worden alle sheets geselecteerd (getWorksheets()) en in een WorkSheetCollection gestopt.
+Vervolgens wordt er geloopt door de WorkSheetCollection doormiddel van de grote van de colletion (getCount())
+In de loop wordt elke Worksheet appart opgenomen in een Workshheet instantie en wordt er gekeken of de naam van de Worksheet (getName()) gelijk is aan de geselecteerde sheet in de combobox in de class SelectFromSheet.
+Als de naam in de box vanuit SelectFromSheet gelijk is aan de Worksheet naam, wordt er gekeken naar hoeveel colloem er zijn in de sheet (getCells().getMaxColumn()).
+Hierna wordt elke colom van de eerste rij geselecteerd en toegevoegd in de combobox van de huidige class als de inhoud van de colom (getCells().get(0 (row), j (collum).getValue()).
+Vervolgens wordt er gekeken of keySource toegewezen is.
+Als keySource niet toegewezen is worden alle zoektermen in de combobox gezet. Anders wordt in de combobox de zoekterm niet gezet.
+
+* Alle verzamelde data vanuit de opgegeven website (RightData rightData) wordt opgeslagen
+* Alle voorgaande gegevens in de combobox worden verwijderd
+* Er wordt in de eerste row vanuit de data gekeken of colom (in String vorm) overeen komt met zelf geselecteerde keySource die uitgelezen wordt vanuit de   * keySource combobox (andere instantie dan de huidige).
+* Als er geen overeenkomst is wordt de inhoud van de colom in de combobox gestopt.
+
+Aan het einde wordt de inhoud van de box geüpdate qua inhoud (revalidate()) en vervolgens qua uiterlijk geüpdate (repaint()).
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
 GUI_Reworked:
+In de GUI wordt alles van de GUI opgebouwd.
 
 Constructor:
 Alle private variabelen die nodig zijn om de GUI op te kunnen starten, worden hierin geset. 
@@ -16,7 +95,8 @@ De layouts voor de verschillende panels worden gecreëerd met een nieuwe GridBag
 De GBC's zorgen ervoor dat er specifieke locaties aan de elementen gegeven kunnen worden.
 gbc.weight specificeert hoe extra ruimte (x = horizontaal, y = verticaal) benut moet worden.
 gbc.insets(top, left, bottom, right) zorgt voor de afstand tussen alle elementen in pixels.
-Panel.add(element.get(), gbc) zorgt ervoor dat het benodigde element weergeven wordt op de panel en dat het de juiste locaties krijgt (positie op x- en y-as en de afstanden tussen elk element binnen het panel)
+Panel.add(element.get(), gbc) zorgt ervoor dat het benodigde element weergeven wordt op de panel en dat het de juiste locaties krijgt (positie op x- en y-as
+en de afstanden tussen elk element binnen het panel)
 gbc.anchor zorgt ervoor dat de panel gelocked is op een specifieke hoek (bijvoorbeeld: Noord, Oost, Zuid, West op het window)
 Alle panels worden in een headpanel gezet, zodat er meerdere panels in 1 panel kunnen staan.
 
@@ -27,8 +107,17 @@ Element.action verwijst naar de actie(s) die het element moet uitvoeren op het m
 updaterGUI:
 Zorgt ervoor dat GUI_Updater aangeroepen wordt.
 
+<---------------------------------------------------------------------------------------------------------------------------------------------------------->
 GUI_Updater:
 
-doInBackGround()
-elke 500 miliseconden (0,5 sec) wordt het window geupdate als er sprake is van een ondernome actie vanuit uploadButton.
-XXXXXXXXX if(!SelectKeySource) uitleggen
+doInBackGround:
+if(!SelectKeySource) zorgt ervoor dat als er geen automatische zoektermen gevonden zijn tussen het excelbestand en de tabel vanuit de website de benodigde elementen visable worden. Anders worden de elementen op false gezet.
+If (showFailFirstTime) zorgt ervoor dat de comboboxes niet constant gereset worden als hij actief is.
+Alle elementen die geshowed moeten als er geen automatische match gedetecteerd wordt 
+
+done:
+done() zorgt ervoor dat de knoppen constant geüpdate staan naar hun huidige waarde.
+
+updaterGUI() wordt constant aangeroepen, zodat de GUI altijd up to date is.
+
+
