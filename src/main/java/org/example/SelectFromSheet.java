@@ -9,7 +9,7 @@ import java.awt.Color;
 import java.io.File;
 import java.util.ArrayList;
 
-public class SelectFromSheet extends Component implements IComboBox{
+public class SelectFromSheet implements IComboBox{
     private JComboBox box;
     private String[] sheets;
     private boolean visable;

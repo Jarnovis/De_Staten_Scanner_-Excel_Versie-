@@ -37,7 +37,7 @@ public class GUI_Reworked extends JFrame {
     private ArrayList<IButton> buttons = new ArrayList<>();
     private ArrayList<IComboBox> comboBoxes = new ArrayList<>();
 
-    public GUI_Reworked(Connector connector, RightData rightData) throws Exception {
+    public GUI_Reworked(Connector connector, RightData rightData){
         // Private variabelen worden geset.
         this.connector = connector;
         this.rightData = rightData;
@@ -63,7 +63,7 @@ public class GUI_Reworked extends JFrame {
         actions();
     }
 
-    private void window() throws Exception {
+    private void window(){
         // Creëeren van alle interface elementen voor op het window
         for (IButton button : buttons){
             button.create();
@@ -188,7 +188,7 @@ public class GUI_Reworked extends JFrame {
         add(headPanel);
     }
 
-    public void actions() throws Exception {
+    public void actions(){
         WindowListener Listener = new WindowAdapter() {
             public void windowClosing(WindowEvent evt) {
                 try {
@@ -205,15 +205,7 @@ public class GUI_Reworked extends JFrame {
         search.action(connector, rightData, selectKeySourceButton);
         uploadButton.action(rightData, selectFromSheet);
 
-        // Alle acties laten uitvoeren
-        //addWindowListener(Listener);
-        //uploadButton.action(rightData, selectFromSheet, updaterGUI());
-        //search.action(connector, rightData, selectKeySourceButton);
-        //selectFromSheetButton.action(selectFromSheet, rightData, getKeySource, selectKeySourceButton);
-        //selectKeySourceButton.action(rightData, getKeySource);
-        //selectFromSheetButtonFail.action(rightData, selectFromSheetFail, selectFromWebsiteFail, matchesField, noMatchesField);
         updaterGUI();
-
     }
 
     public boolean updaterGUI() { //(9)

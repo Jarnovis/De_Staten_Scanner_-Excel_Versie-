@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class UploadButton implements IButton {
+public class UploadButton extends test implements IButton {
     private JButton button = new JButton("Upload Files");
     private boolean visable;
 
@@ -19,13 +19,13 @@ public class UploadButton implements IButton {
         this.button.setVisible(visable);
     }
 
-    public void action(RightData rightData, SelectFromSheet selectFromSheetButton){
+    public void action(RightData rightData, SelectFromSheet selectFromSheet){
         button.addActionListener(new ActionListener(){ //(4)
             @Override //(4)
             public void actionPerformed(ActionEvent evt){ //(4)
                 try {
                     rightData.uploadFile();
-                    selectFromSheetButton.getSheets(rightData);
+                    selectFromSheet.getSheets(rightData);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }

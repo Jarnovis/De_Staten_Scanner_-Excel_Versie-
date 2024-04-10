@@ -30,15 +30,16 @@ public class RightData {
         this.connector = connector;
     }
 
-    public void createWorkbook() throws Exception {
+    private void createWorkbook() throws Exception {
         Workbook workbook = new Workbook(String.valueOf(file));
         collection = workbook.getWorksheets();
     }
 
-    public ArrayList<ArrayList> readFile(String sheet, String source) {
+    public ArrayList<ArrayList> readFile(String sheet, String source) throws Exception {
         ArrayList<ArrayList> gether = new ArrayList<>();
         ArrayList<Object> names = new ArrayList<>();
         ArrayList<int[]> positions = new ArrayList<>();
+        createWorkbook();
         for (int worksheetIndex = 0; worksheetIndex < collection.getCount(); worksheetIndex++) {
             Worksheet worksheet = collection.get(worksheetIndex);
             if (worksheet.getName().equalsIgnoreCase(sheet)) {
@@ -87,7 +88,7 @@ public class RightData {
         }
     }
 
-    public boolean gatherKeySource(String source, String sheet) {
+    public boolean gatherKeySource(String source, String sheet) throws Exception {
         keySource = source;
         keySources = readFile(sheet, keySource);
         firstRow = readFile(sheet, null);
@@ -96,7 +97,7 @@ public class RightData {
         return checkData(null, null);
     }
 
-    public void gatherDataSource(String source, String sheet){
+    public void gatherDataSource(String source, String sheet) throws Exception {
         dataSources = readFile(sheet, source);
     }
 

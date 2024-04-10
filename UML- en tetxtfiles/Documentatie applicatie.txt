@@ -1,5 +1,7 @@
-************************************************************************************************************************************************************In dit bestand zijn de classes met de functionaliteiten op volgorde van bestanden uitgelegd. Onduidelijkheden worden in de tekst verwezen naar een andere 
+************************************************************************************************************************************************************
+In dit bestand zijn de classes met de functionaliteiten op volgorde van bestanden uitgelegd. Onduidelijkheden worden in de tekst verwezen naar een andere
 class. De eerste tekstregel(s) is een korte samenvatting van wat de class / functionaliteit doet. Na de witregel worden de lines in stappen uitgelegd.
+
 ************************************************************************************************************************************************************
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -366,4 +368,23 @@ SelectFromSheetButton:
 Maakt een nieuwe JButton om JComboBoxes uit te lezen, RightData functionaliteiten aan te roepen en ScrollFields functionaliteiten aan te roepen.
 
 Constructor:
+In de constructor wordt de superclass aangeroepen, er wordt een nieuwe JButton met naam aangemaakt en de zichtbaarheid wordt ingesteld.
+
+De superclass (UploadButton) wordt aangeroepen.
+De JButton wordt geset, inclusief naam.
+
+create:
+In create() wordt de create() functionaliteit overschreven in de superclass, om zo de JButton te kunnen creëren.
+
+De maximale grote van de JButton wordt ingesteld via de hoogte en de breedte te bepalen (setMaximumSize(new Dimension(width, height))).
+De achtergrondkleur van de JButton wordt ingesteld (setBackground(RED, BLUE, GREEN (/ Color.neededColor))).
+De zichtbaarheid van de JButton wordt ingesteld met de eerder gesette zichtbaarheid (setVisible(boolean)).
+
+action:
+action(RightData rightData, SelectFromSheet selectFromSheetFail) override de actie in uploadbutton
+
+Alle actions geven data door en doen zelf voor de rest niks.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+UploadButton:
 

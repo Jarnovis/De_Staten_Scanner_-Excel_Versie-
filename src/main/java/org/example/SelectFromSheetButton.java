@@ -30,16 +30,14 @@ public class SelectFromSheetButton extends UploadButton implements IButton{
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    rightData.createWorkbook();
-                    sheet = (String) selectFromSheet.getBox().getSelectedItem();
-                    rightData.readFile(sheet, null);
-                    getKeySource.getKey(rightData, selectFromSheet, null);
-                    selectKeySourceButton.setSheet(sheet);
+                sheet = (String) selectFromSheet.getBox().getSelectedItem();
 
+                try {
+                    getKeySource.getKey(rightData, selectFromSheet, null);
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
+                selectKeySourceButton.setSheet(sheet);
             };
         });
 
@@ -49,17 +47,22 @@ public class SelectFromSheetButton extends UploadButton implements IButton{
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!rightData.gatherKeySource((String) getKeySource.getBox().getSelectedItem(), sheet)){
-                    through[0] = false;
-                }
+                try {
+                    if (!rightData.gatherKeySource((String) getKeySource.getBox().getSelectedItem(), sheet)){
+                        through[0] = false;
+                    }
 
-                else{
-                    through[0] = true;
+                    else{
+                        through[0] = true;
+                    }
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
                 }
             };
         });
     }
 
+    @Override
     public void action(RightData rightData, SelectFromSheet selectFromSheetFail){
         button.addActionListener(new ActionListener() {
             @Override
