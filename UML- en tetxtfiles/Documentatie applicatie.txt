@@ -1,9 +1,11 @@
-************************************************************************************************************************************************************In dit bestand zijn de classes met de functionaliteiten op volgorde van bestanden uitgelegd. Onduidelijkheden worden in de tekst verwezen naar een andere class. De eerste tekstregel(s) is een korte samenvatting van wat de class / functionaliteit doet. Na de witregel worden de lines in stappen uitgelegd.
+************************************************************************************************************************************************************In dit bestand zijn de classes met de functionaliteiten op volgorde van bestanden uitgelegd. Onduidelijkheden worden in de tekst verwezen naar een andere 
+class. De eerste tekstregel(s) is een korte samenvatting van wat de class / functionaliteit doet. Na de witregel worden de lines in stappen uitgelegd.
 ************************************************************************************************************************************************************
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 Connector:
-In de connector wordt gebruikt gemaakt van de externe library ChromeDriver van Selenium. Hierbij kan er een chromedriver geopend worden en geinteract worden met de searchbar. Selenium leest de html code van de website uit en geeft deze af in de vorm van WebElements.
+In de connector wordt gebruikt gemaakt van de externe library ChromeDriver van Selenium. Hierbij kan er een chromedriver geopend worden en geinteract worden
+met de searchbar. Selenium leest de html code van de website uit en geeft deze af in de vorm van WebElements.
 
 Constructor:
 WebdriverManager is een utilty class vanuit de WebDriverManger library, zodat er mee gewerkt kan worden.
@@ -62,15 +64,18 @@ Als file toegewezen is worden alle eerdere items in de combobox verwijderd.
 Daarna wordt de file gebruikt zodat er een nieuwe Workbook instantie gecreëerd kan worden.
 Vanuit deze Workbook instantie worden alle sheets geselecteerd (getWorksheets()) en in een WorkSheetCollection gestopt.
 Vervolgens wordt er geloopt door de WorkSheetCollection doormiddel van de grote van de colletion (getCount())
-In de loop wordt elke Worksheet appart opgenomen in een Workshheet instantie en wordt er gekeken of de naam van de Worksheet (getName()) gelijk is aan de geselecteerde sheet in de combobox in de class SelectFromSheet.
+In de loop wordt elke Worksheet appart opgenomen in een Workshheet instantie en wordt er gekeken of de naam van de Worksheet (getName()) gelijk is aan de
+geselecteerde sheet in de combobox in de class SelectFromSheet.
 Als de naam in de box vanuit SelectFromSheet gelijk is aan de Worksheet naam, wordt er gekeken naar hoeveel colloem er zijn in de sheet (getCells().getMaxColumn()).
-Hierna wordt elke colom van de eerste rij geselecteerd en toegevoegd in de combobox van de huidige class als de inhoud van de colom (getCells().get(0 (row), j (collum).getValue()).
+Hierna wordt elke colom van de eerste rij geselecteerd en toegevoegd in de combobox van de huidige class als de inhoud van de colom (getCells().get(0 (row),
+j (collum).getValue()).
 Vervolgens wordt er gekeken of keySource toegewezen is.
 Als keySource niet toegewezen is worden alle zoektermen in de combobox gezet. Anders wordt in de combobox de zoekterm niet gezet.
 
 * Alle verzamelde data vanuit de opgegeven website (RightData rightData) wordt opgeslagen
 * Alle voorgaande gegevens in de combobox worden verwijderd
-* Er wordt in de eerste row vanuit de data gekeken of colom (in String vorm) overeen komt met zelf geselecteerde keySource die uitgelezen wordt vanuit de   * keySource combobox (andere instantie dan de huidige).
+* Er wordt in de eerste row vanuit de data gekeken of colom (in String vorm) overeen komt met zelf geselecteerde keySource die uitgelezen wordt vanuit de
+* keySource combobox (andere instantie dan de huidige).
 * Als er geen overeenkomst is wordt de inhoud van de colom in de combobox gestopt.
 
 Aan het einde wordt de inhoud van de box geüpdate qua inhoud (revalidate()) en vervolgens qua uiterlijk geüpdate (repaint()).
@@ -93,7 +98,8 @@ setVisble(true) zorgt ervoor dat het window te zien is.
 setName("De Staten Scanner (Excel versie)") zet de naam van het window.
 
 positionPanels:
-In positionPanels() wordt een head-, excel-, search- en fieldpanel gebruikt om alle elementen op de juiste locaties te zetten. In de headpanel worden alle panels verzameld.
+In positionPanels() wordt een head-, excel-, search- en fieldpanel gebruikt om alle elementen op de juiste locaties te zetten. In de headpanel worden alle
+panels verzameld.
 
 De layouts voor de verschillende panels worden gecreëerd met een nieuwe GridBagLayout, zodat de elementen in de pannels te positioneren zijn.
 De GBC's zorgen ervoor dat er specifieke locaties aan de elementen gegeven kunnen worden.
@@ -105,7 +111,8 @@ gbc.anchor zorgt ervoor dat de panel gelocked is op een specifieke hoek (bijvoor
 Alle panels worden in een headpanel gezet, zodat er meerdere panels in 1 panel kunnen staan.
 
 actions:
-In actions() worden de acties geïnitaliseerd die de knoppen moeten doen. Als er updates in deze acties voorkomen, dan wordt er via done() de actie elementen geüpdate.
+In actions() worden de acties geïnitaliseerd die de knoppen moeten doen. Als er updates in deze acties voorkomen, dan wordt er via done() de actie elementen
+geüpdate.
 
 Er wordt een window listner toegevoegd, zodat het window kan sluiten op het moment van drukken op het kruisje.
 Element.action verwijst naar de actie(s) die het element moet uitvoeren op het moment van drukken
@@ -117,7 +124,8 @@ Zorgt ervoor dat GUI_Updater aangeroepen wordt.
 GUI_Updater:
 
 doInBackGround:
-if(!SelectKeySource) zorgt ervoor dat als er geen automatische zoektermen gevonden zijn tussen het excelbestand en de tabel vanuit de website de benodigde elementen visable worden. Anders worden de elementen op false gezet.
+if(!SelectKeySource) zorgt ervoor dat als er geen automatische zoektermen gevonden zijn tussen het excelbestand en de tabel vanuit de website de benodigde
+elementen visable worden. Anders worden de elementen op false gezet.
 If (showFailFirstTime) zorgt ervoor dat de comboboxes niet constant gereset worden als hij actief is.
 Alle elementen die geshowed moeten als er geen automatische match gedetecteerd wordt 
 
@@ -128,38 +136,57 @@ updaterGUI() wordt constant aangeroepen, zodat de GUI altijd up to date is.
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 RightData:
-RightData wordt gebruikt om het geüploade excel bestand uit te lezen en de gegevens hieruit op te slaan. Ook wordt hierin het excel bestand opgehaald en worden de gegevens van de tabbellen van de bezochte website verzameld. Ook wordt er gekeken of er matches zijn tussen de gegevens in het excel bestand en de verzamelde gegevens vanuit de website en worden vervolgens opgeslagen in 2 lijsten. Een lijst met alle matches (en de daarbijhoorende data) en een lijst met alle niet-mathces (deze lijst bevat alleen de namen).
+RightData wordt gebruikt om het geüploade excel bestand uit te lezen en de gegevens hieruit op te slaan. Ook wordt hierin het excel bestand opgehaald en 
+worden de gegevens van de tabbellen van de bezochte website verzameld. Ook wordt er gekeken of er matches zijn tussen de gegevens in het excel bestand en de
+verzamelde gegevens vanuit de website en worden vervolgens opgeslagen in 2 lijsten. Een lijst met alle matches (en de daarbijhoorende data) en een lijst met
+alle niet-mathces (deze lijst bevat alleen de namen).
 
 Constructor:
 In de constructor wordt de connector geset. Deze is nodig om de verzamelde data vanuit de website te verzamelen.
 
 createWorkbook:
-In createWorkbook() wordt de locatie van het excel bestand vanuit de class UploadButton gehaald en wordt via uploadFile() opgeslagen als een bruikbaar bestand. Vervolgens wordt er een nieuw Workbook instantie mee gemaakt. Vanuit deze instantie wordt de WorkBookCollection geïnitaliseerd, om zo te kunnen werken met de excel sheets.
+In createWorkbook() wordt de locatie van het excel bestand vanuit de class UploadButton gehaald en wordt via uploadFile() opgeslagen als een bruikbaar 
+bestand. Vervolgens wordt er een nieuw Workbook instantie mee gemaakt. Vanuit deze instantie wordt de WorkBookCollection geïnitaliseerd, om zo te kunnen 
+werken met de excel sheets.
 
-Het excel bestand wordt opgehaald vanuit de bestanden in het systeem via de classe UploadButton en wordt via uploadFile() een bruikbaar bestand voor de applicatie.
+Het excel bestand wordt opgehaald vanuit de bestanden in het systeem via de classe UploadButton en wordt via uploadFile() een bruikbaar bestand voor de 
+applicatie.
 De sheets worden vervolgens uit het excel bestand gehaald.
 
 readFile:
-In readFile(String sheet, String source) wordt eerst gekeken tussen alle sheets welke sheet nodig is om te gebruiken (De zogenoemde hoofdsheet). Deze sheet wordt vanuit de classe SelectFromSheetButton doorgegeven of vanuit gatherKeySource(String source, String sheet)/gatherDataSource(String source, String sheet). Als deze sheet gevonden is wordt gekeken of er één specifieke zoekterm is om alle data van te krijgen of om alleen de zoekterm te verkrijgen. Als het niet alleen de zoekterm is, dan wordt de huidige collom met alle rijen verzameld met naam en positie. Anders wordt alleen de eerste naam (de zoekterm) verzameld met zijn huidige positie. De naam en de positie worden opgeslagen in een apparte arraylist en worden vervolgens in één arraylist gestopt.
+In readFile(String sheet, String source) wordt eerst gekeken tussen alle sheets welke sheet nodig is om te gebruiken (De zogenoemde hoofdsheet). Deze sheet
+wordt vanuit de classe SelectFromSheetButton doorgegeven of vanuit gatherKeySource(String source, String sheet)/gatherDataSource(String source, String 
+sheet). Als deze sheet gevonden is wordt gekeken of er één specifieke zoekterm is om alle data van te krijgen of om alleen de zoekterm te verkrijgen. Als 
+het niet alleen de zoekterm is, dan wordt de huidige collom met alle rijen verzameld met naam en positie. Anders wordt alleen de eerste naam (de zoekterm)
+verzameld met zijn huidige positie. De naam en de positie worden opgeslagen in een apparte arraylist en worden vervolgens in één arraylist gestopt.
 
 Er worden eerst 3 lege arraylisten gemaakt. één voor de namen, één voor de posities en één om de namen en posities in gezamelijk in te stoppen.
-Er wordt door elke sheet in de WorkSheetCollection heen gegaan om te kijken of de naam van de sheet hetzelfde is voor de benodigde sheet die vanuit SelectFromSheetButton geselecteerd wordt.
-Als de namen overeen komen worden de maximale collomen en rijen vastgesteld in de sheet (Het maximale wordt bepaald door waar de laatste collom/rij een waarde heeft. Anders moet er geloopt worden door 1 048 576 rijen en 16 384 collomen).
+Er wordt door elke sheet in de WorkSheetCollection heen gegaan om te kijken of de naam van de sheet hetzelfde is voor de benodigde sheet die vanuit 
+SelectFromSheetButton geselecteerd wordt.
+Als de namen overeen komen worden de maximale collomen en rijen vastgesteld in de sheet (Het maximale wordt bepaald door waar de laatste collom/rij een
+waarde heeft. Anders moet er geloopt worden door 1 048 576 rijen en 16 384 collomen).
 Vervolgens wordt er door elke collom in de eerste rij geloopt om de naam hiervan te verkijgen.
-Als de naam gelijk is aan de benodige colom (deze kan alleen verkregen worden vanuit gatherKeySource(String source, String sheet) of vanuit gatherDataSource(String source, String sheet)) dan wordt deze specifieke collom in zijn geheel verzameld (collom met alle rijen). Als de source geen waarde toegekregen heeft wordt alleen de eerste rij van de collom verzameld. Al deze data worden of in names gestopt of in positions.
+Als de naam gelijk is aan de benodige colom (deze kan alleen verkregen worden vanuit gatherKeySource(String source, String sheet) of vanuit gatherDataSource(String source, String sheet)) dan wordt deze specifieke collom in zijn geheel verzameld (collom met alle rijen). Als de source geen waarde 
+toegekregen heeft wordt alleen de eerste rij van de collom verzameld. Al deze data worden of in names gestopt of in positions.
 Op het einde worden names en positions in de gather list gestopt om zo alle gegevens in één arraylist te versturen.
 
 uploadFile:
-In uploadFile() komt de JavaSwing JFileChooser() te voorschijn. Hiermee kan je door alle bestanden in je systeem navigeren en selecteren welk bestand je wilt gebruiken. Als er geselecteerd is welk bestand je wilt gebruiken, wordt dit bestand als een File instantie opgeslagen. Mocht er geen bestand geselecteerd zijn, dan wordt het vorige bestand gebruikt als bestand.
+In uploadFile() komt de JavaSwing JFileChooser() te voorschijn. Hiermee kan je door alle bestanden in je systeem navigeren en selecteren welk bestand je 
+wilt gebruiken. Als er geselecteerd is welk bestand je wilt gebruiken, wordt dit bestand als een File instantie opgeslagen. Mocht er geen bestand 
+geselecteerd zijn, dan wordt het vorige bestand gebruikt als bestand.
 
 Er wordt een nieuwe JFileChooser instantie aangemaakt.
-Vervolgens wordt er een filter in de JFileChooser geset (setFileFilter(new FileNameExtensionFilter(beschrijving, extenties), zodat alleen excel files te selecteren zijn.
+Vervolgens wordt er een filter in de JFileChooser geset (setFileFilter(new FileNameExtensionFilter(beschrijving, extenties), zodat alleen excel files te 
+selecteren zijn.
 Daarna wordt ervoor gezorgt dat de JFileChooser te zien is (showSaveDialog(parent)).
 Nadat het bestand geselecteerd is, wordt deze opgeslagen als een File instantie (getSelectedFile()).
-Uiteindelijk wordt er gekeken of er een bestand geselecteerd is. Als het bestand geen waarde heeft toegekregen, dan blijft het eerdere geselecteerde bestand het bestand waarin gewerkt wordt.
+Uiteindelijk wordt er gekeken of er een bestand geselecteerd is. Als het bestand geen waarde heeft toegekregen, dan blijft het eerdere geselecteerde bestand
+het bestand waarin gewerkt wordt.
 
 gatherKeySource:
-In gatherKeySource(String source, String sheet) wordt de keySource geset en wordt vervolgens gebruikt om readFile(String sheet, String source) aan te roepen en de verzamelde data op te slaan in keySources. Ook worden alle zoektermen verzameld en geset in firstRow. Ook wordt gaterDataSource aangeroepen en checkData om vervolgens true of falsle door te geven aan de class SelectFromSheetButton.
+In gatherKeySource(String source, String sheet) wordt de keySource geset en wordt vervolgens gebruikt om readFile(String sheet, String source) aan te roepen
+en de verzamelde data op te slaan in keySources. Ook worden alle zoektermen verzameld en geset in firstRow. Ook wordt gaterDataSource aangeroepen en 
+checkData om vervolgens true of falsle door te geven aan de class SelectFromSheetButton.
 
 keySource wordt geset.
 KeySources wordt geset.
@@ -173,13 +200,20 @@ In gatherDataSource(String source, Sting sheet) wordt readFile(String sheet, Str
 dataSources wordt geset.
 
 getData:
-In getData() wordt de verzamelde data vanuit de opgegeven website uitgesorteerd. Eerst wordt er gekeken tussen de WebElementen naar alle <th>'s elementen om zo de zoektermen van de tabel op de website te bepalen. Deze wordt later in checkData(String neededCollom, String neededCollomWebsite) gebruikt om het juiste zoekwoord te bepalen om data te verzamelen en worden opgeslagen in een arraylist. Vervolgens wordt er door de verzamelde data vanuit de tabel zelf heen geloopt en worden eerst de rijen afgesplits en vervolgens de collomen afgesplits. Deze data wordt vervolgens vervolgens opgeslagen in een andere arraylist dan de zoektermen.
+In getData() wordt de verzamelde data vanuit de opgegeven website uitgesorteerd. Eerst wordt er gekeken tussen de WebElementen naar alle <th>'s elementen om
+zo de zoektermen van de tabel op de website te bepalen. Deze wordt later in checkData(String neededCollom, String neededCollomWebsite) gebruikt om het 
+juiste zoekwoord te bepalen om data te verzamelen en worden opgeslagen in een arraylist. Vervolgens wordt er door de verzamelde data vanuit de tabel zelf 
+heen geloopt en worden eerst de rijen afgesplits en vervolgens de collomen afgesplits. Deze data wordt vervolgens vervolgens opgeslagen in een andere 
+arraylist dan de zoektermen.
 
-Er worden eerst drie arraylists aangemaakt. één om alle rijen die zijn uitgesplits te verzamelen, één om alle rijen in op te slaan en één om alle collomen in op te slaan.
+Er worden eerst drie arraylists aangemaakt. één om alle rijen die zijn uitgesplits te verzamelen, één om alle rijen in op te slaan en één om alle collomen 
+in op te slaan.
 Vervolgens wordt de collect functionaliteit aangeroepen in Connector om de verzamelde data te verkrijgen.
-Daarna wordt er eerst tussen de codelines gezocht naar alle <th>'s om zo de zoektermen te verkijgen vanuit de tabel (getDriver().findElements(By.xpath(xpathExpressrion))). Deze termen worden vervolgens opgeslagen in de arraylist rowData, vervolgens in de arraylist collectedRows en vervolgens opgeslagen in de arraylist collected.
+Daarna wordt er eerst tussen de codelines gezocht naar alle <th>'s om zo de zoektermen te verkijgen vanuit de tabel (getDriver().findElements(By.xpath(xpathExpressrion))). Deze termen worden vervolgens opgeslagen in de arraylist rowData, vervolgens in de arraylist 
+collectedRows en vervolgens opgeslagen in de arraylist collected.
 Daarna wordt er door alle verzamelde WebElementen heen gegaan die verzameld waren in de html-code onder <table>.
-Vervolgens wordt er in een nieuwe lijst met WebElementen gezocht naar de <tr>'s in de code (findElements(By.tagName(tagName))). <tr> is in één tabel één rij.
+Vervolgens wordt er in een nieuwe lijst met WebElementen gezocht naar de <tr>'s in de code (findElements(By.tagName(tagName))). <tr> is in één tabel één 
+rij.
 Er wordt een collectedRows arraylist aangemaakt om alle verzamelde rijen in op te slaan.
 Daarna wordt er in een nieuwe lijst met WebElementen gezocht naar de <td>'s in de code (findElements(By.tagName(tagName))). <tr> is elke colom in één rij.
 Er wordt een rowData arraylist aangemaakt om alle data vanuit collomen vanuit één rij op te slaan.
@@ -188,19 +222,32 @@ De verzamelde rij wordt in collecdRows opgeslagen.
 Alle verzamelde rijen worden opgeslagen in collected.
 
 checkData:
-In checkData(String neededCollom, String neededCollomWebsite) wordt eerst gekeken of er automatisch al data verzameld kan worden, doormiddel van zoektermen die overeen komen. Als dit niet zo is wordt er false doorgegeven, omdat er geen matches gemaakt konden worden. Als er geen false is doorgegeven of er was een specifieke collom nodig vanuit de website wordt er geloopt in de arraylist collected om zo te de positie in het excel bestand voor de benodigde zoekterm te vinden. Als dit gevonden is worden de hoofdzoekterm/keySource vergeleken vanuit het excel bestand met die van de tabel in de opgegeven website en als er een match gevonden is wordt de naam van de hoofdzoekterm samen met de data van de tabel en de posities van de hoofdzoekterm met de benodigde zoekterm opgeslagen in een arraylist met alle matches.
+In checkData(String neededCollom, String neededCollomWebsite) wordt eerst gekeken of er automatisch al data verzameld kan worden, doormiddel van zoektermen 
+die overeen komen. Als dit niet zo is wordt er false doorgegeven, omdat er geen matches gemaakt konden worden. Als er geen false is doorgegeven of er was 
+een specifieke collom nodig vanuit de website wordt er geloopt in de arraylist collected om zo te de positie in het excel bestand voor de benodigde zoekterm
+te vinden. Als dit gevonden is worden de hoofdzoekterm/keySource vergeleken vanuit het excel bestand met die van de tabel in de opgegeven website en als er
+een match gevonden is wordt de naam van de hoofdzoekterm samen met de data van de tabel en de posities van de hoofdzoekterm met de benodigde zoekterm 
+opgeslagen in een arraylist met alle matches.
 
 Er wordt een nieuwe arraylist gemaakt om alle matches in op te slaan.
 Er wordt een boolean geset om ervoor te zorgen dat als er geen enkele mogelijkheid is om matches te maken, de code te verlaten.
 Er wordt een Integer geset om ervoor te zorgen dat de hoofdzoekterm in de tabel van de opgegeven website gelijk zal zijn aan de hoofdzoekterm die nodig is.
-Als er nog geen benodigde collom vanuit de website nodig is, gaat de applicatie zelf aan de slag om een match te kunnen vinden. Eerst wordt er in de collected arraylist alleen gezocht naar de collomen in de eerste gevonden rij.
-Zo lang er nog geen match gevonden is gaat de applicatie door om te kijken in de firstRow arraylist (de eerste rij met alle zoektermen in het excel bestand) om te kijken of de collom met de zoekterm van het excel bestand gelijk is aan de collom met de zoekterm in opgegeven website. Deze zoekterm mag niet hetzelfde zijn als de hoofdzoekter/keysource, anders wordt de hoofdzoekterm verbonden aan nog één keer de hoofdzoekterm. Als dit zo is wordt de loop beïndigd, anders niet.
-Als er één specifieke collom nodig is vanuit het excel bestand (die is opgegeven door de gebruiker via de class SelectFromSheetButton) dan wordt alleen de de zoekterm van de collom van de opgegeven website vergeleken met deze specifieke zoekterm.
+Als er nog geen benodigde collom vanuit de website nodig is, gaat de applicatie zelf aan de slag om een match te kunnen vinden. Eerst wordt er in de 
+collected arraylist alleen gezocht naar de collomen in de eerste gevonden rij.
+Zo lang er nog geen match gevonden is gaat de applicatie door om te kijken in de firstRow arraylist (de eerste rij met alle zoektermen in het excel bestand)
+om te kijken of de collom met de zoekterm van het excel bestand gelijk is aan de collom met de zoekterm in opgegeven website. Deze zoekterm mag niet hetzelfde zijn als de hoofdzoekter/keysource, anders wordt de hoofdzoekterm verbonden aan nog één keer de hoofdzoekterm. Als dit zo is wordt de loop 
+beïndigd, anders niet.
+Als er één specifieke collom nodig is vanuit het excel bestand (die is opgegeven door de gebruiker via de class SelectFromSheetButton) dan wordt alleen de
+de zoekterm van de collom van de opgegeven website vergeleken met deze specifieke zoekterm.
 Als er een match is tussen de zoektermen of er is een specifieke collom vanuit de opgegeven website nodig, dan wordt de code niet afgebroken.
-Er wordt nog een keer geloopt door de zoektermen vanuit de opgegeven website, maar deze keer wordt er ook door de dataSources heen geloopt om de x-waarde van de zoektermen te verzamelen.
+Er wordt nog een keer geloopt door de zoektermen vanuit de opgegeven website, maar deze keer wordt er ook door de dataSources heen geloopt om de x-waarde 
+van de zoektermen te verzamelen.
 Er wordt geloopt door de dataSources en de zoekterm wordt als data geset.
-Als data geen waarde heeft, dan wordt er geen vergelijking gedaan. Als data wel een waarde heeft wordt er gekeken of de benodigde zoekterm van de website overeen komt met de geselecteerde zoekterm de benodigde collom vanuit het excel bestand overeenkomt met de geselecteerde collom. Als dit klopt, wordt de loop beëindigd. Als dit niet is, wordt positionX met 1 verhoogd. Ook als data null bleek te zijn.
-Er wordt een arraylist gemaakt met alle x- en y-waardes voor de gegevens in de keySources arraylist, om zo ervoor te zorgen dat de y-waardes later gebruikt konden worden.
+Als data geen waarde heeft, dan wordt er geen vergelijking gedaan. Als data wel een waarde heeft wordt er gekeken of de benodigde zoekterm van de website 
+overeen komt met de geselecteerde zoekterm de benodigde collom vanuit het excel bestand overeenkomt met de geselecteerde collom. Als dit klopt, wordt de 
+loop beëindigd. Als dit niet is, wordt positionX met 1 verhoogd. Ook als data null bleek te zijn.
+Er wordt een arraylist gemaakt met alle x- en y-waardes voor de gegevens in de keySources arraylist, om zo ervoor te zorgen dat de y-waardes later gebruikt 
+konden worden.
 Er wordt ook een nieuwe arraylist gemaakt om de y-waardes in op te slaan.
 Er wordt vervolgens door alle posities heen gegaan om de y-waarde uit de posities te krijgen (De posities zijn in een array opgeslagen in de vorm [x, y]).
 Er wordt een nieuwe arraylist headSrouce aangemaakt.
@@ -209,7 +256,8 @@ Er wordt een nieuwe arraylist positioningData aangemaakt.
 Er wordt geloopt door alle rijen in collected.
 Vervolgens wordt er door elke rij in rijen heen geloopt.
 Daarna wordt er gekeken of de rij niet leeg is.
-Als de rij niet leeg is wordt er gekeken in de verzamelde data van de hoofdzoekterm of deze overeen komt met die van de huidige rij met als positionsHead de variabele die de positie aangeeft.
+Als de rij niet leeg is wordt er gekeken in de verzamelde data van de hoofdzoekterm of deze overeen komt met die van de huidige rij met als positionsHead de
+variabele die de positie aangeeft.
 Als deze vergelijking klopt, worden de x- en y-as samen in een array gestopt.
 Vervolgens wordt de data huidige keySource positie in de headSrouce arraylist gestopt.
 Daarna wordt de gegeven (wat niet de hoofdzoekterm is) in de headData arraylist gestopt.
@@ -304,7 +352,8 @@ In getSheets(Rightdata rightData) wordt de JComboBox gevuld met alle sheets vanu
 
 file wordt toegewezen door de benodigde file op te halen vanuit rightData.getFile().
 Als de file een waarde toegewezen heeft gekregen wordt de JComboBox leeg gemaakt.
-Vervolgens wordt er een nieuwe Worbook instantie gemaakt met de eerder opgehaalde file die het pad naar de file mee draagt (String.valueOf(file) (zet file om in String)).
+Vervolgens wordt er een nieuwe Worbook instantie gemaakt met de eerder opgehaalde file die het pad naar de file mee draagt (String.valueOf(file) (zet file 
+om in String)).
 Vervolgens wordt er een WorkSheetCollection instantie gemaakt en wordt opgevuld met de worksheets in de WorkSheet instantie.
 Er wordt een nieuwe arraylist<String> gemaakt om de sheets in op te slaan.
 Vervolgens wordt er geloopt in de WorkSheetCollection om de sheets uit de de collection te krijgen.
@@ -314,7 +363,7 @@ Aan het einde wordt de inhoud van de box geüpdate qua inhoud (revalidate()) en 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 SelectFromSheetButton:
-Maakt een nieuwe JButton om JComboBoxes uit te lezen, RightData functionaliteiten aan te roepen en ScrollFields functionaliteiten aan te reopen.
+Maakt een nieuwe JButton om JComboBoxes uit te lezen, RightData functionaliteiten aan te roepen en ScrollFields functionaliteiten aan te roepen.
 
 Constructor:
 

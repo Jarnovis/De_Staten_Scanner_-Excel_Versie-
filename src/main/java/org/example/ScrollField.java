@@ -1,10 +1,7 @@
 package org.example;
 
 import javax.swing.*;
-
-import java.awt.*;
 import java.util.ArrayList;
-
 import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS;
 
 public class ScrollField {
@@ -45,9 +42,6 @@ public class ScrollField {
         field.setText(info);
     }
 
-    public JTextArea getField(){
-        return field;
-    }
     public JScrollPane getScroll() {
         return scroll;
     }
