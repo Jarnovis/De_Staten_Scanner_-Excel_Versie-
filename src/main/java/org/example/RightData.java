@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,9 +42,6 @@ public class RightData {
         for (int worksheetIndex = 0; worksheetIndex < collection.getCount(); worksheetIndex++) {
             Worksheet worksheet = collection.get(worksheetIndex);
             if (worksheet.getName().equalsIgnoreCase(sheet)) {
-
-                System.out.println("Worksheet: " + worksheet.getName());
-
                 int rows = worksheet.getCells().getMaxDataRow();
                 int cols = worksheet.getCells().getMaxColumn();
 
@@ -78,8 +76,9 @@ public class RightData {
         return gether;
     }
 
-    public void uploadFile() throws Exception {
+    public void uploadFile() {
         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Excel files (DO NOT CHANGE THIS FILTER)", "xls", "xlsx")); //(13)
         fileChooser.showSaveDialog(null);
         File file = fileChooser.getSelectedFile();
 
@@ -144,6 +143,7 @@ public class RightData {
                         for (int i = 0; i< firstRow.getFirst().size(); i++){
                             if (neededCollom == null){
                                 if (head.equals(firstRow.getFirst().get(i)) && !head.equals(keySource)) {
+                                    neededCollom = firstRow.getFirst().get(i).toString();
                                     found = true;
                                 }
                             }
@@ -161,12 +161,6 @@ public class RightData {
 
         if (found || neededCollomWebsite != null){
             passFound = true;
-            ArrayList<int[]> positionsY = keySources.getLast();
-            ArrayList<Integer> positionsExcelY = new ArrayList<>();
-
-            for (int[] place : positionsY) {
-                positionsExcelY.add(place[1]);
-            }
 
             found = false;
             int positionsDataSource = -1;
@@ -178,41 +172,40 @@ public class RightData {
                         positionX = 0;
                         positionsDataSource++;
                         for (int i = 0; i < dataSources.getFirst().size(); i++) {
-                            positionX ++;
-
                             Object data = dataSources.getFirst().get(i);
                             if (data != null) {
-                                if (head.equalsIgnoreCase(neededCollomWebsite) && neededCollom.equals(data.toString()) && !head.equals(keySource)) {
+                                if (head.equalsIgnoreCase(neededCollomWebsite) && neededCollom.equals(data.toString())) {
                                     found = true;
                                     break;
                                 }
                             }
+                            positionX ++;
                         }
                     }
                 }
             }
 
             if (found){
-                ArrayList<int[]> positionsX = dataSources.getLast();
-                ArrayList<Integer> positionsExcelX = new ArrayList<>();
+                ArrayList<int[]> positionsY = keySources.getLast();
+                ArrayList<Integer> positionsExcelY = new ArrayList<>();
 
-                for (int[] place : positionsX) {
-                    positionsExcelX.add(place[0]);
+                for (int[] place : positionsY) {
+                    positionsExcelY.add(place[1]);
                 }
 
                 ArrayList<Object> headSource = new ArrayList<>();
                 ArrayList<Object> headData = new ArrayList<>();
                 ArrayList<int[]> positioningData = new ArrayList<>();
-                for (ArrayList<ArrayList<String>> row : collected) {
-                    for (ArrayList<String> get : row) {
+                for (ArrayList<ArrayList<String>> rows : collected) {
+                    for (ArrayList<String> row : rows) {
                         boolean match = false;
-                        if (!get.isEmpty()) {
+                        if (!row.isEmpty()) {
                             for (int pos = 0; pos < keySources.getFirst().size(); pos++) {
                                 if (!match) {
-                                    if (keySources.getFirst().get(pos).toString().equalsIgnoreCase(get.get(positionsHead))) {
-                                        int[] data = {positionX+2, positionsExcelY.get(pos)};
+                                    if (keySources.getFirst().get(pos).toString().equalsIgnoreCase(row.get(positionsHead))) {
+                                        int[] data = {positionX, positionsExcelY.get(pos)};
                                         headSource.add(keySources.getFirst().get(pos));
-                                        headData.add(get.get(positionsDataSource));
+                                        headData.add(row.get(positionsDataSource));
                                         positioningData.add(data);
                                         match = true;
                                     }
@@ -226,7 +219,6 @@ public class RightData {
                     matches.add(positioningData);
 
                     noMatches = new ArrayList<>();
-                    ArrayList<Object> noNames = new ArrayList<>();
 
                     for (Object name : keySources.getFirst()){
                         boolean matching = false;
@@ -240,14 +232,6 @@ public class RightData {
                             noMatches.add(name);
                         }
                     }
-                }
-
-                ArrayList<int[]> positionsTogether = matches.getLast();
-                positionsLonely = new ArrayList<>();
-
-                for (int[] place : positionsTogether){
-                    positionsLonely.add(place[0]);
-                    positionsLonely.add(place[1]);
                 }
 
                 return passFound;
@@ -275,9 +259,7 @@ public class RightData {
         return matches;
     }
 
-    public ArrayList<Integer> getPositions(){
-        return positionsLonely;
-    }
+
     public ArrayList<Object> getNoMatches() {
         return noMatches;
     }

@@ -49,7 +49,6 @@ public class Search extends UploadButton implements IButton{
     }
 
     public void action(){
-        final String[] input ={"https://www.google.com"};
 
         // Checkt of er actie wordt ondernomen rondom de box
         box.addMouseListener(new MouseListener() {
@@ -61,7 +60,6 @@ public class Search extends UploadButton implements IButton{
             // Als er in de box geklikt wordt, wordt de eerdere text weg gehaald
             @Override
             public void mousePressed(MouseEvent e) {
-                System.out.println("WAJHDWA");
                 box.setText("");
             }
 
@@ -78,14 +76,6 @@ public class Search extends UploadButton implements IButton{
             @Override
             public void mouseExited(MouseEvent e) {
 
-            }
-        });
-
-        box.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                input[0] = box.getText();
-                System.out.println(box.getText());
             }
         });
     }

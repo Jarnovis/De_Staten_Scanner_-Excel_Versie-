@@ -45,8 +45,6 @@ public class SelectFromSheet extends Component implements IComboBox{
                 save.add(sheet.getName());
             }
 
-            //String[] sheets = new String[save.size()];
-
             // Voegt alle Strings toe aan de box
             for (String sheetName : save) {
                 box.addItem(sheetName);

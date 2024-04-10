@@ -50,12 +50,10 @@ public class SelectFromSheetButton extends UploadButton implements IButton{
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!rightData.gatherKeySource((String) getKeySource.getBox().getSelectedItem(), sheet)){
-                    System.out.println(false);
                     through[0] = false;
                 }
 
                 else{
-                    System.out.println(true);
                     through[0] = true;
                 }
             };
@@ -78,7 +76,6 @@ public class SelectFromSheetButton extends UploadButton implements IButton{
             public void actionPerformed(ActionEvent e) {
                 rightData.checkData((String) selectFromSheetFail.getBox().getSelectedItem(), (String) selectFromWebsiteFail.getBox().getSelectedItem());
                 matchesField.setTextScrollField(rightData.getMatches(), true, rightData.getNoMatches());
-                System.out.println("NOMATCH");
                 noMatchesField.setTextScrollField(rightData.getMatches(),  false, rightData.getNoMatches());
                 pressed[0] = true;
             }
