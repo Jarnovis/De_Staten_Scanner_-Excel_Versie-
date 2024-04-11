@@ -7,6 +7,7 @@ import static javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS;
 public class ScrollField {
     private JTextArea field;
     private JScrollPane scroll;
+    private String info;
 
     public ScrollField(int[] size){ //(
         field = new JTextArea(size[0], size[1]);
@@ -17,7 +18,7 @@ public class ScrollField {
     }
 
     public void setTextScrollField(ArrayList<ArrayList> text, boolean match, ArrayList<Object> names){
-        String info = "";
+        info = "";
 
         if (text.getFirst().isEmpty()){
             info += "No data avalible\nTry another keySource";
@@ -46,6 +47,10 @@ public class ScrollField {
 
     public JScrollPane getScroll() {
         return scroll;
+    }
+
+    public String getInfo(){
+        return info;
     }
 
 }

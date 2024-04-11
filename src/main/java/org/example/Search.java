@@ -44,7 +44,7 @@ public class Search extends UploadButton implements IButton{
                     connection[0] = true;
 
                 } catch(WebDriverException exception){
-                    box.setText(box.getText() + " is not found.\nPlease enter a valid URL-Link");
+                    box.setText(box.getText() + " does not have tables or is invalid. Try a new URL");
                     connection[0] = false;
                 }
             }

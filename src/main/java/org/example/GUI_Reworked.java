@@ -38,6 +38,9 @@ public class GUI_Reworked extends JFrame {
     private ArrayList<IComboBox> comboBoxes = new ArrayList<>();
 
     public GUI_Reworked(Connector connector, RightData rightData){
+        // Naam van de window wordt gezet
+        super("De Staten Scanner (Excel versie)");
+
         // Private variabelen worden geset.
         this.connector = connector;
         this.rightData = rightData;
@@ -87,7 +90,6 @@ public class GUI_Reworked extends JFrame {
         // Window creëren
         setSize(Toolkit.getDefaultToolkit().getScreenSize()); //(12)
         setVisible(true); //(2)
-        setName("De Staten Scanner (Excel versie)");
     }
 
     private void positionPanels(){
