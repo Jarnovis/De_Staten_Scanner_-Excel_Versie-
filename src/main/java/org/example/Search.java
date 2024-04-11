@@ -13,6 +13,7 @@ public class Search extends UploadButton implements IButton{
     private static JButton button;
     private JTextField box;
     private boolean visable;
+    private final boolean[] connection = {false};
 
     public Search(String name, boolean visable){
         super(visable);
@@ -40,9 +41,13 @@ public class Search extends UploadButton implements IButton{
                     selectFromKeySourceButton.setThrough(true);
                     connector.connect(box.getText());
                     rightData.getData();
+                    connection[0] = true;
+                    System.out.println("IS SET TO TRUE");
 
                 } catch(WebDriverException exception){
                     box.setText(box.getText() + " is not found.\nPlease enter a valid URL-Link");
+                    connection[0] = false;
+                    System.out.println("IS SET TO FALSE");
                 }
             }
         });
@@ -85,5 +90,8 @@ public class Search extends UploadButton implements IButton{
     }
     public JTextField getBox(){
         return this.box;
+    }
+    public boolean[] getConnection(){
+        return connection;
     }
 }

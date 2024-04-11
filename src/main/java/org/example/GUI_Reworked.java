@@ -221,18 +221,21 @@ public class GUI_Reworked extends JFrame {
         @Override
         public String doInBackground() throws Exception {
             if (!selectKeySourceButton.getThrough()){
-                if (showFailFirstTime){
-                    selectFromSheetFail.getKey(rightData, selectFromSheet, getKeySource);
-                    selectFromWebsiteFail.getKey(rightData, getKeySource);
-                    showFailFirstTime = false;
-                }
+                if (selectKeySourceButton.getPressed()[0]){
+                    if (search.getConnection()[0]){
+                        // Het gebruik maken van if (selectKeySrouceButton && search) geeft altijd een doorgang
+                        // Allebei hun eigen if-statement zorgt ervoor dat wel het juiste gebeurt.
+                        selectFromSheetFail.getKey(rightData, selectFromSheet, getKeySource);
+                        selectFromWebsiteFail.getKey(rightData, getKeySource);
 
-                selectFromSheetFail.visible(true);
-                selectFromSheetButtonFail.visible(true);
-                failBoxText.visible(true);
-                selectFromWebsiteFail.visible(true);
-                failExcelCollomText.visible(true);
-                failWebsiteCollomText.visible(true);
+                        selectFromSheetFail.visible(true);
+                        selectFromSheetButtonFail.visible(true);
+                        failBoxText.visible(true);
+                        selectFromWebsiteFail.visible(true);
+                        failExcelCollomText.visible(true);
+                        failWebsiteCollomText.visible(true);
+                    }
+                }
             }
 
             else{
@@ -242,7 +245,6 @@ public class GUI_Reworked extends JFrame {
                 selectFromWebsiteFail.visible(false);
                 failWebsiteCollomText.visible(false);
                 failExcelCollomText.visible(false);
-                showFailFirstTime = true;
             }
 
             if (selectFromSheetButtonFail.getPressed()[0]){

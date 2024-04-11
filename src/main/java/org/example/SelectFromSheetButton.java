@@ -44,6 +44,7 @@ public class SelectFromSheetButton extends UploadButton implements IButton{
     }
 
     public void action(RightData rightData, GetKeySource getKeySource){
+        pressed[0] = false;
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -58,6 +59,8 @@ public class SelectFromSheetButton extends UploadButton implements IButton{
                 } catch (Exception ex) {
                     throw new RuntimeException(ex);
                 }
+
+                pressed[0] = true;
             };
         });
     }
