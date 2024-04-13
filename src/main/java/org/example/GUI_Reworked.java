@@ -241,7 +241,7 @@ public class GUI_Reworked extends JFrame {
             }
 
             if (selectFromSheetButtonFail.getPressed()[0]){
-                infoMatches.setText(rightData.getMatches());
+                infoMatches.setText(getKeySource, selectFromWebsiteFail);
                 infoMatches.visible(true);
             }
 
@@ -255,7 +255,7 @@ public class GUI_Reworked extends JFrame {
             if (loop == 0){
                 selectFromSheetButton.action(selectFromSheet, rightData, getKeySource, selectKeySourceButton);
                 selectKeySourceButton.action(rightData, getKeySource);
-                selectFromSheetButtonFail.action(rightData, selectFromSheetFail, selectFromWebsiteFail, matchesField, noMatchesField);
+                selectFromSheetButtonFail.action(rightData, selectFromSheetFail, selectFromWebsiteFail, matchesField, noMatchesField, getKeySource);
                 search.action();
             }
 

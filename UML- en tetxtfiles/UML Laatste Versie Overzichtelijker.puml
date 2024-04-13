@@ -2,8 +2,8 @@
 'skinparam linetype ortho
 class Connector{
 - driver: WebDriver
-- <u>data: List<WebElement>
-- URL: String
+- DATA: List<WebElement>
+- url: String
 
 + setup()
 + open()
@@ -78,6 +78,14 @@ class RightData{
 - matches: ArrayList<ArrayList>
 - keySource: String
 - passFound: boolean
+
++ RightData(Connector)
++ createWorkBook()
++ readFile(String, String): ArrayList<ArrayList>
++ uploadFile()
++ gatherKeySource(String, String)
++ gatherDataSource(String, String)
++ checkData(String, String)
 }
 
 class ScrollField{
@@ -86,7 +94,7 @@ class ScrollField{
 - info: String
 
 + ScrollField(int[])
-+ setTextScrollField(ArrayList<ArrayList>, boolean, ArrayList<Object>
++ setTextScrollField(ArrayList<ArrayList>, boolean, ArrayList<Object, GetKeySource, GetKeySource>
 }
 
 class SearchAndUpload{
@@ -120,7 +128,7 @@ class SelectFromSheetButton{
 + action(SelectFromSheet, RightData, GetKeySource, SelectFromSheetButton)
 + action(RightData, GetKeySource)
 + action(RightData, SelectFromSheet)
-+ action(RightData, SelectFromSheet, GetKeySource, ScrollField, ScrollField)
++ action(RightData, SelectFromSheet, GetKeySource, ScrollField, ScrollField, GetKeySource, GetKeySource)
 }
 
 class TextString{
@@ -142,17 +150,17 @@ SelectFromSheet <|-- GetKeySource
 IComboBox <|.. GetKeySource
 GUI_Reworked ..> GUI_Updater: Create
 
-RightData <--o GUI_Reworked: 1 rightData 0..1
-Connector <--o GUI_Reworked: 1 Connectie 0..1
-SearchAndUpload <---o GUI_Reworked: 1 Actie 0..*
-SelectFromSheet <---o GUI_Reworked: selectFromSheet 0..1
-GetKeySource <---o GUI_Reworked: 1 Zoekterm 0..*
-SelectFromSheetButton <---o GUI_Reworked: 1 Excel Selecter 0..*
+RightData <--o GUI_Reworked:  1 Verwerking 0..1
+Connector <--o GUI_Reworked:  1 Connectie 0..1
+SearchAndUpload <--o GUI_Reworked: 1 Actie 0..*
+SelectFromSheet <--o GUI_Reworked: selectFromSheet 0..1
+GetKeySource <--o GUI_Reworked: 1 Zoekterm 0..*
+SelectFromSheetButton <--o GUI_Reworked: 1 Excel Selecter 0..*
 TextString <---o GUI_Reworked: 1 TextStrings 0..*
 ScrollField <---o GUI_Reworked: 1 TextField 0..*
 Writer <---o GUI_Reworked: 1 Aanpasser 0..1
 
-Connector <--o RightData: 1 rightData 0..1
+Connector <--o RightData: 1 Krijgen 0..1
 
 IButton <|.. SearchAndUpload
 IButton <|.. SelectFromSheetButton

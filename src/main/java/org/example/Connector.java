@@ -14,8 +14,8 @@ import java.util.List;
 
 public class Connector {
     private WebDriver driver;
-    static List<WebElement> Data;
-    private String URL;
+    static List<WebElement> DATA;
+    private String url;
 
     public void setup(){
         WebDriverManager.chromedriver().setup(); //(1)
@@ -28,27 +28,27 @@ public class Connector {
     }
 
     public void connect(String URL_link){
-        URL = URL_link;
+        url = URL_link;
         try{ //(5)
-            driver.get(URL); //(5)
+            driver.get(url); //(5)
         } catch(WebDriverException e){ //(5)
         }
     }
 
     public List<WebElement> collect(){
-        // Geeft de applicatie 25 miliseconden om te zoeken naar het table element in de code
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(200));
+        // Geeft de applicatie 1000 miliseconden om te zoeken naar het table element in de code
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(1000));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.tagName("table")));
 
-        Data = driver.findElements(By.tagName("table"));
-        if (Data.isEmpty()){
+        DATA = driver.findElements(By.tagName("table"));
+        if (DATA.isEmpty()){
             close();
             setup();
-            connect(URL);
+            connect(url);
             collect();
         }
 
-        return Data;
+        return DATA;
     }
 
     public void close(){

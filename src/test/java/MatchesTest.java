@@ -18,6 +18,7 @@ public class MatchesTest {
         var noMatch = new ScrollField(new int[] {100, 100});
         var selectFromSheetFail = new GetKeySource(new String[] {"Test"}, true);
         var selectFromWebsiteFail = new GetKeySource(new String[] {"Test"}, true);
+        var selectKeySource = new GetKeySource(new String[] {"Test"}, true);
 
         UploadFile uploadFile = new UploadFile(rightData);
         Driver website = new Driver(search, connector, rightData, "https://hdr.undp.org/data-center/country-insights#/ranks", true);
@@ -158,22 +159,25 @@ public class MatchesTest {
                 "Yemen | 186\n" +
                 "Zambia | 153\n" +
                 "Zimbabwe | 159\n" +
-                "137 matches out of 159 Country  (86.25%";
+                "137 matches out of 159 Country (86,25%)";
 
         rightData.gatherKeySource("Country", "Index 2021");
         selectFromSheetFail.create();
         selectFromSheetFail.getBox().removeAllItems();
         selectFromSheetFail.getBox().addItem("GDP");
         selectFromSheetFail.getBox().setSelectedIndex(0);
-        selectFromSheetFail.getBox().setSelectedItem("GDP");
 
         selectFromWebsiteFail.create();
         selectFromWebsiteFail.getBox().removeAllItems();
         selectFromWebsiteFail.getBox().addItem("Rank");
         selectFromWebsiteFail.getBox().setSelectedIndex(0);
-        selectFromWebsiteFail.getBox().setSelectedItem("Rank");
 
-        selectFromSheetButton.action(rightData, selectFromSheetFail, selectFromWebsiteFail, match, noMatch);
+        selectKeySource.create();
+        selectKeySource.getBox().removeAllItems();
+        selectKeySource.getBox().addItem("Country");
+        selectKeySource.getBox().setSelectedIndex(0);
+
+        selectFromSheetButton.action(rightData, selectFromSheetFail, selectFromWebsiteFail, match, noMatch, selectKeySource);
         ActionEvent mockEvent = new ActionEvent(selectFromSheetButton.getButton(), ActionEvent.ACTION_PERFORMED, "Press");
         selectFromSheetButton.getButton().getActionListeners()[0].actionPerformed(mockEvent);
 
@@ -193,6 +197,7 @@ public class MatchesTest {
         var noMatch = new ScrollField(new int[] {100, 100});
         var selectFromSheetFail = new GetKeySource(new String[] {"Test"}, true);
         var selectFromWebsiteFail = new GetKeySource(new String[] {"Test"}, true);
+        var selectKeySource = new GetKeySource(new String[] {"Test"}, true);
 
         UploadFile uploadFile = new UploadFile(rightData);
         Driver website = new Driver(search, connector, rightData, "https://hdr.undp.org/data-center/country-insights#/ranks", true);
@@ -224,15 +229,18 @@ public class MatchesTest {
         selectFromSheetFail.getBox().removeAllItems();
         selectFromSheetFail.getBox().addItem("GDP");
         selectFromSheetFail.getBox().setSelectedIndex(0);
-        selectFromSheetFail.getBox().setSelectedItem("GDP");
 
         selectFromWebsiteFail.create();
         selectFromWebsiteFail.getBox().removeAllItems();
         selectFromWebsiteFail.getBox().addItem("Rank");
         selectFromWebsiteFail.getBox().setSelectedIndex(0);
-        selectFromWebsiteFail.getBox().setSelectedItem("Rank");
 
-        selectFromSheetButton.action(rightData, selectFromSheetFail, selectFromWebsiteFail, match, noMatch);
+        selectKeySource.create();
+        selectKeySource.getBox().removeAllItems();
+        selectKeySource.getBox().addItem("Country");
+        selectKeySource.getBox().setSelectedIndex(0);
+
+        selectFromSheetButton.action(rightData, selectFromSheetFail, selectFromWebsiteFail, match, noMatch, selectKeySource);
         ActionEvent mockEvent = new ActionEvent(selectFromSheetButton.getButton(), ActionEvent.ACTION_PERFORMED, "Press");
         selectFromSheetButton.getButton().getActionListeners()[0].actionPerformed(mockEvent);
 

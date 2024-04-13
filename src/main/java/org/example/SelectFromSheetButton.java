@@ -76,13 +76,13 @@ public class SelectFromSheetButton extends SearchAndUpload implements IButton{
 
     }
 
-    public void action(RightData rightData, SelectFromSheet selectFromSheetFail, GetKeySource selectFromWebsiteFail, ScrollField matchesField, ScrollField noMatchesField){
+    public void action(RightData rightData, SelectFromSheet selectFromSheetFail, GetKeySource selectFromWebsiteFail, ScrollField matchesField, ScrollField noMatchesField, GetKeySource getKeySource){
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 rightData.checkData((String) selectFromSheetFail.getBox().getSelectedItem(), (String) selectFromWebsiteFail.getBox().getSelectedItem());
-                matchesField.setTextScrollField(rightData.getMatches(), true, rightData.getNoMatches());
-                noMatchesField.setTextScrollField(rightData.getMatches(),  false, rightData.getNoMatches());
+                matchesField.setTextScrollField(rightData.getMatches(), true, rightData.getNoMatches(), getKeySource, selectFromWebsiteFail);
+                noMatchesField.setTextScrollField(rightData.getMatches(),  false, rightData.getNoMatches(), getKeySource, selectFromWebsiteFail);
                 pressed[0] = true;
             }
         });

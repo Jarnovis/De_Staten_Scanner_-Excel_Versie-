@@ -58,6 +58,7 @@ public class DriverTest {
 
 class Driver{
     public Driver(SearchAndUpload search, Connector connector, RightData rightData, String website, boolean output){
+        System.out.println(website);
         search.create();
         search.getBox().setText(website);
         search.action(connector, rightData, new SelectFromSheetButton("Test", true));

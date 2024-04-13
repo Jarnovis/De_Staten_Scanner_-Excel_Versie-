@@ -26,12 +26,13 @@ public class TextString {
         label.setVisible(visibility);
     }
 
-    public void setText(ArrayList<ArrayList> info){
-        String text = info.getFirst().getFirst() + " | " + info.get(1).getFirst() + " | " + "Excel X | Excel Y";
+    public void setText(GetKeySource getKeySource, SelectFromSheet selectFromWebsiteFail){
+        String text = getKeySource.getBox().getSelectedItem() + " | " + selectFromWebsiteFail.getBox().getSelectedItem();
         label.setText(text);
     }
 
     public JLabel getText(){
         return label;
     }
+
 }
