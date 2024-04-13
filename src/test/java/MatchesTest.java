@@ -1,12 +1,10 @@
+import org.apache.commons.collections4.Get;
 import org.example.*;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
-import org.openqa.selenium.Dimension;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
 
 public class MatchesTest {
     @Test
@@ -175,10 +173,6 @@ public class MatchesTest {
         selectFromWebsiteFail.getBox().setSelectedIndex(0);
         selectFromWebsiteFail.getBox().setSelectedItem("Rank");
 
-        //selectFromSheetButton.action(rightData, selectFromSheetFail);
-        //ActionEvent mockEvent = new ActionEvent(selectFromSheetButton.getButton(), ActionEvent.ACTION_PERFORMED, "Press");
-        //selectFromSheetButton.getButton().getActionListeners()[0].actionPerformed(mockEvent);
-
         selectFromSheetButton.action(rightData, selectFromSheetFail, selectFromWebsiteFail, match, noMatch);
         ActionEvent mockEvent = new ActionEvent(selectFromSheetButton.getButton(), ActionEvent.ACTION_PERFORMED, "Press");
         selectFromSheetButton.getButton().getActionListeners()[0].actionPerformed(mockEvent);
@@ -186,6 +180,68 @@ public class MatchesTest {
         Assertions.assertEquals(expected, match.getInfo());
 
         connector.close();
+    }
+
+    @Test
+    public void notMatching(){
+        var connector = new Connector();
+        connector.open();
+        var rightData = new RightData(connector);
+        var search = new Search("Test", true);
+        var selectFromSheetButton = new SelectFromSheetButton("Test", true);
+        var match = new ScrollField(new int[] {100, 100});
+        var noMatch = new ScrollField(new int[] {100, 100});
+        var selectFromSheetFail = new GetKeySource(new String[] {"Test"}, true);
+        var selectFromWebsiteFail = new GetKeySource(new String[] {"Test"}, true);
+
+        UploadFile uploadFile = new UploadFile(rightData);
+        Driver website = new Driver(search, connector, rightData, "https://hdr.undp.org/data-center/country-insights#/ranks", true);
+
+        String expected = "Czech Republic\n" +
+                "Chili\n" +
+                "Macedonia\n" +
+                "Moldavia\n" +
+                "South Afrika\n" +
+                "Bolivia\n" +
+                "Kosovo\n" +
+                "Ivory Coast\n" +
+                "Tanzania\n" +
+                "Vietnam\n" +
+                "Morocco \n" +
+                "Russia\n" +
+                "Haïti\n" +
+                "Turkey\n" +
+                "Democratic Republic of Congo\n" +
+                "Eswatini\n" +
+                "Laos\n" +
+                "Central-African Republic\n" +
+                "Iran\n" +
+                "Venezuela\n" +
+                "Southern Sudan";
+
+        rightData.gatherKeySource("Country", "Index 2021");
+        selectFromSheetFail.create();
+        selectFromSheetFail.getBox().removeAllItems();
+        selectFromSheetFail.getBox().addItem("GDP");
+        selectFromSheetFail.getBox().setSelectedIndex(0);
+        selectFromSheetFail.getBox().setSelectedItem("GDP");
+
+        selectFromWebsiteFail.create();
+        selectFromWebsiteFail.getBox().removeAllItems();
+        selectFromWebsiteFail.getBox().addItem("Rank");
+        selectFromWebsiteFail.getBox().setSelectedIndex(0);
+        selectFromWebsiteFail.getBox().setSelectedItem("Rank");
+
+        selectFromSheetButton.action(rightData, selectFromSheetFail, selectFromWebsiteFail, match, noMatch);
+        ActionEvent mockEvent = new ActionEvent(selectFromSheetButton.getButton(), ActionEvent.ACTION_PERFORMED, "Press");
+        selectFromSheetButton.getButton().getActionListeners()[0].actionPerformed(mockEvent);
+
+        Assertions.assertEquals(expected, noMatch.getInfo());
+
+        connector.close();
+
+        Assertions.assertEquals(expected, noMatch.getInfo());
+
     }
 }
 

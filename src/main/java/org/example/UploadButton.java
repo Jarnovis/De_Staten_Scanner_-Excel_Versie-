@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class UploadButton extends test implements IButton {
+public class UploadButton implements IButton {
     private JButton button = new JButton("Upload Files");
     private boolean visable;
 
