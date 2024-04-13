@@ -12,7 +12,7 @@ public class MatchesTest {
         var connector = new Connector();
         connector.open();
         var rightData = new RightData(connector);
-        var search = new Search("Test", true);
+        var search = new SearchAndUpload("Test", true);
         var selectFromSheetButton = new SelectFromSheetButton("Test", true);
         var match = new ScrollField(new int[] {100, 100});
         var noMatch = new ScrollField(new int[] {100, 100});
@@ -187,7 +187,7 @@ public class MatchesTest {
         var connector = new Connector();
         connector.open();
         var rightData = new RightData(connector);
-        var search = new Search("Test", true);
+        var search = new SearchAndUpload("Test", true);
         var selectFromSheetButton = new SelectFromSheetButton("Test", true);
         var match = new ScrollField(new int[] {100, 100});
         var noMatch = new ScrollField(new int[] {100, 100});

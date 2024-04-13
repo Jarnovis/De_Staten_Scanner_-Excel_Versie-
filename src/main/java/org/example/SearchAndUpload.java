@@ -9,27 +9,27 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class Search extends UploadButton implements IButton{
-    private static JButton button;
+public class SearchAndUpload implements IButton{
+    private JButton button;
     private JTextField box;
     private boolean visable;
     private final boolean[] connection = {false};
 
-    public Search(String name, boolean visable){
-        super(visable);
+    public SearchAndUpload(String name, boolean visable) {
         button = new JButton(name);
         this.visable = visable;
     }
 
-    @Override
     public void create(){
         button.setMaximumSize(new Dimension(150, 25));
         button.setBackground(Color.lightGray);
         button.setVisible(visable);
 
-        box = new JTextField(30);
-        box.setMaximumSize(new Dimension(250, 25));
-        box.setVisible(true);
+        if (button.getText().equals("Search")){
+            box = new JTextField(30);
+            box.setMaximumSize(new Dimension(250, 25));
+            box.setVisible(true);
+        }
     }
 
     public void action(Connector connector, RightData rightData, SelectFromSheetButton selectFromKeySourceButton){
@@ -79,6 +79,20 @@ public class Search extends UploadButton implements IButton{
             @Override
             public void mouseExited(MouseEvent e) {
 
+            }
+        });
+    }
+
+    public void action(RightData rightData, SelectFromSheet selectFromSheet){
+        button.addActionListener(new ActionListener(){ //(4)
+            @Override //(4)
+            public void actionPerformed(ActionEvent evt){ //(4)
+                try {
+                    rightData.uploadFile();
+                    selectFromSheet.getSheets(rightData);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
     }

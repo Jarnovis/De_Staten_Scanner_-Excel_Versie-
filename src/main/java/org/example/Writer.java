@@ -4,7 +4,7 @@ import com.aspose.cells.Workbook;
 import com.aspose.cells.Worksheet;
 import com.aspose.cells.WorksheetCollection;
 
-public class Writer {
+public class Writer implements IButton {
     private Workbook workbook;
     private WorksheetCollection collection;
     public Writer(RightData rightData) throws Exception {
@@ -57,6 +57,10 @@ public class Writer {
     }
 
     public void write(){
+
+    }
+
+    public void create(){
 
     }
 }

@@ -16,7 +16,6 @@ public class Connector {
     private WebDriver driver;
     static List<WebElement> Data;
     private String URL;
-    private int loop = 0;
 
     public void setup(){
         WebDriverManager.chromedriver().setup(); //(1)

@@ -1,0 +1,173 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+skinparam linetype ortho
+class Connector{
+- driver: WebDriver
+- <u>data: List<WebElement>
+- URL: String
+
++ setup()
++ open()
++ connect()
++ collect(): List<WebElement>
++ close()
++ getDriver(): WebDriver
+}
+
+class GetKeySource{
+- box: JComboBox
+- sources: String[]
+- visible: boolean
+
++ getKey(RightData, SelectFromSheet, GetKeySource)
++ getKey(RightData, GetKeySource)
++ visible(boolean)
++ getBox(): JComboBox
+}
+
+class GUI_Reworked{
+- CONNECTOR: Connector
+- RIGHTDATA: RightData
+- uploadButton: SearchAndUpload
+- search: SearchAndUpload
+- selectFromSheet: SelectFromSheet
+- selectFromSheetFail: GetKeySource
+- selectFromWebsiteFail: GetKeySource
+- selectFromSheetButton: SelectFromSheetButton
+- selectFromSheetButtonFail: SelectFromSheetButton
+- getKeySource: GetKeySource
+- selectKeySourceButton: SelectFromSheetButton
+- loop: int
+- failBoxText: TextString
+- failExcelCollomText: TextString
+- failWebsiteCollomTextL TextString
+- matchesField: ScrollField
+- infoMatchehs: TextString
+- notFound: TextString
+- noMatchesField: ScrollField
+
++ GUI_Reworked(Connector, RightData)
+- window(ArrayList<IButton>, ArrayList<IComboBox>)
+- positionPanels()
++ actions()
++ updaterGUI()
+
+}
+
+class GUI_Updater{
++ doInBackGround(): String
++ done()
+}
+
+interface IButton{
++ create()
+}
+
+interface IComboBox{
++ create()
+}
+
+class RightData{
+- file: File
+- collection: WorkSheetCollection
+- keySources: ArrayList<ArrayList>
+- noMatches: ArrayList<Object>
+- dataSources: ArrayList<ArrayList>
+- connector: Connector
+- collected: ArrayList<ArrayList<ArrayList<String>>>
+- firstRow: ArrayList<ArrayList>
+- matches: ArrayList<ArrayList>
+- keySource: String
+- passFound: boolean
+}
+
+class ScrollField{
+- field: JTextField
+- scroll: JScrollPane
+- info: String
+
++ ScrollField(int[])
++ setTextScrollField(ArrayList<ArrayList>, boolean, ArrayList<Object>
+}
+
+class SearchAndUpload{
+- button: JButton
+- box: JTextField
+- visible: boolean
+- <u> connection: boolean[]
+
++ SearchAndUpload(String, boolean)
++ action(Connector, RightData, SelectFromSheetButton)
++ action()
++ action(RightData, SelectFromSheet)
+}
+
+class SelectFromSheet{
+- box: JComboBox
+- sheets: String[]
+- visible: boolean
+
++ getSheets(RightData)
+
+}
+
+class SelectFromSheetButton{
+- button: JButton
+- sheet: String
+- <u> through: boolean[]
+- <u> pressed: boolean[]
+- visible: boolean
+
++ action(SelectFromSheet, RightData, GetKeySource, SelectFromSheetButton)
++ action(RightData, GetKeySource)
++ action(RightData, SelectFromSheet)
++ action(RightData, SelectFromSheet, GetKeySource, ScrollField, ScrollField)
+}
+
+class TextString{
+- label: JLabel
+
++ create(String, boolean, int[])
+}
+
+class Writer{
+- workbook: WorkBook
+- collection: WorkSheetCollection
+
++ Writer(RightData)
++ createSheet(String, String, String)
+- emptyingWorksheet(Worksheet, String)
+}
+
+SelectFromSheet <|-- GetKeySource
+IComboBox <|.. GetKeySource
+GUI_Reworked ..> GUI_Updater: Create
+
+RightData <--o GUI_Reworked: 1 rightData 1
+Connector <--o GUI_Reworked: 0..1 connector 1
+SearchAndUpload <---o GUI_Reworked: search 1
+SelectFromSheet <---o GUI_Reworked: selectFromSheet 1
+GetKeySource <---o GUI_Reworked: selectFromSheetFail 1
+GetKeySource <---o GUI_Reworked: selectFromWebsiteFail 1
+SelectFromSheetButton <---o GUI_Reworked: selectFromSheetButton 1
+SelectFromSheetButton <---o GUI_Reworked: selectFromSheetButtonFail 1
+GetKeySource <---o GUI_Reworked: getKeySource 1
+SelectFromSheetButton <---o GUI_Reworked: selectKeySourceButton 1
+TextString <---o GUI_Reworked: failBoxText 1
+TextString <---o GUI_Reworked: failExcelCollomText 1
+TextString <---o GUI_Reworked: failWebsiteCollomText 1
+ScrollField <---o GUI_Reworked: matchesField 1
+ScrollField <---o GUI_Reworked: noMatchesField 1
+Writer <---o GUI_Reworked: Writer
+
+Connector <--o RightData: rightData
+
+IButton <|.. SearchAndUpload
+
+IComboBox <|.. SelectFromSheet
+
+SearchAndUpload <|-- SelectFromSheetButton
+
+
+
+@enduml

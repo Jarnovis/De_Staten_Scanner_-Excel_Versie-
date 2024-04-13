@@ -6,45 +6,40 @@ import org.openqa.selenium.Dimension;
 import java.awt.event.ActionEvent;
 
 public class DriverTest {
+    private final Connector connector = new Connector();
+
     @Test
     public void ConnectionWebsiteGood() {
         // De driver wordt zichtbaar gesteld, zodat er duidelijk te zien is dat er gecommuniseerd wordt met de driver
-        var search = new Search("Search", true);
-        var connector = new Connector();
+        var search = new SearchAndUpload("Search", true);
         var rightData = new RightData(connector);
 
         connector.open();
-        connector.getDriver().manage().window().maximize();
 
         Driver website1 = new Driver(search, connector, rightData, "https://hdr.undp.org/data-center/country-insights#/ranks", true);
         Driver website2 = new Driver(search, connector, rightData, "https://www.cia.gov/the-world-factbook/field/net-migration-rate/country-comparison/", true);
         Driver website3 = new Driver(search, connector, rightData, "https://www.visionofhumanity.org/maps/#/", true);
 
-
         connector.close();
+
     }
 
     @Test
     public void ConnectionWebsiteBad() {
         // De driver wordt zichtbaar gesteld, zodat er duidelijk te zien is dat er gecommuniseerd wordt met de driver
-        var search = new Search("Search", true);
-        var connector = new Connector();
+        var search = new SearchAndUpload("Search", true);
         var rightData = new RightData(connector);
-
         connector.open();
-        connector.getDriver().manage().window().maximize();
 
         Driver website1 = new Driver(search, connector, rightData, "https://www.dehaagsehogeschool.nl", false);
         Driver website2 = new Driver(search, connector, rightData, "https://programmerhumor.io", false);
         Driver website3 = new Driver(search, connector, rightData, "https://stepik.org/catalog", false);
-
 
         connector.close();
     }
 
     @Test
     public void driverMinimized(){
-        var connector = new Connector();
         connector.open();
 
         // De normale grote voor een chrome driver window is (1050, 732).
@@ -62,7 +57,7 @@ public class DriverTest {
 }
 
 class Driver{
-    public Driver(Search search, Connector connector, RightData rightData, String website, boolean output){
+    public Driver(SearchAndUpload search, Connector connector, RightData rightData, String website, boolean output){
         search.create();
         search.getBox().setText(website);
         search.action(connector, rightData, new SelectFromSheetButton("Test", true));

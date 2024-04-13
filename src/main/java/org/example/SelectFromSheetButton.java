@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class SelectFromSheetButton extends UploadButton implements IButton{
+public class SelectFromSheetButton extends SearchAndUpload implements IButton{
     private JButton button;
     private String sheet;
     private final boolean[] through = {true};
@@ -13,7 +13,7 @@ public class SelectFromSheetButton extends UploadButton implements IButton{
     private boolean visable;
 
     public SelectFromSheetButton(String name, boolean visable){
-        super(visable);
+        super(name, visable);
         button = new JButton(name);
         this.visable = visable;
     }
@@ -88,7 +88,7 @@ public class SelectFromSheetButton extends UploadButton implements IButton{
         });
     }
 
-    @Override
+
     public void visible(boolean visabilty){
         button.setVisible(visabilty);
     }

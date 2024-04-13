@@ -11,12 +11,12 @@ import java.util.ArrayList;
 public class GetKeySource extends SelectFromSheet implements IComboBox{
     private JComboBox box;
     private String[] sources;
-    private boolean visable;
+    private boolean visible;
 
     public GetKeySource(String[] sources, boolean visable){
         super(sources, visable);
         this.sources = sources;
-        this.visable = visable;
+        this.visible = visable;
     }
 
     @Override
@@ -25,7 +25,7 @@ public class GetKeySource extends SelectFromSheet implements IComboBox{
         box.setMaximumSize(new Dimension(200, 25));
         box.setPreferredSize(new Dimension(200, 25));
         box.setBackground(Color.LIGHT_GRAY);
-        box.setVisible(visable);
+        box.setVisible(visible);
     }
 
     public void getKey(RightData rightData, SelectFromSheet selectFromSheet, GetKeySource keySource) throws Exception {
@@ -82,7 +82,7 @@ public class GetKeySource extends SelectFromSheet implements IComboBox{
     }
 
 
-
+    @Override
     public void visible (boolean visability){
         box.setVisible(visability);
     }

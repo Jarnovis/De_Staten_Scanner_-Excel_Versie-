@@ -22,7 +22,6 @@ public class RightData {
     private ArrayList<ArrayList<ArrayList<String>>> collected;
     private ArrayList<ArrayList> firstRow;
     private ArrayList<ArrayList> matches;
-    private ArrayList<Integer> positionsLonely;
     private String keySource;
     private boolean passFound;
 

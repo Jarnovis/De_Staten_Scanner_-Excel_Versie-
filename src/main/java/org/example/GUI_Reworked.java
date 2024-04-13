@@ -8,8 +8,8 @@ import java.util.ArrayList;
 public class GUI_Reworked extends JFrame {
     private final Connector connector;
     private final RightData rightData;
-    private UploadButton uploadButton;
-    private Search search;
+    private SearchAndUpload uploadButton;
+    private SearchAndUpload search;
     private SelectFromSheet selectFromSheet;
     private GetKeySource selectFromSheetFail;
     private GetKeySource selectFromWebsiteFail;
@@ -17,7 +17,7 @@ public class GUI_Reworked extends JFrame {
     private SelectFromSheetButton selectFromSheetButtonFail;
     private GetKeySource getKeySource;
     private SelectFromSheetButton selectKeySourceButton;
-    int loop = 0;
+    private int loop = 0;
     private TextString failBoxText;
     private TextString failExcelCollomText;
     private TextString failWebsiteCollomText;
@@ -35,7 +35,6 @@ public class GUI_Reworked extends JFrame {
         // Private variabelen worden geset.
         this.connector = connector;
         this.rightData = rightData;
-        buttons.add(uploadButton = new UploadButton(true));
         comboBoxes.add(selectFromSheet = new SelectFromSheet(new String[] {"Upload excel File first"}, true));
         selectFromSheetButton = new SelectFromSheetButton("Select Key Sheet", true);
         comboBoxes.add(getKeySource = new GetKeySource(new String[] {"Select Key Sheet First"}, true));
@@ -51,13 +50,15 @@ public class GUI_Reworked extends JFrame {
         noMatchesField = new ScrollField(new int[] {10, 25});
         notFound = new TextString();
 
-        search = new Search("Search", true);
+        buttons.add(search = new SearchAndUpload("Search", true));
+        buttons.add(uploadButton = new SearchAndUpload("Upload", true));
 
         window(buttons, comboBoxes);
         actions();
     }
 
     private void window(ArrayList<IButton> buttons, ArrayList<IComboBox> comboBoxes){
+        uploadButton.create();
         // Creëeren van alle interface elementen voor op het window
         for (IButton button : buttons){
             button.create();
@@ -73,7 +74,6 @@ public class GUI_Reworked extends JFrame {
         failWebsiteCollomText.create("Website Collom: ", false, null);
         infoMatches.create("Matches will be shown here", true, new int[] {200, 25});
         notFound.create("No matches", true, new int[] {75, 25});
-        search.create();
 
         // Zorgt ervoor dat alle elementen een aangewezen positie op het window krijgen
         positionPanels();
@@ -206,13 +206,8 @@ public class GUI_Reworked extends JFrame {
         updaterGUI();
     }
 
-    public boolean updaterGUI() { //(9)
+    public void updaterGUI() { //(9)
         (new GUI_Updater()).execute();
-        return true;
-    }
-
-    public SelectFromSheetButton getSelectFromSheetButton(){ //(9)
-        return selectFromSheetButton;
     }
 
     class GUI_Updater extends SwingWorker<String, Object>{ //(9)
