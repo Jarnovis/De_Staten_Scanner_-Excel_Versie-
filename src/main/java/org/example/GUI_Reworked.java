@@ -8,9 +8,6 @@ import java.util.ArrayList;
 public class GUI_Reworked extends JFrame {
     private final Connector connector;
     private final RightData rightData;
-    private JPanel excelFilePanel = new JPanel(new GridBagLayout());
-    private JPanel searchPanel = new JPanel(new BorderLayout());
-    private JPanel headPanel = new JPanel();
     private UploadButton uploadButton;
     private Search search;
     private SelectFromSheet selectFromSheet;
@@ -20,26 +17,20 @@ public class GUI_Reworked extends JFrame {
     private SelectFromSheetButton selectFromSheetButtonFail;
     private GetKeySource getKeySource;
     private SelectFromSheetButton selectKeySourceButton;
-    private GridBagConstraints gbcExcel;
-    private GridBagConstraints gbcSearch;
-    private GridBagConstraints gbcHead;
-    private boolean showFailFirstTime = true;
-    private int loop = 0;
+    int loop = 0;
     private TextString failBoxText;
     private TextString failExcelCollomText;
     private TextString failWebsiteCollomText;
     private ScrollField matchesField;
-    private JPanel fieldPanel = new JPanel();
-    private GridBagConstraints gbcField;
     private TextString infoMatches;
     private TextString notFound;
     private ScrollField noMatchesField;
-    private ArrayList<IButton> buttons = new ArrayList<>();
-    private ArrayList<IComboBox> comboBoxes = new ArrayList<>();
 
     public GUI_Reworked(Connector connector, RightData rightData){
         // Naam van de window wordt gezet
         super("De Staten Scanner (Excel versie)");
+        ArrayList<IButton> buttons = new ArrayList<>();
+        ArrayList<IComboBox> comboBoxes = new ArrayList<>();
 
         // Private variabelen worden geset.
         this.connector = connector;
@@ -62,11 +53,11 @@ public class GUI_Reworked extends JFrame {
 
         search = new Search("Search", true);
 
-        window();
+        window(buttons, comboBoxes);
         actions();
     }
 
-    private void window(){
+    private void window(ArrayList<IButton> buttons, ArrayList<IComboBox> comboBoxes){
         // Creëeren van alle interface elementen voor op het window
         for (IButton button : buttons){
             button.create();
@@ -95,15 +86,20 @@ public class GUI_Reworked extends JFrame {
     private void positionPanels(){
         // Miscchien Head panel eruit halen. Note to self: Vergeet het niet uit de documentatie te halen
         // Positioneren panels (8)
+        JPanel excelFilePanel = new JPanel(new GridBagLayout());
+        JPanel searchPanel = new JPanel(new BorderLayout());
+        JPanel headPanel = new JPanel();
+        JPanel fieldPanel = new JPanel();
+
         excelFilePanel.setLayout(new GridBagLayout());
         searchPanel.setLayout(new GridBagLayout());
         fieldPanel.setLayout(new GridBagLayout());
         headPanel.setLayout(new GridBagLayout());
 
-        gbcExcel = new GridBagConstraints();
-        gbcSearch = new GridBagConstraints();
-        gbcField = new GridBagConstraints();
-        gbcHead = new GridBagConstraints();
+        GridBagConstraints gbcExcel = new GridBagConstraints();
+        GridBagConstraints gbcSearch = new GridBagConstraints();
+        GridBagConstraints gbcField = new GridBagConstraints();
+        GridBagConstraints gbcHead = new GridBagConstraints();
 
         gbcHead.gridx = 0;
         gbcHead.gridy = 0;
