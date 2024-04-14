@@ -150,17 +150,17 @@ SelectFromSheet <|-- GetKeySource
 IComboBox <|.. GetKeySource
 GUI_Reworked ..> GUI_Updater: Create
 
-RightData <--o GUI_Reworked:  1 Verwerking 0..1
-Connector <--o GUI_Reworked:  1 Connectie 0..1
+RightData <--o GUI_Reworked:  < 1 Verwerking 0..1
+Connector <--o GUI_Reworked:  < 1 Connectie 0..1
 SearchAndUpload <--o GUI_Reworked: 1 Actie 0..*
-SelectFromSheet <--o GUI_Reworked: selectFromSheet 0..1
-GetKeySource <--o GUI_Reworked: 1 Zoekterm 0..*
-SelectFromSheetButton <--o GUI_Reworked: 1 Excel Selecter 0..*
+SelectFromSheet <--o GUI_Reworked: ^1 Selecteren 0..1
+GetKeySource <--o GUI_Reworked: < 1 Zoektermen 0..*
+SelectFromSheetButton <--o GUI_Reworked: 1 Selecter 0..*
 TextString <---o GUI_Reworked: 1 TextStrings 0..*
 ScrollField <---o GUI_Reworked: 1 TextField 0..*
 Writer <---o GUI_Reworked: 1 Aanpasser 0..1
 
-Connector <--o RightData: 1 Krijgen 0..1
+Connector <--o RightData: < 1 Krijgen 0..1
 
 IButton <|.. SearchAndUpload
 IButton <|.. SelectFromSheetButton
