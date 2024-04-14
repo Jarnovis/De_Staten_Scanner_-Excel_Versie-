@@ -13,6 +13,7 @@ public class Writer implements IButton {
     }
 
     public void createSheet(String name, String sheet, String headSource) throws Exception {
+        // Maakt een 1 op 1 kopie van de hoofdsheet
         Worksheet worksheet = collection.add(name);
         for (int i = 0; i < collection.getCount(); i++){
             if (sheet.equals(collection.get(i).getName())){
@@ -34,6 +35,7 @@ public class Writer implements IButton {
     }
 
     private Worksheet emptyingWorksheet(Worksheet worksheet, String headSource){
+        // Verwijderd alles in de sheet, behalve de zoektermen en de gegevens van de hoofdzoekterm
         int rows = worksheet.getCells().getMaxDataRow()+1;
         int cols = worksheet.getCells().getMaxColumn();
 
@@ -44,6 +46,7 @@ public class Writer implements IButton {
                 if (!rowName.equals(headSource)){
                     for (int row = 0; row < rows; row++){
                         if (row > 0){
+                            // Formule in cell wordt opgehaald, cell wordt volledig gewist, formule wordt terug geplaatst
                             String formula = worksheet.getCells().get(row, col).getFormula();
                             worksheet.getCells().get(row, col).setValue(null);
                             worksheet.getCells().get(row, col).setFormula(formula);

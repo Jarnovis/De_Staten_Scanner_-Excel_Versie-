@@ -36,14 +36,18 @@ public class GetKeySource extends SelectFromSheet implements IComboBox{
             // Verwijderd alle items van de vorige excel file eerst van de box
             box.removeAllItems();
 
+            // Maakt nieuwe instanties aan, zodat er in een Excel file gewerkt kan worden
             Workbook workbook = new Workbook(String.valueOf(file));
             WorksheetCollection collection = workbook.getWorksheets();
 
+            // Loopt door alle sheets heen en kijkt of de geselecteerde sheet overeen komt met de huidige sheet in de loop
             for (int worksheetIndex = 0; worksheetIndex < collection.getCount(); worksheetIndex++) {
                 Worksheet worksheet = collection.get(worksheetIndex);
                 if (worksheet.getName().equalsIgnoreCase((String) selectFromSheet.getBox().getSelectedItem())) {
                     int cols = worksheet.getCells().getMaxColumn();
 
+                    // Als er nog geen hoofdzoekwoord (keySource) geselecteerd is worden alle gevonden items in de combobox gestopt
+                    // Als er wel een hoofdzoekwoord geselecteerd is worden alle items behalve het hoofdzoekwoord in de combobox gestopt
                     for (int j = 0; j < cols; j++) {
                         if (worksheet.getCells().get(0, j).getValue() != null) {
                             if (keySource != null) {
@@ -65,6 +69,7 @@ public class GetKeySource extends SelectFromSheet implements IComboBox{
     }
 
     public void getKey(RightData rightData, GetKeySource keySource){
+        // Stopt alle gevonden Kolommen van de website in een comboBox
         ArrayList<ArrayList<ArrayList<String>>> collected = rightData.getCollected();
 
         box.removeAllItems();

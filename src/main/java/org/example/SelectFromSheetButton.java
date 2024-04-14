@@ -27,6 +27,7 @@ public class SelectFromSheetButton extends SearchAndUpload implements IButton{
 
 
     public void action(SelectFromSheet selectFromSheet, RightData rightData, GetKeySource getKeySource, SelectFromSheetButton selectKeySourceButton){
+        // Verzameld de hoofdzoekterm
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -44,6 +45,7 @@ public class SelectFromSheetButton extends SearchAndUpload implements IButton{
     }
 
     public void action(RightData rightData, GetKeySource getKeySource){
+        // Verzameld alle gegevens van de hoofdzoekterm
         pressed[0] = false;
         button.addActionListener(new ActionListener() {
             @Override
@@ -67,6 +69,7 @@ public class SelectFromSheetButton extends SearchAndUpload implements IButton{
 
     @Override
     public void action(RightData rightData, SelectFromSheet selectFromSheetFail){
+        // Zorgt ervoor dat de niet-automatische gevonden matches gemaakt kunnen worden
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -77,6 +80,7 @@ public class SelectFromSheetButton extends SearchAndUpload implements IButton{
     }
 
     public void action(RightData rightData, SelectFromSheet selectFromSheetFail, GetKeySource selectFromWebsiteFail, ScrollField matchesField, ScrollField noMatchesField, GetKeySource getKeySource){
+        // Zorgt ervoor dat de matches en niet-matches in hun scrollfield gezet worden
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

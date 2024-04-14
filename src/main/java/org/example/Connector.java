@@ -18,16 +18,20 @@ public class Connector {
     private String url;
 
     public void setup(){
+        // Zorgt ervoor dat chromedriver bestuurt kan worden
         WebDriverManager.chromedriver().setup(); //(1)
     }
 
     public void open(){
-        this.driver = new ChromeDriver();
-        this.driver.manage().window().setSize(new Dimension(200, 200));
-        this.driver.manage().window().minimize();
+        // Opent en minimaliseerd de driver
+        driver = new ChromeDriver();
+        driver.manage().window().setSize(new Dimension(200, 200));
+        driver.manage().window().minimize();
     }
 
     public void connect(String URL_link){
+        // Probeert om een connectie met een website aan te gaan
+        // Als de URL niet gevonden is crashed de applicatie niet
         url = URL_link;
         try{ //(5)
             driver.get(url); //(5)
@@ -40,6 +44,7 @@ public class Connector {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(1000));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.tagName("table")));
 
+        // Verzameld alle HTML-gegevens binnen de <table>
         DATA = driver.findElements(By.tagName("table"));
         if (DATA.isEmpty()){
             close();

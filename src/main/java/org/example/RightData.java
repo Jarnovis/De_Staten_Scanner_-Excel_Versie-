@@ -30,6 +30,7 @@ public class RightData {
     }
 
     private void createWorkbook(){
+        // Zorgt ervoor dat er een nieuwe Workbookinstantie gecreëerd wordt, zodat er andere soorten files gebruikt kunnen worden
         try{
             Workbook workbook = new Workbook(String.valueOf(file));
             collection = workbook.getWorksheets();
@@ -42,6 +43,7 @@ public class RightData {
         ArrayList<int[]> positions = new ArrayList<>();
         createWorkbook();
 
+        // Stopt alle gegevens met posities in een gether
         for (int worksheetIndex = 0; worksheetIndex < collection.getCount(); worksheetIndex++) {
             Worksheet worksheet = collection.get(worksheetIndex);
             if (worksheet.getName().equalsIgnoreCase(sheet)) {
@@ -55,6 +57,7 @@ public class RightData {
                             rows++;
 
                             if (source != null){
+                                // Gegevens en posities van de hoofdzoekterm wordt geselecteerd
                                 for (int row = 0; row < rows; row++) {
                                     if (!(worksheet.getCells().get(row, col).getValue() == null)){
                                         names.add(worksheet.getCells().get(row, col).getValue());
@@ -62,7 +65,7 @@ public class RightData {
                                     }
                                 }
                             }
-
+                            // Alle zoektermen met posities worden geselecteerd
                             else{
                                 names.add(worksheet.getCells().get(0, col).getValue());
                                 positions.add(new int[]{col});
@@ -80,6 +83,7 @@ public class RightData {
     }
 
     public void uploadFile() {
+        // Zorgt ervoor dat een bestand geupload kan worden
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileFilter(new FileNameExtensionFilter("Excel files (DO NOT CHANGE THIS FILTER)", "xls", "xlsx")); //(13)
         fileChooser.showSaveDialog(null);
@@ -110,6 +114,7 @@ public class RightData {
 
         List<WebElement> data = connector.collect();
 
+        // Verzameld de zoektermen van de gevonden gegevens van de website uit
         for (WebElement element : connector.getDriver().findElements(By.xpath("//th"))) {
             rowData.add(element.getText());
         }
@@ -117,10 +122,13 @@ public class RightData {
         collectedRows.add(rowData);
         collected.add(collectedRows);
 
+        // Splits de verzamelde data van de gevonden gegevens van de website
         for (WebElement table : data) {
             List<WebElement> rows = table.findElements(By.tagName("tr"));
             collectedRows = new ArrayList<>();
+            // Mochten er meerdere soorten rijen zijn (meerdere tabellen op de website) wordt eerst elke soort rij afgesplitst
             for (WebElement row : rows) {
+                // In een specifieke rij worden alle cellen gesplits
                 List<WebElement> cells = row.findElements(By.tagName("td"));
                 rowData = new ArrayList<>();
                 for (WebElement cell : cells) {
@@ -138,6 +146,7 @@ public class RightData {
         boolean found = false;
         int positionsHead = 1;
 
+        // Detecteren van automatische matches
         if (neededCollomWebsite == null){
             for (ArrayList<String> headTable : collected.getFirst()) {
                 for (String head : headTable) {
@@ -162,6 +171,7 @@ public class RightData {
             }
         }
 
+        // Kijken waar in het excel bestand de match zit
         if (found || neededCollomWebsite != null){
             passFound = true;
 
@@ -188,6 +198,7 @@ public class RightData {
                 }
             }
 
+            // Matches aan elkaar koppelen met excel locaties
             if (found){
                 ArrayList<int[]> positionsY = keySources.getLast();
                 ArrayList<Integer> positionsExcelY = new ArrayList<>();

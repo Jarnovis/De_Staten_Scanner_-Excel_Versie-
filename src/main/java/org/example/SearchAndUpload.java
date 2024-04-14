@@ -84,6 +84,7 @@ public class SearchAndUpload implements IButton{
     }
 
     public void action(RightData rightData, SelectFromSheet selectFromSheet){
+        // Zorgt ervoor dat het window voor navigeren in het systeem omhoog komt
         button.addActionListener(new ActionListener(){ //(4)
             @Override //(4)
             public void actionPerformed(ActionEvent evt){ //(4)

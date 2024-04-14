@@ -84,7 +84,6 @@ public class GUI_Reworked extends JFrame {
     }
 
     private void positionPanels(){
-        // Miscchien Head panel eruit halen. Note to self: Vergeet het niet uit de documentatie te halen
         // Positioneren panels (8)
         JPanel excelFilePanel = new JPanel(new GridBagLayout());
         JPanel searchPanel = new JPanel(new BorderLayout());
@@ -101,6 +100,7 @@ public class GUI_Reworked extends JFrame {
         GridBagConstraints gbcField = new GridBagConstraints();
         GridBagConstraints gbcHead = new GridBagConstraints();
 
+        // Alle beginners locaties en hoe extra ruimte verdeeld moet worden
         gbcHead.gridx = 0;
         gbcHead.gridy = 0;
         gbcHead.weighty = 1;
@@ -187,6 +187,7 @@ public class GUI_Reworked extends JFrame {
     }
 
     public void actions(){
+        // Zorgt ervoor het window gesloten kan worden en dat knoppen de juiste acties uit kunnen voeren
         WindowListener Listener = new WindowAdapter() {
             public void windowClosing(WindowEvent evt) {
                 try {
@@ -210,9 +211,11 @@ public class GUI_Reworked extends JFrame {
         (new GUI_Updater()).execute();
     }
 
+    // Zorgt ervoor dat de code binnen GUI_Reworked geupdate wordt
     class GUI_Updater extends SwingWorker<String, Object>{ //(9)
         @Override
         public String doInBackground() throws Exception {
+            // Zorgt ervoor dat faal-elementen wel of niet zichtbaar zijn
             if (!selectKeySourceButton.getThrough()){
                 if (selectKeySourceButton.getPressed()[0]){
                     if (search.getConnection()[0]){
