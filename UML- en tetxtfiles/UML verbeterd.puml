@@ -1,0 +1,118 @@
+@startuml
+skinparam linetype ortho
+
+class GUI_Search{
+
++ GUI_Search(GUI_Upload, GUI_Commit, Connector)
++ window()
++ searchBar()
++ searchButton()
+
+}
+class Connector{
+- driver: WebDriver
+- DATA: List<WebElement>
+- url: String
+
++ open()
++ connect()
++ collect(): List<WebElement>
++ close()
++ getDriver(): WebDriver
+}
+
+class GUI_Upload{
+- file: File
+
++ GUI_Upload()
+- uploadButton()
+}
+
+class Upload{
++ Upload()
+}
+
+class GUI_Commit{
++ GUI_Commit()
+}
+
+class ScrollField{
+- field: JTextField
+- scroll: JScrollPane
+- info: String
+
++ ScrollField(int[])
++ setTextScrollField(ArrayList<ArrayList>, boolean, ArrayList<Object, GetKeySource, GetKeySource>
+}
+
+class RightData{
+- file: File
+- keySources: ArrayList<ArrayList>
+- noMatches: ArrayList<Object>
+- dataSources: ArrayList<ArrayList>
+- connector: Connector
+- collected: ArrayList<ArrayList<ArrayList<String>>>
+- firstRow: ArrayList<ArrayList>
+- matches: ArrayList<ArrayList>
+- keySource: String
+- passFound: boolean
+
++ RightData(Connector)
++ readFile(String, String): ArrayList<ArrayList>
++ gatherKeySource(String, String)
++ gatherDataSource(String, String)
++ checkData(String, String)
+}
+
+class Writer{
+- workbook: WorkBook
+- collection: WorkSheetCollection
+
++ Writer(RightData)
++ createSheet(String, String, String)
+- emptyingWorksheet(Worksheet, String)
+}
+
+class GetSource{
+- box: JComboBox
+- sources: String[]
+- visible: boolean
+
++ getKey(RightData, SelectFromSheet, GetSource)
++ getKey(RightData, GetSource)
++ visible(boolean)
++ getBox(): JComboBox
+}
+
+class SelectFromSheet{
+- box: JComboBox
+- sheets: String[]
+- visible: boolean
+
++ getSheets(RightData)
+}
+
+class GUI_Error{
++ GUI_Error()
++ accept()
+}
+
+
+GUI_Search <|-- GUI_Upload
+GUI_Search <|-- GUI_Commit
+GUI_Search <|-- GUI_Error
+
+GUI_Search <- Connector
+
+GUI_Commit --> ScrollField
+GUI_Commit --> RightData
+GUI_Commit o-> Writer
+GUI_Commit -> GetSource
+GUI_Commit -> SelectFromSheet
+
+GUI_Upload -o Upload
+
+
+
+
+@enduml

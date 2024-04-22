@@ -46,6 +46,7 @@ public class Connector {
 
         // Verzameld alle HTML-gegevens binnen de <table>
         DATA = driver.findElements(By.tagName("table"));
+
         if (DATA.isEmpty()){
             close();
             setup();

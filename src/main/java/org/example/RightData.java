@@ -23,7 +23,6 @@ public class RightData {
     private ArrayList<ArrayList> firstRow;
     private ArrayList<ArrayList> matches;
     private String keySource;
-    private boolean passFound;
 
     public RightData(Connector connector) {
         this.connector = connector;
@@ -142,6 +141,7 @@ public class RightData {
     }
 
     public boolean checkData(String neededCollom, String neededCollomWebsite) {
+        boolean passFound;
         matches = new ArrayList<>();
         boolean found = false;
         int positionsHead = 1;
