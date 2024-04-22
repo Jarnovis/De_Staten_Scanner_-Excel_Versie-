@@ -40,7 +40,7 @@ public class SearchAndUpload implements IButton{
                 try {
                     selectFromKeySourceButton.setThrough(true);
                     connector.connect(box.getText());
-                    rightData.getData();
+                    rightData.getData(new Connector());
                     connection[0] = true;
 
                 } catch(WebDriverException exception){

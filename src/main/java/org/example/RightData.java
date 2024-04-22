@@ -23,10 +23,7 @@ public class RightData {
     private ArrayList<ArrayList> firstRow;
     private ArrayList<ArrayList> matches;
     private String keySource;
-
-    public RightData(Connector connector) {
-        this.connector = connector;
-    }
+    private static List<WebElement> DATA;
 
     private void createWorkbook(){
         // Zorgt ervoor dat er een nieuwe Workbookinstantie gecreëerd wordt, zodat er andere soorten files gebruikt kunnen worden
@@ -106,12 +103,12 @@ public class RightData {
         dataSources = readFile(sheet, source);
     }
 
-    public void getData() {
+    public void getData(Connector connector) {
         collected = new ArrayList<>();
         ArrayList<ArrayList<String>> collectedRows = new ArrayList<>();
         ArrayList<String> rowData = new ArrayList<>();
 
-        List<WebElement> data = connector.collect();
+        DATA = connector.collect();
 
         // Verzameld de zoektermen van de gevonden gegevens van de website uit
         for (WebElement element : connector.getDriver().findElements(By.xpath("//th"))) {
@@ -122,7 +119,7 @@ public class RightData {
         collected.add(collectedRows);
 
         // Splits de verzamelde data van de gevonden gegevens van de website
-        for (WebElement table : data) {
+        for (WebElement table : DATA) {
             List<WebElement> rows = table.findElements(By.tagName("tr"));
             collectedRows = new ArrayList<>();
             // Mochten er meerdere soorten rijen zijn (meerdere tabellen op de website) wordt eerst elke soort rij afgesplitst
@@ -276,8 +273,11 @@ public class RightData {
         return matches;
     }
 
-
     public ArrayList<Object> getNoMatches() {
         return noMatches;
+    }
+
+    public List<WebElement> getDATA(){
+        return DATA;
     }
 }

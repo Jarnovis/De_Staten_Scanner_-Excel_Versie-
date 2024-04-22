@@ -36,7 +36,7 @@ public class SelectComboBox{
         }
     }
 
-    public void updateComboBoxKeySource(File file, SelectComboBox comobBoxSheets){
+    public void updateComboBoxKeySource(SelectComboBox comobBoxSheets){
         comboBox.removeAllItems();
         collection = comobBoxSheets.collection;
         for (int worksheetIndex = 0; worksheetIndex < collection.getCount(); worksheetIndex++) {
@@ -48,6 +48,46 @@ public class SelectComboBox{
                     if (worksheet.getCells().get(0, i).getValue() != null){
                         comboBox.addItem(worksheet.getCells().get(0, i).getValue());
                     }
+                }
+            }
+        }
+    }
+
+    public void updateComboBoxExcelPlacement(SelectComboBox comobBoxSheets, SelectComboBox comobBoxKeySource){
+        if (!(new RightData()).checkData(comobBoxKeySource.getComboBox().getSelectedItem().toString(), null)){
+            comboBox.setVisible(false);
+        }
+        else{
+            comboBox.setVisible(true);
+            comboBox.removeAllItems();
+            collection = comobBoxSheets.collection;
+            for (int worksheetIndex = 0; worksheetIndex < collection.getCount(); worksheetIndex++) {
+                Worksheet worksheet = collection.get(worksheetIndex);
+                if (worksheet.getName().equals(comobBoxSheets.getComboBox().getSelectedItem().toString())){
+                    int cols = worksheet.getCells().getMaxColumn();
+
+                    for(int i = 0; i < cols; i++){
+                        if (worksheet.getCells().get(0, i).getValue() != null || worksheet.getCells().get(1, i).getValue() != comobBoxKeySource.getComboBox().getSelectedItem().toString()){
+                            comboBox.addItem(worksheet.getCells().get(0, i).getValue());
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void updateComboBoxWebsite(SelectComboBox comobBoxKeySource, RightData rightData, Connector connector){
+        if (rightData.checkData(comobBoxKeySource.getComboBox().getSelectedItem().toString(), null)){
+            comboBox.setVisible(false);
+        }
+        else{
+            comboBox.setVisible(true);
+            comboBox.removeAllItems();
+
+            rightData.getData(connector);
+            for (Object source : rightData.getDATA()){
+                if (!source.toString().equals(comobBoxKeySource.getComboBox().getSelectedItem().toString())){
+                    comboBox.addItem(source.toString());
                 }
             }
         }

@@ -1,36 +1,43 @@
 package org.example;
 
+import org.openqa.selenium.WebElement;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GUI_Search {
     private GUI_Upload gui_upload;
     private GUI_Commit gui_commit;
-    private Connector connector;
-    private JFrame frame = new JFrame();
-    private JTextField textField = new JTextField();
-    private JButton searchButton = new JButton();
-    private JButton uploadButton = new JButton();
+    protected Connector connector;
+    protected JFrame frame;
+    protected JTextField textField;
+    protected JButton searchButton;
+    protected JButton uploadButton;
+    private boolean search = false;
+    private RightData rightData;
 
     public GUI_Search() {
 
     }
 
-    public GUI_Search(GUI_Upload gui_upload, GUI_Commit gui_commit, Connector connector){
+    public GUI_Search(GUI_Upload gui_upload, GUI_Commit gui_commit, Connector connector, RightData rightData){
         this.gui_upload = gui_upload;
         this.gui_commit = gui_commit;
         this.connector = connector;
+        this.rightData = rightData;
 
+        window();
         searchBar();
         searchButton();
         uploadButton();
         placement();
-        window();
     }
 
     protected void window(){
+        frame = new JFrame();
         frame.setName("De Staten Scanner (Excel)");
         frame.setSize(new Dimension(500, 400));
         frame.setVisible(true);
@@ -53,6 +60,7 @@ public class GUI_Search {
     }
 
     private void searchBar(){
+        textField = new JTextField();
         textField.setPreferredSize(new Dimension(250, 25));
         textField.setEditable(true);
         textField.setVisible(true);
@@ -92,6 +100,7 @@ public class GUI_Search {
     }
 
     private void searchButton(){
+        searchButton = new JButton();
         searchButton.setText("Search");
         searchButton.setSize(new Dimension(250, 25));
         searchButton.setVisible(true);
@@ -102,18 +111,14 @@ public class GUI_Search {
         searchButton.addActionListener(new ActionListener(){ //(4)
             @Override //(4)
             public void actionPerformed(ActionEvent evt){//(4)
-                try{
-                    connector.connect(textField.getText());
-                    connector.collect();
-
-                } catch (Exception e){
-                    GUI_Error error = new GUI_Error(textField.getText(), "Website does not exist or has no table(s)");
-                }
+                search = true;
+                (new GUI_Updater()).execute();
             }
         });
     }
 
     private void uploadButton(){
+        uploadButton = new JButton();
         uploadButton.setText("Upload File");
         uploadButton.setSize(new Dimension(250, 25));
         uploadButton.setVisible(true);
@@ -125,7 +130,10 @@ public class GUI_Search {
         uploadButton.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent evt){
+                setVisible(false);
                 gui_upload.setVisible(true);
+                (new GUI_Updater()).execute();
+
             }
         });
     }
@@ -155,5 +163,67 @@ public class GUI_Search {
 
     }
 
+    protected void setVisible(boolean visible) {
+        frame.setVisible(visible);
+    }
+
+    protected Connector getConnector(){
+        return connector;
+    }
+
+
+
+
+    private class GUI_Updater extends SwingWorker<String, Object> {
+        @Override
+        public String doInBackground() throws InterruptedException {
+            if(search && gui_upload.submit){
+                System.out.println(search);
+                System.out.println(gui_upload.submit);
+
+                try{
+                    connector.connect(textField.getText());
+                    connector.collect();
+                    rightData.getData(connector);
+                    if (gui_upload.website.getComboBox().getSelectedItem().toString() == null){
+                        rightData.checkData(gui_upload.keySource.getComboBox().getSelectedItem().toString(), null);
+                    }
+                    else{
+                        rightData.checkData(gui_upload.keySource.getComboBox().getSelectedItem().toString(), gui_upload.website.getComboBox().getSelectedItem().toString());
+                    }
+
+
+                } catch (Exception e){
+                    GUI_Error error = new GUI_Error(textField.getText(), "Website does not exist or has no table(s)", "Searching Error");
+                    wait(1);
+                } finally {
+                    search = false;
+                }
+
+                (new GUI_Updater()).execute();
+            }
+            //else{
+                //if (!gui_upload.frame.isVisible()){
+                    //GUI_Error error = new GUI_Error(null, "Upload Excel File First", "Upload Error");
+                    //wait(1);
+                //}
+            //}
+
+            if (!gui_upload.frame.isVisible()){
+                setVisible(true);
+            }
+            else{
+                (new GUI_Updater()).execute();
+            }
+
+            search = false;
+            return null;
+        }
+
+        @Override
+        protected void done() {
+
+        }
+    }
 
 }

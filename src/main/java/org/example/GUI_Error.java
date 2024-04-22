@@ -11,10 +11,13 @@ public class GUI_Error extends GUI_Search{
     private JLabel label = new JLabel();
     private String error;
     private String message;
-    public GUI_Error(String error, String message){
+    private String kindError;
+
+    public GUI_Error(String error, String message, String kindError){
         super();
         this.error = "Error <br> " + error;
         this.message = message;
+        this.kindError = kindError;
         acceptButton();
         errorDisplay();
         placement();
@@ -31,7 +34,12 @@ public class GUI_Error extends GUI_Search{
     }
 
     private void errorDisplay(){
-        error = error + " does not exists or has no table(s)";
+        if (kindError.equals("Searching Error")){
+            error = kindError + "\n" +  error + "\ndoes not exists or has no table(s)";
+        }
+        else if(kindError.equals("Upload Error")){
+            error = kindError + "<br>Upload Excel File First";
+        }
         String errorSized = "";
         int size = 0;
         int lines = 0;

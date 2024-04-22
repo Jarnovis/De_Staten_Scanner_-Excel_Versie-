@@ -41,18 +41,13 @@ public class Connector {
 
     public List<WebElement> collect(){
         // Geeft de applicatie 1000 miliseconden om te zoeken naar het table element in de code
+        System.out.println("SEARCHING");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(1000));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.tagName("table")));
+        System.out.println("FOUND");
 
         // Verzameld alle HTML-gegevens binnen de <table>
         DATA = driver.findElements(By.tagName("table"));
-
-        if (DATA.isEmpty()){
-            close();
-            setup();
-            connect(url);
-            collect();
-        }
 
         return DATA;
     }
