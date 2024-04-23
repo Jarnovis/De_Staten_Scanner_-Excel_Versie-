@@ -24,6 +24,7 @@ public class RightData {
     private ArrayList<ArrayList> matches;
     private String keySource;
     private static List<WebElement> DATA;
+    private  boolean passFound = true;
 
     private void createWorkbook(){
         // Zorgt ervoor dat er een nieuwe Workbookinstantie gecreëerd wordt, zodat er andere soorten files gebruikt kunnen worden
@@ -90,13 +91,12 @@ public class RightData {
         }
     }
 
-    public boolean gatherKeySource(String source, String sheet) {
+    public void gatherKeySource(String source, String sheet) {
         keySource = source;
         keySources = readFile(sheet, keySource);
         firstRow = readFile(sheet, null);
 
         gatherDataSource(null, sheet);
-        return checkData(null, null);
     }
 
     public void gatherDataSource(String source, String sheet) {
@@ -138,7 +138,6 @@ public class RightData {
     }
 
     public boolean checkData(String neededCollom, String neededCollomWebsite) {
-        boolean passFound;
         matches = new ArrayList<>();
         boolean found = false;
         int positionsHead = 1;
@@ -150,6 +149,7 @@ public class RightData {
                     if (!found) {
                         positionsHead++;
                         for (int i = 0; i< firstRow.getFirst().size(); i++){
+                            System.out.println(firstRow.getFirst().size());
                             if (neededCollom == null){
                                 if (head.equals(firstRow.getFirst().get(i)) && !head.equals(keySource)) {
                                     neededCollom = firstRow.getFirst().get(i).toString();
@@ -219,6 +219,7 @@ public class RightData {
                                         headData.add(row.get(positionsDataSource));
                                         positioningData.add(data);
                                         match = true;
+                                        System.out.println("A NEW MATCH IS FOUND");
                                     }
                                 }
                             }
@@ -280,4 +281,9 @@ public class RightData {
     public List<WebElement> getDATA(){
         return DATA;
     }
+
+    public void setFile(File file){
+        this.file = file;
+    }
+
 }

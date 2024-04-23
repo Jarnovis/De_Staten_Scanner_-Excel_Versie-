@@ -8,17 +8,19 @@ import java.io.File;
 import java.util.Objects;
 
 public class GUI_Upload extends GUI_Search{
-    private File file;
+    protected File file;
     protected JFrame frame;
     private JButton uploadButton;
     private JButton submitButton;
     protected SelectComboBox sheets = new SelectComboBox(new String[] {"Upload Excel File First"});
     protected SelectComboBox keySource = new SelectComboBox(new String[] {"Select Needed Sheet First"});
-    protected SelectComboBox exelPlacement = new SelectComboBox(new String[] {""});
-    protected SelectComboBox website = new SelectComboBox(new String[] {""});
+    protected SelectComboBox exelPlacement = new SelectComboBox(new String[] {"Excel Fail"});
+    protected SelectComboBox website = new SelectComboBox(new String[] {"Website Fail"});
     private Object lastSheet = sheets.getComboBox().getSelectedItem();
     private RightData rightData;
     protected boolean submit = false;
+    protected boolean autoMatchFail = false;
+
 
     public GUI_Upload(RightData rightData) {
         super();
@@ -75,8 +77,6 @@ public class GUI_Upload extends GUI_Search{
                 try {
                     sheets.updateComboBoxSheets(file);
                     keySource.updateComboBoxKeySource(sheets);
-                    exelPlacement.updateComboBoxExcelPlacement(sheets, keySource);
-                    website.updateComboBoxWebsite(keySource, rightData, GUI_Upload.super.getConnector());
                 } catch (Exception ex) {
                 }
 
@@ -99,8 +99,16 @@ public class GUI_Upload extends GUI_Search{
             @Override
             public void actionPerformed(ActionEvent e) {
                 submit = true;
+                rightData.setFile(file);
+                rightData.gatherKeySource((String) keySource.getComboBox().getSelectedItem(), (String) sheets.getComboBox().getSelectedItem());
+                setVisible(false);
             }
         });
+    }
+
+    protected void updateMatchFailBoxes(){
+        exelPlacement.updateComboBoxExcelPlacement(sheets, keySource, rightData);
+        website.updateComboBoxWebsite(keySource, rightData, GUI_Upload.super.getConnector());
     }
 
     @Override
@@ -144,6 +152,10 @@ public class GUI_Upload extends GUI_Search{
         submit = set;
     }
 
+    protected void setAutoMatchFail(boolean fail){
+        autoMatchFail = fail;
+    }
+
     public void updaterGUI() { //(9)
         (new GUI_Updater()).execute();
     }
@@ -156,7 +168,6 @@ public class GUI_Upload extends GUI_Search{
                 keySource.updateComboBoxKeySource(sheets);
                 lastSheet = sheets.getComboBox().getSelectedItem();
             }
-
             return null;
         }
 

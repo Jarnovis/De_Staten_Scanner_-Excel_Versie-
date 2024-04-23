@@ -12,12 +12,13 @@ public class GUI_Search {
     private GUI_Upload gui_upload;
     private GUI_Commit gui_commit;
     protected Connector connector;
-    protected JFrame frame;
-    protected JTextField textField;
-    protected JButton searchButton;
-    protected JButton uploadButton;
+    private JFrame frame;
+    private JTextField textField;
+    private JButton searchButton;
+    private JButton uploadButton;
     private boolean search = false;
     private RightData rightData;
+    private JButton resultButton;
 
     public GUI_Search() {
 
@@ -33,6 +34,7 @@ public class GUI_Search {
         searchBar();
         searchButton();
         uploadButton();
+        resultButton();
         placement();
     }
 
@@ -138,6 +140,26 @@ public class GUI_Search {
         });
     }
 
+    private void resultButton(){
+        resultButton = new JButton();
+        resultButton.setText("Result");
+        resultButton.setSize(new Dimension(250, 25));
+        resultButton.setVisible(true);
+        actionResultButton();
+
+    }
+
+    private void actionResultButton(){
+        resultButton.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent evt){
+                setVisible(false);
+                gui_commit.setVisible(true);
+                (new GUI_Updater()).execute();
+            }
+        });
+    }
+
     protected void placement(){
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
@@ -159,6 +181,9 @@ public class GUI_Search {
         constraints.gridy ++;
         panel.add(uploadButton, constraints);
 
+        constraints.gridx ++;
+        panel.add(resultButton, constraints);
+
         frame.add(panel, BorderLayout.NORTH);
 
     }
@@ -176,40 +201,52 @@ public class GUI_Search {
 
     private class GUI_Updater extends SwingWorker<String, Object> {
         @Override
-        public String doInBackground() throws InterruptedException {
+        public String doInBackground() {
             if(search && gui_upload.submit){
-                System.out.println(search);
-                System.out.println(gui_upload.submit);
-
                 try{
+
                     connector.connect(textField.getText());
-                    connector.collect();
                     rightData.getData(connector);
-                    if (gui_upload.website.getComboBox().getSelectedItem().toString() == null){
-                        rightData.checkData(gui_upload.keySource.getComboBox().getSelectedItem().toString(), null);
+                    if (gui_upload.website.getComboBox().getSelectedItem().toString().equals("Website Fail")){
+                        if (!rightData.checkData(gui_upload.keySource.getComboBox().getSelectedItem().toString(), null)){
+                            GUI_Error error = new GUI_Error(null, "No Automatic Match Detected", "Auto Match");
+                            gui_upload.updateMatchFailBoxes();
+                            gui_upload.setVisible(true);
+                            setVisible(false);
+                        }
+                        else{
+                            gui_upload.exelPlacement.getComboBox().removeAllItems();
+                            gui_upload.exelPlacement.getComboBox().setVisible(false);
+                            gui_commit.updateMatchesBox(rightData, gui_upload.keySource.getComboBox(), gui_upload.website.getComboBox());
+                            gui_commit.updateNoMatchesBox(rightData);
+                            gui_commit.setVisible(true);
+                            setVisible(false);
+                        }
                     }
                     else{
+                        gui_upload.exelPlacement.getComboBox().removeAllItems();
+                        gui_upload.exelPlacement.getComboBox().setVisible(false);
                         rightData.checkData(gui_upload.keySource.getComboBox().getSelectedItem().toString(), gui_upload.website.getComboBox().getSelectedItem().toString());
+                        gui_commit.updateMatchesBox(rightData, gui_upload.keySource.getComboBox(), gui_upload.website.getComboBox());
+                        gui_commit.updateNoMatchesBox(rightData);
+                        gui_commit.setVisible(true);
+                        setVisible(false);
                     }
 
 
                 } catch (Exception e){
                     GUI_Error error = new GUI_Error(textField.getText(), "Website does not exist or has no table(s)", "Searching Error");
-                    wait(1);
                 } finally {
                     search = false;
                 }
-
-                (new GUI_Updater()).execute();
             }
-            //else{
-                //if (!gui_upload.frame.isVisible()){
-                    //GUI_Error error = new GUI_Error(null, "Upload Excel File First", "Upload Error");
-                    //wait(1);
-                //}
-            //}
+            else if (gui_upload.file == null){
+                if (!gui_upload.frame.isVisible() && search){
+                    GUI_Error error = new GUI_Error(null, "Upload Excel File First", "Upload Error");
+                }
+            }
 
-            if (!gui_upload.frame.isVisible()){
+            if (!gui_upload.frame.isVisible() && !gui_commit.frame.isVisible()){
                 setVisible(true);
             }
             else{

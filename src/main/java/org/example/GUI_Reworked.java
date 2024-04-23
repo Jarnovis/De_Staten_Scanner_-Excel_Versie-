@@ -201,18 +201,18 @@ public class GUI_Reworked extends JFrame {
         };
 
         addWindowListener(Listener);
-        search.action(connector, rightData, selectKeySourceButton);
+        //search.action(connector, rightData, selectKeySourceButton);
         uploadButton.action(rightData, selectFromSheet);
 
         updaterGUI();
     }
 
     public void updaterGUI() { //(9)
-        (new GUI_Updater()).execute();
+        //(new GUI_Updater()).execute();
     }
 
     // Zorgt ervoor dat de code binnen GUI_Reworked geupdate wordt
-    class GUI_Updater extends SwingWorker<String, Object>{ //(9)
+    /*class GUI_Updater extends SwingWorker<String, Object>{ //(9)
         @Override
         public String doInBackground() throws Exception {
             // Zorgt ervoor dat faal-elementen wel of niet zichtbaar zijn
@@ -270,4 +270,5 @@ public class GUI_Reworked extends JFrame {
         }
 
     }
+     */
 }

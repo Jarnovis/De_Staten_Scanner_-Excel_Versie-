@@ -26,7 +26,7 @@ public class SelectFromSheetButton extends SearchAndUpload implements IButton{
     }
 
 
-    public void action(SelectFromSheet selectFromSheet, RightData rightData, GetKeySource getKeySource, SelectFromSheetButton selectKeySourceButton){
+    /*public void action(SelectFromSheet selectFromSheet, RightData rightData, GetKeySource getKeySource, SelectFromSheetButton selectKeySourceButton){
         // Verzameld de hoofdzoekterm
         button.addActionListener(new ActionListener() {
             @Override
@@ -118,5 +118,5 @@ public class SelectFromSheetButton extends SearchAndUpload implements IButton{
         pressed[0] = false;
         return pressed_old;
     }
-
+*/
 }

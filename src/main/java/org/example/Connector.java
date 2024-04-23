@@ -17,11 +17,6 @@ public class Connector {
     static List<WebElement> DATA;
     private String url;
 
-    public void setup(){
-        // Zorgt ervoor dat chromedriver bestuurt kan worden
-        WebDriverManager.chromedriver().setup(); //(1)
-    }
-
     public void open(){
         // Opent en minimaliseerd de driver
         driver = new ChromeDriver();
@@ -36,6 +31,8 @@ public class Connector {
         try{ //(5)
             driver.get(url); //(5)
         } catch(WebDriverException e){ //(5)
+            open();
+            driver.get(url);
         }
     }
 
@@ -59,5 +56,6 @@ public class Connector {
     public WebDriver getDriver(){
         return driver;
     }
+
 }
 

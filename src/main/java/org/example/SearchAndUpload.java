@@ -32,7 +32,7 @@ public class SearchAndUpload implements IButton{
         }
     }
 
-    public void action(Connector connector, RightData rightData, SelectFromSheetButton selectFromKeySourceButton){
+    /*public void action(Connector connector, RightData rightData, SelectFromSheetButton selectFromKeySourceButton){
         // Probeert om naar de website te gaan. Als de website niet bestaat / URL-link is ongeldig komt er een error melding
         button.addActionListener(new ActionListener() {
             @Override
@@ -50,7 +50,7 @@ public class SearchAndUpload implements IButton{
             }
         });
     }
-
+    */
     public void action(){
 
         // Checkt of er actie wordt ondernomen rondom de box

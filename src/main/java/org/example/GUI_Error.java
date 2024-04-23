@@ -31,6 +31,7 @@ public class GUI_Error extends GUI_Search{
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
+        frame.setAlwaysOnTop(true);
     }
 
     private void errorDisplay(){
@@ -38,7 +39,10 @@ public class GUI_Error extends GUI_Search{
             error = kindError + "\n" +  error + "\ndoes not exists or has no table(s)";
         }
         else if(kindError.equals("Upload Error")){
-            error = kindError + "<br>Upload Excel File First";
+            error = kindError + "<br>" + message;
+        }
+        else if(kindError.equals("Auto Match")){
+            error = kindError + "<br>" + message;
         }
         String errorSized = "";
         int size = 0;
