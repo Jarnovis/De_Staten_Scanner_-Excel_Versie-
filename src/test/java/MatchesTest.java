@@ -1,26 +1,29 @@
 import org.example.*;
 
-//import org.junit.jupiter.api.Test;
-//import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 
-//import java.awt.event.ActionEvent;
+import java.awt.event.ActionEvent;
 
-/*public class MatchesTest {
+public class MatchesTest {
+    private final Connector connector = new Connector();
+    private final RightData rightData = new RightData();
+    private final GUI_Upload upload = new GUI_Upload(rightData);
+    private final GUI_Commit commit = new GUI_Commit();
+    private final GUI_Search search = new GUI_Search(upload, commit, connector, rightData, true);
+    private ScrollField matches = new ScrollField(new int[] {10, 20});
+    private ScrollField noMatches = new ScrollField(new int[] {10, 20});
+
     @Test
     public void matchGood(){
-        var connector = new Connector();
         connector.open();
-        var rightData = new RightData(connector);
-        var search = new SearchAndUpload("Search", true);
-        var selectFromSheetButton = new SelectFromSheetButton("Test", true);
         var match = new ScrollField(new int[] {100, 100});
         var noMatch = new ScrollField(new int[] {100, 100});
-        var selectFromSheetFail = new GetKeySource(new String[] {"Test"}, true);
-        var selectFromWebsiteFail = new GetKeySource(new String[] {"Test"}, true);
-        var selectKeySource = new GetKeySource(new String[] {"Test"}, true);
+        var selectFromWebsiteFail = new SelectComboBox(new String[] {"Website Fail"});
+        var selectKeySource = new SelectComboBox(new String[] {"Test"});
+        var selectFromSheetFail = new SelectComboBox(new String[] {"Test"});
 
-        UploadFile uploadFile = new UploadFile(rightData);
-        Driver website = new Driver(search, connector, rightData, "https://hdr.undp.org/data-center/country-insights#/ranks", true);
+        Driver website = new Driver(search, "https://hdr.undp.org/data-center/country-insights#/ranks", true);
         String expected = "Afghanistan | 182\n" +
                 "Albania | 74\n" +
                 "Algeria | 93\n" +
@@ -161,31 +164,27 @@ import org.example.*;
                 "137 matches out of 159 Country (86,25%)";
 
         rightData.gatherKeySource("Country", "Index 2021");
-        selectFromSheetFail.create();
-        selectFromSheetFail.getBox().removeAllItems();
-        selectFromSheetFail.getBox().addItem("GDP");
-        selectFromSheetFail.getBox().setSelectedIndex(0);
+        selectFromSheetFail.getComboBox().removeAllItems();
+        selectFromSheetFail.getComboBox().addItem("GDP");
+        selectFromSheetFail.getComboBox().setSelectedIndex(0);
 
-        selectFromWebsiteFail.create();
-        selectFromWebsiteFail.getBox().removeAllItems();
-        selectFromWebsiteFail.getBox().addItem("Rank");
-        selectFromWebsiteFail.getBox().setSelectedIndex(0);
+        selectFromWebsiteFail.getComboBox().removeAllItems();
+        selectFromWebsiteFail.getComboBox().addItem("Rank");
+        selectFromWebsiteFail.getComboBox().setSelectedIndex(0);
 
-        selectKeySource.create();
-        selectKeySource.getBox().removeAllItems();
-        selectKeySource.getBox().addItem("Country");
-        selectKeySource.getBox().setSelectedIndex(0);
+        selectKeySource.getComboBox().removeAllItems();
+        selectKeySource.getComboBox().addItem("Country");
+        selectKeySource.getComboBox().setSelectedIndex(0);
 
-        selectFromSheetButton.action(rightData, selectFromSheetFail, selectFromWebsiteFail, match, noMatch, selectKeySource);
-        ActionEvent mockEvent = new ActionEvent(selectFromSheetButton.getButton(), ActionEvent.ACTION_PERFORMED, "Press");
-        selectFromSheetButton.getButton().getActionListeners()[0].actionPerformed(mockEvent);
+        ActionEvent mockEvent = new ActionEvent(search.getSearchButton(), ActionEvent.ACTION_PERFORMED, "Press");
+        search.getSearchButton().getActionListeners()[0].actionPerformed(mockEvent);
 
-        Assertions.assertEquals(expected, match.getInfo());
+        Assertions.assertEquals(expected, matches.getInfo());
 
         connector.close();
     }
 
-    @Test
+    /*@Test
     public void notMatching(){
         var connector = new Connector();
         connector.open();
@@ -250,6 +249,7 @@ import org.example.*;
         Assertions.assertEquals(expected, noMatch.getInfo());
 
     }
+
+     */
 }
- */
 

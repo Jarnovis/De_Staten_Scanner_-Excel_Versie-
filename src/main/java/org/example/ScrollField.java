@@ -64,10 +64,12 @@ public class ScrollField {
         field.setText(info);
     }
 
-
-
     public JScrollPane getScroll() {
         return scroll;
+    }
+
+    public String getInfo(){
+        return info;
     }
 
 }
