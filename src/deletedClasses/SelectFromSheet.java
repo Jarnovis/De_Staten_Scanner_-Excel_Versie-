@@ -1,15 +1,16 @@
-package org.example;
+/*package deletedClasses;
 
 import javax.swing.*;
 
 import com.aspose.cells.*;
+import org.example.RightData;
 
 import java.awt.*;
 import java.awt.Color;
 import java.io.File;
 import java.util.ArrayList;
 
-public class SelectFromSheet implements IComboBox{
+public class SelectFromSheet implements IComboBox {
     private JComboBox box;
     private String[] sheets;
     private boolean visable;
@@ -65,3 +66,5 @@ public class SelectFromSheet implements IComboBox{
     }
 
 }
+
+ */

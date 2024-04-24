@@ -7,33 +7,30 @@ import java.awt.event.ActionEvent;
 
 public class DriverTest {
     private final Connector connector = new Connector();
+    private final RightData rightData = new RightData();
+    private final GUI_Upload upload = new GUI_Upload(rightData);
+    private final GUI_Commit commit = new GUI_Commit();
+    private final GUI_Search search = new GUI_Search(upload, commit, connector, rightData, true);
 
     @Test
-    public void ConnectionWebsiteGood() {
-        // De driver wordt zichtbaar gesteld, zodat er duidelijk te zien is dat er gecommuniseerd wordt met de driver
-        var search = new SearchAndUpload("Search", true);
-        var rightData = new RightData(connector);
-
+    public void ConnectionWebsiteGood() throws InterruptedException {
         connector.open();
 
-        Driver website1 = new Driver(search, connector, rightData, "https://hdr.undp.org/data-center/country-insights#/ranks", true);
-        Driver website2 = new Driver(search, connector, rightData, "https://www.cia.gov/the-world-factbook/field/net-migration-rate/country-comparison/", true);
-        Driver website3 = new Driver(search, connector, rightData, "https://www.visionofhumanity.org/maps/#/", true);
+        Driver website1 = new Driver(search,  "https://hdr.undp.org/data-center/country-insights#/ranks", true);
+        Driver website2 = new Driver(search,  "https://www.cia.gov/the-world-factbook/field/net-migration-rate/country-comparison/", true);
+        Driver website3 = new Driver(search, "https://www.visionofhumanity.org/maps/#/", true);
 
         connector.close();
 
     }
 
     @Test
-    public void ConnectionWebsiteBad() {
-        // De driver wordt zichtbaar gesteld, zodat er duidelijk te zien is dat er gecommuniseerd wordt met de driver
-        var search = new SearchAndUpload("Search", true);
-        var rightData = new RightData(connector);
+    public void ConnectionWebsiteBad() throws InterruptedException {
         connector.open();
 
-        Driver website1 = new Driver(search, connector, rightData, "https://www.dehaagsehogeschool.nl", false);
-        Driver website2 = new Driver(search, connector, rightData, "https://programmerhumor.io", false);
-        Driver website3 = new Driver(search, connector, rightData, "https://stepik.org/catalog", false);
+        Driver website1 = new Driver(search,  "https://www.dehaagsehogeschool.nl", false);
+        Driver website2 = new Driver(search,  "https://programmerhumor.io", false);
+        Driver website3 = new Driver(search, "https://stepik.org/catalog", false);
 
         connector.close();
     }
@@ -57,15 +54,16 @@ public class DriverTest {
 }
 
 class Driver{
-    public Driver(SearchAndUpload search, Connector connector, RightData rightData, String website, boolean output){
+    public Driver(GUI_Search search, String website, boolean output){
         System.out.println(website);
-        search.create();
-        search.getBox().setText(website);
-        search.action(connector, rightData, new SelectFromSheetButton("Test", true));
+        search.setText(website);
+        search.setTestRun(true);
+        //search.action(connector, rightData, new SelectFromSheetButton("Test", true));
 
         // Stimuleert het drukken van op de knop na. (14)
-        ActionEvent mockEvent = new ActionEvent(search.getButton(), ActionEvent.ACTION_PERFORMED, "Press");
-        search.getButton().getActionListeners()[0].actionPerformed(mockEvent);
+        //ActionEvent mockEvent = new ActionEvent(search.getSearchButton(), ActionEvent.ACTION_PERFORMED, "Press");
+        //search.getSearchButton().getActionListeners()[0].actionPerformed(mockEvent);
+        search.setTestConnection();
 
         Assertions.assertEquals(output, search.getConnection()[0]);
     }

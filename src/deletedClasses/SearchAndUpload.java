@@ -1,6 +1,6 @@
-package org.example;
+/*package deletedClasses;
 
-import org.openqa.selenium.WebDriverException;
+import org.example.RightData;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class SearchAndUpload implements IButton{
+public class SearchAndUpload implements IButton {
     private JButton button;
     private JTextField box;
     private boolean visable;
@@ -50,7 +50,6 @@ public class SearchAndUpload implements IButton{
             }
         });
     }
-    */
     public void action(){
 
         // Checkt of er actie wordt ondernomen rondom de box
@@ -107,4 +106,6 @@ public class SearchAndUpload implements IButton{
     public boolean[] getConnection(){
         return connection;
     }
+
 }
+*/

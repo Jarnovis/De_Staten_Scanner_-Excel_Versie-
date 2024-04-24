@@ -6,8 +6,6 @@ import com.aspose.cells.WorksheetCollection;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +16,6 @@ public class RightData {
     private ArrayList<ArrayList> keySources;
     private ArrayList<Object> noMatches;
     private ArrayList<ArrayList> dataSources;
-    private Connector connector;
     private ArrayList<ArrayList<ArrayList<String>>> collected;
     private ArrayList<ArrayList> firstRow;
     private ArrayList<ArrayList> matches;
@@ -79,18 +76,6 @@ public class RightData {
         return gether;
     }
 
-    public void uploadFile() {
-        // Zorgt ervoor dat een bestand geupload kan worden
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileFilter(new FileNameExtensionFilter("Excel files (DO NOT CHANGE THIS FILTER)", "xls", "xlsx")); //(13)
-        fileChooser.showSaveDialog(null);
-        File file = fileChooser.getSelectedFile();
-
-        if (file != null) {
-            this.file = file;
-        }
-    }
-
     public void gatherKeySource(String source, String sheet) {
         keySource = source;
         keySources = readFile(sheet, keySource);
@@ -146,6 +131,7 @@ public class RightData {
         if (neededCollomWebsite == null){
             for (ArrayList<String> headTable : collected.getFirst()) {
                 for (String head : headTable) {
+                    System.out.println(head);
                     if (!found) {
                         positionsHead++;
                         for (int i = 0; i< firstRow.getFirst().size(); i++){
@@ -166,6 +152,7 @@ public class RightData {
                     }
                 }
             }
+            System.out.println(found);
         }
 
         // Kijken waar in het excel bestand de match zit
@@ -245,7 +232,6 @@ public class RightData {
                         }
                     }
                 }
-
                 return passFound;
             }
             else{
@@ -259,13 +245,6 @@ public class RightData {
         return passFound;
     }
 
-
-    public File getFile(){
-        return this.file;
-    }
-    public void setFile(String file){
-        this.file = new File(file);
-    }
     public ArrayList<ArrayList<ArrayList<String>>> getCollected(){
         return collected;
     }
@@ -278,12 +257,12 @@ public class RightData {
         return noMatches;
     }
 
-    public List<WebElement> getDATA(){
-        return DATA;
-    }
-
     public void setFile(File file){
         this.file = file;
+    }
+
+    public File getFile(){
+        return file;
     }
 
 }

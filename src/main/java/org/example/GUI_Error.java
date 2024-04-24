@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class GUI_Error extends GUI_Search{
+public class GUI_Error extends GUI_Search implements IGUI {
     private JFrame frame = new JFrame();
     private JButton button = new JButton();
     private JLabel label = new JLabel();
@@ -25,7 +25,7 @@ public class GUI_Error extends GUI_Search{
     }
 
     @Override
-    protected void window(){
+    public void window(){
         frame.setName("Error Found");
         frame.setSize(new Dimension(300, 300));
         frame.setVisible(true);
@@ -87,7 +87,7 @@ public class GUI_Error extends GUI_Search{
     }
 
     @Override
-    protected void placement(){
+    public void placement(){
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
 

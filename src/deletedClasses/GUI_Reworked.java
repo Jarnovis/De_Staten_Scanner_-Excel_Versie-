@@ -1,4 +1,6 @@
-package org.example;
+/*package deletedClasses;
+
+import org.example.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -41,14 +43,14 @@ public class GUI_Reworked extends JFrame {
         buttons.add(selectKeySourceButton = new SelectFromSheetButton("Select Key Source", true));
         comboBoxes.add(selectFromSheetFail = new GetKeySource(new String[] {"Failed To Tind Tollum"}, false));
         buttons.add(selectFromSheetButtonFail = new SelectFromSheetButton("Commit Collums", false));
-        failBoxText = new TextString();
+        //failBoxText = new TextString();
         comboBoxes.add(selectFromWebsiteFail = new GetKeySource(new String[] {"Failed To Find Collum"}, false));
-        failExcelCollomText = new TextString();
-        failWebsiteCollomText = new TextString();
+        //failExcelCollomText = new TextString();
+        //failWebsiteCollomText = new TextString();
         matchesField = new ScrollField(new int[] {10, 25});
-        infoMatches = new TextString();
+        //infoMatches = new TextString();
         noMatchesField = new ScrollField(new int[] {10, 25});
-        notFound = new TextString();
+        //notFound = new TextString();
 
         buttons.add(search = new SearchAndUpload("Search", true));
         buttons.add(uploadButton = new SearchAndUpload("Upload", true));
@@ -69,11 +71,11 @@ public class GUI_Reworked extends JFrame {
         }
 
         // Creëren van alle overige elementen voor op het window
-        failBoxText.create("No matches found", false, new int[] {200, 15});
-        failExcelCollomText.create("Excel Collom:", false, null);
-        failWebsiteCollomText.create("Website Collom: ", false, null);
-        infoMatches.create("Matches will be shown here", true, new int[] {200, 25});
-        notFound.create("No matches", true, new int[] {75, 25});
+        //failBoxText.create("No matches found", false, new int[] {200, 15});
+        //failExcelCollomText.create("Excel Collom:", false, null);
+        //failWebsiteCollomText.create("Website Collom: ", false, null);
+        //infoMatches.create("Matches will be shown here", true, new int[] {200, 25});
+        //notFound.create("No matches", true, new int[] {75, 25});
 
         // Zorgt ervoor dat alle elementen een aangewezen positie op het window krijgen
         positionPanels();
@@ -270,5 +272,5 @@ public class GUI_Reworked extends JFrame {
         }
 
     }
-     */
 }
+ */

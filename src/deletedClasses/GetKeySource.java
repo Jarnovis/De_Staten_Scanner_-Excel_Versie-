@@ -1,14 +1,16 @@
-package org.example;
+/*package deletedClasses;
 
 import com.aspose.cells.Workbook;
 import com.aspose.cells.Worksheet;
 import com.aspose.cells.WorksheetCollection;
+import org.example.RightData;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 
-public class GetKeySource extends SelectFromSheet implements IComboBox{
+public class GetKeySource extends SelectFromSheet implements IComboBox {
     private JComboBox box;
     private String[] sources;
     private boolean visible;
@@ -96,3 +98,5 @@ public class GetKeySource extends SelectFromSheet implements IComboBox{
         return box;
     }
 }
+
+ */

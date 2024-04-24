@@ -3,7 +3,6 @@ package org.example;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.WebElement;
-import io.github.bonigarcia.wdm.WebDriverManager; //(1)
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -30,6 +29,8 @@ public class Connector {
         url = URL_link;
         try{ //(5)
             driver.get(url); //(5)
+            System.out.println("THROUGH");
+
         } catch(WebDriverException e){ //(5)
             open();
             driver.get(url);
@@ -38,10 +39,8 @@ public class Connector {
 
     public List<WebElement> collect(){
         // Geeft de applicatie 1000 miliseconden om te zoeken naar het table element in de code
-        System.out.println("SEARCHING");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(1000));
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.tagName("table")));
-        System.out.println("FOUND");
 
         // Verzameld alle HTML-gegevens binnen de <table>
         DATA = driver.findElements(By.tagName("table"));
@@ -55,6 +54,12 @@ public class Connector {
 
     public WebDriver getDriver(){
         return driver;
+    }
+
+    public void testConnector(String URL) throws InterruptedException {
+        driver.get(URL);
+        System.out.println("TEST");
+        Thread.sleep(1000);
     }
 
 }

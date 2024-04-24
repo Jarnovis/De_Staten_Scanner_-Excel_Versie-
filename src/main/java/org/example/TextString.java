@@ -2,11 +2,10 @@ package org.example;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class TextString {
     private JLabel label;
-    public void create(String text, boolean visible, int[] size){
+    public TextString(String text, boolean visible, int[] size){
         label = new JLabel(text);
 
         if (size == null){
@@ -26,8 +25,8 @@ public class TextString {
         label.setVisible(visibility);
     }
 
-    public void setText(GetKeySource getKeySource, SelectFromSheet selectFromWebsiteFail){
-        String text = getKeySource.getBox().getSelectedItem() + " | " + selectFromWebsiteFail.getBox().getSelectedItem();
+    public void setText(JComboBox getKeySource, JComboBox selectFromWebsiteFail){
+        String text = getKeySource.getSelectedItem() + " | " + selectFromWebsiteFail.getSelectedItem();
         label.setText(text);
     }
 

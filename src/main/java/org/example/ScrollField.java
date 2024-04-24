@@ -1,7 +1,6 @@
 package org.example;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 
 import static javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED;
@@ -69,10 +68,6 @@ public class ScrollField {
 
     public JScrollPane getScroll() {
         return scroll;
-    }
-
-    public String getInfo(){
-        return info;
     }
 
 }

@@ -6,10 +6,12 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-public class GUI_Commit extends GUI_Search{
+public class GUI_Commit extends GUI_Search implements IGUI {
     protected JFrame frame = new JFrame();
-    ScrollField matches = new ScrollField(new int[] {10, 20});
-    ScrollField noMatches = new ScrollField(new int[] {10, 20});
+    private ScrollField matches = new ScrollField(new int[] {10, 20});
+    private ScrollField noMatches = new ScrollField(new int[] {10, 20});
+    private TextString matchText = new TextString("Founded Matches", true, new int[] {200, 15});
+    private TextString noMatchText = new TextString("Matches Not Found", true, new int[] {200, 15});
     public GUI_Commit(){
         super();
         placement();
@@ -17,7 +19,7 @@ public class GUI_Commit extends GUI_Search{
     }
 
     @Override
-    protected void window(){
+    public void window(){
         frame.setName("Commit");
         frame.setSize(new Dimension(500, 400));
         frame.setVisible(false);
@@ -34,7 +36,7 @@ public class GUI_Commit extends GUI_Search{
     }
 
     @Override
-    protected void placement(){
+    public void placement(){
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
 
@@ -42,6 +44,13 @@ public class GUI_Commit extends GUI_Search{
         constraints.gridy = 0;
         constraints.anchor = GridBagConstraints.NORTH;
         constraints.insets = new Insets(5, 5, 5, 5);
+        panel.add(matchText.getText(), constraints);
+
+        constraints.gridx ++;
+        panel.add(noMatchText.getText(), constraints);
+
+        constraints.gridy ++;
+        constraints.gridx --;
         panel.add(matches.getScroll(), constraints);
 
         constraints.gridx ++;
@@ -51,6 +60,7 @@ public class GUI_Commit extends GUI_Search{
 
     }
     protected void updateMatchesBox(RightData rightData, JComboBox keySource, JComboBox website){
+        matchText.setText(keySource, website);
         matches.setTextScrollField(rightData.getMatches(), keySource, website);
         website.removeAllItems();
         website.addItem("Website Fail");
@@ -62,7 +72,7 @@ public class GUI_Commit extends GUI_Search{
     }
 
     @Override
-    protected void setVisible(boolean visible){
+    public void setVisible(boolean visible){
         frame.setVisible(visible);
     }
 }

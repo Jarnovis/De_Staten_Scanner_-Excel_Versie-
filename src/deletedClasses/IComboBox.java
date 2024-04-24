@@ -1,4 +1,4 @@
-package org.example;
+package deletedClasses;
 
 public interface IComboBox {
     void create();

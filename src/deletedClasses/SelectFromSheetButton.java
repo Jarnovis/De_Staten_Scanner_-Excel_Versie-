@@ -1,11 +1,9 @@
-package org.example;
+/*package deletedClasses;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-public class SelectFromSheetButton extends SearchAndUpload implements IButton{
+public class SelectFromSheetButton extends SearchAndUpload implements IButton {
     private JButton button;
     private String sheet;
     private final boolean[] through = {true};
@@ -26,7 +24,7 @@ public class SelectFromSheetButton extends SearchAndUpload implements IButton{
     }
 
 
-    /*public void action(SelectFromSheet selectFromSheet, RightData rightData, GetKeySource getKeySource, SelectFromSheetButton selectKeySourceButton){
+    public void action(SelectFromSheet selectFromSheet, RightData rightData, GetKeySource getKeySource, SelectFromSheetButton selectKeySourceButton){
         // Verzameld de hoofdzoekterm
         button.addActionListener(new ActionListener() {
             @Override
@@ -118,5 +116,6 @@ public class SelectFromSheetButton extends SearchAndUpload implements IButton{
         pressed[0] = false;
         return pressed_old;
     }
-*/
 }
+
+ */

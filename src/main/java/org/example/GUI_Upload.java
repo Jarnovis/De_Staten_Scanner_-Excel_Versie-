@@ -7,7 +7,7 @@ import java.awt.event.*;
 import java.io.File;
 import java.util.Objects;
 
-public class GUI_Upload extends GUI_Search{
+public class GUI_Upload extends GUI_Search implements IGUI {
     protected File file;
     protected JFrame frame;
     private JButton uploadButton;
@@ -19,7 +19,10 @@ public class GUI_Upload extends GUI_Search{
     private Object lastSheet = sheets.getComboBox().getSelectedItem();
     private RightData rightData;
     protected boolean submit = false;
-    protected boolean autoMatchFail = false;
+    private TextString sheet = new TextString("Sheet", true, new int[] {100, 15});
+    private TextString keySourceText = new TextString("Key Source", true, new int[] {100, 15});
+    private TextString coupleSourceText = new TextString("Couple Source", false, new int[] {100, 15});
+    private TextString websiteText = new TextString("Website", false, new int[] {100, 15});
 
 
     public GUI_Upload(RightData rightData) {
@@ -34,7 +37,7 @@ public class GUI_Upload extends GUI_Search{
     }
 
     @Override
-    protected void window(){
+    public void window(){
         frame = new JFrame();
 
         frame.setName("De Staten Scanner (Excel)");
@@ -107,12 +110,17 @@ public class GUI_Upload extends GUI_Search{
     }
 
     protected void updateMatchFailBoxes(){
-        exelPlacement.updateComboBoxExcelPlacement(sheets, keySource, rightData);
-        website.updateComboBoxWebsite(keySource, rightData, GUI_Upload.super.getConnector());
+        exelPlacement.updateComboBoxExcelPlacement(sheets, keySource);
+        website.updateComboBoxWebsite(keySource, rightData);
+    }
+
+    protected void setVisibleErrorMatches(boolean visible){
+        coupleSourceText.getText().setVisible(visible);
+        websiteText.getText().setVisible(visible);
     }
 
     @Override
-    protected void placement(){
+    public void placement(){
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
 
@@ -120,13 +128,24 @@ public class GUI_Upload extends GUI_Search{
         constraints.gridy = 0;
         constraints.anchor = GridBagConstraints.NORTH;
         constraints.insets = new Insets(5, 5, 5, 5);
-        panel.add(uploadButton, constraints);
+        panel.add(sheet.getText(), constraints);
+
+        constraints.gridx ++;
+        panel.add(keySourceText.getText(), constraints);
 
         constraints.gridy ++;
+        constraints.gridx --;
         panel.add(sheets.getComboBox(), constraints);
 
         constraints.gridx ++;
         panel.add(keySource.getComboBox(), constraints);
+
+        constraints.gridy ++;
+        constraints.gridx --;
+        panel.add(coupleSourceText.getText(), constraints);
+
+        constraints.gridx ++;
+        panel.add(websiteText.getText(), constraints);
 
         constraints.gridy ++;
         constraints.gridx --;
@@ -137,6 +156,9 @@ public class GUI_Upload extends GUI_Search{
 
         constraints.gridy ++;
         constraints.gridx --;
+        panel.add(uploadButton, constraints);
+
+        constraints.gridx ++;
         panel.add(submitButton, constraints);
 
         frame.add(panel, BorderLayout.CENTER);
@@ -144,16 +166,8 @@ public class GUI_Upload extends GUI_Search{
 
 
     @Override
-    protected void setVisible(boolean visible){
+    public void setVisible(boolean visible){
         frame.setVisible(visible);
-    }
-
-    protected void setSubmit(boolean set){
-        submit = set;
-    }
-
-    protected void setAutoMatchFail(boolean fail){
-        autoMatchFail = fail;
     }
 
     public void updaterGUI() { //(9)
@@ -177,5 +191,12 @@ public class GUI_Upload extends GUI_Search{
                 updaterGUI();
             }
         }
+    }
+
+    // TestOnly functionaliteiten
+    public void setFile(){
+        file = new File("UML- en tetxtfiles/Index_Failed_States_PWS.xlsx");
+        submit = true;
+
     }
 }

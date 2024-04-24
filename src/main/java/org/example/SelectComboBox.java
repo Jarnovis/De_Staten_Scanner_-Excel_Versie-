@@ -60,7 +60,7 @@ public class SelectComboBox{
         }
     }
 
-    public void updateComboBoxExcelPlacement(SelectComboBox comobBoxSheets, SelectComboBox comobBoxKeySource, RightData rightData){
+    public void updateComboBoxExcelPlacement(SelectComboBox comobBoxSheets, SelectComboBox comobBoxKeySource){
         comboBox.setVisible(true);
         comboBox.removeAllItems();
         collection = comobBoxSheets.collection;
@@ -69,8 +69,8 @@ public class SelectComboBox{
             if (worksheet.getName().equals(comobBoxSheets.getComboBox().getSelectedItem().toString())){
                 int cols = worksheet.getCells().getMaxColumn();
 
-                for(int i = 0; i < cols; i++){
-                    if (worksheet.getCells().get(0, i).getValue() != null || worksheet.getCells().get(1, i).getValue() != comobBoxKeySource.getComboBox().getSelectedItem().toString()){
+                for (int i = 0; i < cols; i++){
+                    if (worksheet.getCells().get(0, i).getValue() != null && worksheet.getCells().get(0, i).getValue() != comobBoxKeySource.getComboBox().getSelectedItem().toString()){
                         comboBox.addItem(worksheet.getCells().get(0, i).getValue());
                     }
                 }
@@ -78,14 +78,16 @@ public class SelectComboBox{
         }
     }
 
-    public void updateComboBoxWebsite(SelectComboBox comobBoxKeySource, RightData rightData, Connector connector){
+    public void updateComboBoxWebsite(SelectComboBox comobBoxKeySource, RightData rightData){
         comboBox.setVisible(true);
         comboBox.removeAllItems();
 
         ArrayList<ArrayList<ArrayList<String>>> collected = rightData.getCollected();
         for (ArrayList<String> list : collected.getFirst()){
             for (String item : list){
-                comboBox.addItem(item);
+                if (!item.equals(comobBoxKeySource.getComboBox().getSelectedItem().toString())){
+                    comboBox.addItem(item);
+                }
             }
         }
     }
