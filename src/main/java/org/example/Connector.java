@@ -57,19 +57,5 @@ public class Connector {
     public WebDriver getDriver(){
         return driver;
     }
-
-    public void testConnector(String URL){
-        url = URL;
-        try{ //(5)
-            System.out.println("IN");
-            driver.get(url); //(5)
-            System.out.println("THROUGH");
-
-        } catch(WebDriverException e){ //(5)
-            open();
-            driver.get(url);
-        }
-    }
-
 }
 

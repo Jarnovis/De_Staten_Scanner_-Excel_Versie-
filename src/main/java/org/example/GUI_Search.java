@@ -16,7 +16,6 @@ public class GUI_Search implements IGUI{
     private boolean search = false;
     private RightData rightData;
     private JButton resultButton;
-    private boolean testRun;
 
     public GUI_Search() {
     }
@@ -70,7 +69,7 @@ public class GUI_Search implements IGUI{
         actionSearchBar();
     }
 
-    public void actionSearchBar(){
+    private void actionSearchBar(){
         // Checkt of er actie wordt ondernomen rondom de box
         textField.addMouseListener(new MouseListener() {
             @Override
@@ -253,11 +252,6 @@ public class GUI_Search implements IGUI{
             search = false;
             return null;
         }
-
-        @Override
-        protected void done() {
-
-        }
     }
 
     // TestOnly Functionaliteiten
@@ -268,7 +262,7 @@ public class GUI_Search implements IGUI{
     }
 
     public boolean setTestConnection(){
-        testRun = true;
+        boolean testRun = true;
         try{
             connector.connect(textField.getText());
             rightData.getData(connector);

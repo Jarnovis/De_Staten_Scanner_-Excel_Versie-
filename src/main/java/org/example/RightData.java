@@ -21,7 +21,7 @@ public class RightData {
     private ArrayList<ArrayList> matches;
     private String keySource;
     private static List<WebElement> DATA;
-    private  boolean passFound = true;
+    private boolean passFound = true;
 
     private void createWorkbook(){
         // Zorgt ervoor dat er een nieuwe Workbookinstantie gecreëerd wordt, zodat er andere soorten files gebruikt kunnen worden

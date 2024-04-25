@@ -2,13 +2,28 @@
 skinparam linetype ortho
 
 class GUI_Search{
+- gui_upload: GUI_Upload
+- gui_commit: GUI_Commit
+# connector: Connector
+- frame: JFrame
+- textField: JTextField
+- searchButton: JButton
+- uploadButton: JButton
+- resultButton: JButton
+- search: boolean
+- rightData: RightData
 
-+ GUI_Search(GUI_Upload, GUI_Commit, Connector)
-+ window()
-+ searchBar()
-+ searchButton()
-
++ GUI_Search(GUI_Upload, GUI_Commit, Connector, RightData, boolean)
+- searchBar()
+- actionSearchBar()
+- searchButton()
+- actionSearchButton()
+- uploadButton()
+- actionUploadButton()
+- resultButton()
+- actionResultButton()
 }
+
 class Connector{
 - driver: WebDriver
 - DATA: List<WebElement>
@@ -22,18 +37,40 @@ class Connector{
 }
 
 class GUI_Upload{
-- file: File
+# file: File
+# frame: JFrame
+- uploadButton: JButton
+- submitButton: JButton
+# sheets: SelectComboBox
+# keySource: SelectComboBox
+# excelPlacement: SelectComboBox
+# website: SelectComboBox
+- lastSheet: Object
+- rightData: RightData
+# submit: boolean
+- sheet: TextString
+- keySourceText: TextString
+- coupleSourceText: TextString
+- websiteText: TextString
 
-+ GUI_Upload()
++ GUI_Upload(RightData)
 - uploadButton()
-}
-
-class Upload{
-+ Upload()
+- actionUploadButton()
+- submitButton()
+- actionSubmitButton()
+# updateMatchFailBoxes()
 }
 
 class GUI_Commit{
+# frame: JFrame
+- matches: ScrollField
+- noMatches: ScrollField
+- matchText: TextString
+- noMatchText: TextString
+
 + GUI_Commit()
+# updateMatchesBox(RightData, JComboBox, JcomboBox)
+# updateNoMatchesBox(RightData)
 }
 
 class ScrollField{
@@ -42,7 +79,6 @@ class ScrollField{
 - info: String
 
 + ScrollField(int[])
-+ setTextScrollField(ArrayList<ArrayList>, boolean, ArrayList<Object, GetKeySource, GetKeySource>
 }
 
 class RightData{
@@ -50,17 +86,18 @@ class RightData{
 - keySources: ArrayList<ArrayList>
 - noMatches: ArrayList<Object>
 - dataSources: ArrayList<ArrayList>
-- connector: Connector
 - collected: ArrayList<ArrayList<ArrayList<String>>>
 - firstRow: ArrayList<ArrayList>
 - matches: ArrayList<ArrayList>
 - keySource: String
 - passFound: boolean
+- DATA: List<WebElement>
 
-+ RightData(Connector)
+- createWorkBook()
 + readFile(String, String): ArrayList<ArrayList>
 + gatherKeySource(String, String)
 + gatherDataSource(String, String)
++ getData(Connector)
 + checkData(String, String)
 }
 
@@ -73,44 +110,70 @@ class Writer{
 - emptyingWorksheet(Worksheet, String)
 }
 
-class GetSource{
-- box: JComboBox
-- sources: String[]
-- visible: boolean
-
-+ getKey(RightData, SelectFromSheet, GetSource)
-+ getKey(RightData, GetSource)
-+ visible(boolean)
-+ getBox(): JComboBox
-}
-
-class SelectFromSheet{
-- box: JComboBox
-- sheets: String[]
-- visible: boolean
-
-+ getSheets(RightData)
-}
-
 class GUI_Error{
-+ GUI_Error()
-+ accept()
+- frame: JFrame
+- button: JButton
+- label: JLabel
+- error: String
+- message: String
+- kindError: String
+
++ GUI_Error(String, String, String)
+- errorDisplay()
+- acceptButton()
+- actionAcceptButton()
+}
+
+class GUI_Updater{
++ doInBackGround(): String
+}
+
+class TextString{
+- label: JLabel
+
++ TextString(String, boolean, int[])
+}
+
+class SelectComboBox{
+- comboBox: JComboBox
+- choices: String[]
+- collection: WorkSheetCollection
+
++ SelectComboBox(String[])
+- comboBox()
++ updateComboBoxSheets(File)
++ updateComboBoxKeySource(SelectComboBox)
++ updateComboBoxExcelPlacement(SelectComboBox, SelectComboBox)
++ updateComboBoxWebsite(SelectComboBox, RightData)
+}
+
+interface IGUI{
++ window()
++ placement()
 }
 
 
-GUI_Search <|-- GUI_Upload
-GUI_Search <|-- GUI_Commit
-GUI_Search <|-- GUI_Error
+GUI_Search <|--o GUI_Upload : 1 doorsturen 1
+GUI_Search <|--o GUI_Commit : 1 doorsturen 1
+GUI_Search <|--o GUI_Error : 1 doorsturen 1..*
+GUI_Search --> GUI_Updater : 1 update 1
 
-GUI_Search <- Connector
+GUI_Search --> Connector : 1 verbinden 1
+GUI_Search --> RightData : 1 verwerking 1
 
-GUI_Commit --> ScrollField
-GUI_Commit --> RightData
-GUI_Commit o-> Writer
-GUI_Commit -> GetSource
-GUI_Commit -> SelectFromSheet
+GUI_Commit --> ScrollField : 1 velden 1..*
+GUI_Commit --> TextString : 1 text 1..*
 
-GUI_Upload -o Upload
+GUI_Commit --> Writer : 1 geeft toegang 1
+
+GUI_Upload --> SelectComboBox : 1 keuze box 1..*
+GUI_Upload --> TextString : 1 geeft tekst 1..*
+GUI_Upload --> GUI_Updater : 1 update 1
+
+IGUI <|..GUI_Search
+IGUI <|.. GUI_Commit
+IGUI <|.. GUI_Error
+IGUI <|.. GUI_Upload
 
 
 

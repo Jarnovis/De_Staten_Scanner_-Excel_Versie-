@@ -5,7 +5,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import java.util.Objects;
 
 public class GUI_Upload extends GUI_Search implements IGUI {
     protected File file;
@@ -183,13 +182,6 @@ public class GUI_Upload extends GUI_Search implements IGUI {
                 lastSheet = sheets.getComboBox().getSelectedItem();
             }
             return null;
-        }
-
-        @Override
-        protected void done(){ //(9)
-            if (frame.isVisible()) {
-                updaterGUI();
-            }
         }
     }
 

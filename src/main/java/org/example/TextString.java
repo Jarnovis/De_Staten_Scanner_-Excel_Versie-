@@ -33,5 +33,4 @@ public class TextString {
     public JLabel getText(){
         return label;
     }
-
 }
