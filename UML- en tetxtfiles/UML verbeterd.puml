@@ -153,22 +153,22 @@ interface IGUI{
 }
 
 
-GUI_Search <|--o GUI_Upload : 1 doorsturen 1
-GUI_Search <|--o GUI_Commit : 1 doorsturen 1
-GUI_Search <|--o GUI_Error : 1 doorsturen 1..*
-GUI_Search --> GUI_Updater : 1 update 1
+GUI_Search <|---o GUI_Upload : 1 doorsturen 1
+GUI_Search <|---o GUI_Commit : 1 doorsturen 1
+GUI_Search <|---o GUI_Error : 1 doorsturen 1..*
+GUI_Search ---> GUI_Updater : 1 update 1
 
-GUI_Search --> Connector : 1 verbinden 1
-GUI_Search --> RightData : 1 verwerking 1
+GUI_Search ---> Connector : 1 verbinden 1
+GUI_Search ---> RightData : 1 verwerking 1
 
-GUI_Commit --> ScrollField : 1 velden 1..*
-GUI_Commit --> TextString : 1 text 1..*
+GUI_Commit ---> ScrollField : 1 velden 1..*
+GUI_Commit ---> TextString : 1 text 1..*
 
-GUI_Commit --> Writer : 1 geeft toegang 1
+GUI_Commit ---> Writer : 1 geeft toegang 1
 
-GUI_Upload --> SelectComboBox : 1 keuze box 1..*
-GUI_Upload --> TextString : 1 geeft tekst 1..*
-GUI_Upload --> GUI_Updater : 1 update 1
+GUI_Upload ---> SelectComboBox : 1 keuze box 1..*
+GUI_Upload ---> TextString : 1 geeft tekst 1..*
+GUI_Upload ---> GUI_Updater : 1 update 1
 
 IGUI <|..GUI_Search
 IGUI <|.. GUI_Commit
