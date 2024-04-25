@@ -1,13 +1,15 @@
 import org.example.*;
 
-/*import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
+
+import java.io.File;
 import java.util.ArrayList;
 
 public class ExcelTest {
+    private RightData rightData = new RightData();
     @Test
     public void checkZoekTermen() {
-        var rightData = new RightData(new Connector());
         UploadFile uploadFile = new UploadFile(rightData);
         String[] expected = {"Economie", "Punten", "Country", "Totaal Score", "GDP", "Score BBP per inwoner",
                 "Unemployment", "Score Werkeloosheid", "national debt", "Score Staatsschuld als percentage van het BBP",
@@ -27,7 +29,6 @@ public class ExcelTest {
 
     @Test
     public void checkHoofdZoekter(){
-        var rightData = new RightData(new Connector());
         UploadFile uploadFile = new UploadFile(rightData);
 
         String[] expected = {"Country", "Denmark", "Norway", "Switzerland", "Ireland", "Netherlands", "Sweden", "Luxembourg",
@@ -46,7 +47,6 @@ public class ExcelTest {
 
 class UploadFile{
     public UploadFile(RightData rightData){
-        rightData.setFile("UML- en tetxtfiles/Index_Failed_States_PWS.xlsx");
+        rightData.setFile(new File("UML- en tetxtfiles/Index_Failed_States_PWS.xlsx"));
     }
 }
- */

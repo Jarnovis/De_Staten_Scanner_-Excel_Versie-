@@ -17,7 +17,6 @@ public class GUI_Search implements IGUI{
     private RightData rightData;
     private JButton resultButton;
     private boolean testRun;
-    private final boolean[] testConnection = {false};
 
     public GUI_Search() {
     }
@@ -205,7 +204,7 @@ public class GUI_Search implements IGUI{
 
                     if (gui_upload.website.getComboBox().getSelectedItem().toString().equals("Website Fail")){
                         if (!rightData.checkData(gui_upload.keySource.getComboBox().getSelectedItem().toString(), null)){
-                                GUI_Error error = new GUI_Error(null, "No Automatic Match Detected", "Auto Match");
+                                GUI_Error error = new GUI_Error(null, "<br>No Automatic Match Detected", "Auto Match Error");
                                 gui_upload.setVisible(true);
                                 setVisible(false);
                                 gui_upload.updateMatchFailBoxes();
@@ -233,14 +232,14 @@ public class GUI_Search implements IGUI{
                     }
 
                 } catch (Exception e){
-                    GUI_Error error = new GUI_Error(textField.getText(), "Website does not exist or has no table(s)", "Searching Error");
+                    GUI_Error error = new GUI_Error(textField.getText(), "<br>Website does not exist or has no table(s)", "Searching Error<br>");
                 } finally {
                     search = false;
                 }
             }
             else if (gui_upload.file == null){
                 if (!gui_upload.frame.isVisible() && search){
-                    GUI_Error error = new GUI_Error(null, "Upload Excel File First", "Upload Error");
+                    GUI_Error error = new GUI_Error(null, "<br>Upload Excel File First", "Upload Error");
                 }
             }
 
@@ -268,11 +267,6 @@ public class GUI_Search implements IGUI{
         textField.setText(text);
     }
 
-    public JButton getSearchButton() {
-        searchButton();
-        return searchButton;
-    }
-
     public boolean setTestConnection(){
         testRun = true;
         try{
@@ -287,7 +281,7 @@ public class GUI_Search implements IGUI{
             if (gui_upload.website.getComboBox().getSelectedItem().toString().equals("Website Fail")){
                 if (!rightData.checkData(gui_upload.keySource.getComboBox().getSelectedItem().toString(), null)){
                     if (!testRun){
-                        GUI_Error error = new GUI_Error(null, "No Automatic Match Detected", "Auto Match");
+                        GUI_Error error = new GUI_Error(null, "<br>No Automatic Match Detected", "Auto Match Error");
                         gui_upload.setVisible(true);
                         setVisible(false);
                         gui_upload.updateMatchFailBoxes();
@@ -321,7 +315,7 @@ public class GUI_Search implements IGUI{
 
         } catch (Exception e){
             if (!testRun){
-                GUI_Error error = new GUI_Error(textField.getText(), "Website does not exist or has no table(s)", "Searching Error");
+                GUI_Error error = new GUI_Error(textField.getText(), "<br>Website does not exist or has no table(s)", "Searching Error");
             }
             return false;
         } finally {

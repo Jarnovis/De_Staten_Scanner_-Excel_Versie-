@@ -206,7 +206,5 @@ public class GUI_Upload extends GUI_Search implements IGUI {
 
         website.updateComboBoxWebsite(keySource, rightData);
         website.getComboBox().setSelectedIndex(0);
-
-        System.out.println(website.getComboBox().getSelectedItem());
     }
 }

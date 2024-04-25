@@ -151,7 +151,6 @@ public class RightData {
                     }
                 }
             }
-            System.out.println(found);
         }
 
         // Kijken waar in het excel bestand de match zit

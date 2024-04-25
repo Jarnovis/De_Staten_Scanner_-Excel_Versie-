@@ -15,7 +15,7 @@ public class GUI_Error extends GUI_Search implements IGUI {
 
     public GUI_Error(String error, String message, String kindError){
         super();
-        this.error = "Error <br> " + error;
+        this.error = error;
         this.message = message;
         this.kindError = kindError;
         acceptButton();
@@ -35,20 +35,19 @@ public class GUI_Error extends GUI_Search implements IGUI {
     }
 
     private void errorDisplay(){
-        if (kindError.equals("Searching Error")){
-            error = kindError + "\n" +  error + "\ndoes not exists or has no table(s)";
+        String errorSized = kindError;
+
+        if (error == null){
+            error = message;
         }
-        else if(kindError.equals("Upload Error")){
-            error = kindError + "<br>" + message;
+        else{
+            error += message;
         }
-        else if(kindError.equals("Auto Match")){
-            error = kindError + "<br>" + message;
-        }
-        String errorSized = "";
+
         int size = 0;
         int lines = 0;
 
-        for (char c : error.toCharArray()) {
+        for (int i = 0; i < error.length(); i++) {
             if (size == 40) {
                 errorSized += "<br>";
                 size = 0;
@@ -60,7 +59,7 @@ public class GUI_Error extends GUI_Search implements IGUI {
                 break;
             }
 
-            errorSized += c;
+            errorSized += error.charAt(i);
             size++;
         }
 

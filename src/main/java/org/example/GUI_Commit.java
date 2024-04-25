@@ -75,4 +75,13 @@ public class GUI_Commit extends GUI_Search implements IGUI {
     public void setVisible(boolean visible){
         frame.setVisible(visible);
     }
+
+    // TestOnly functionaliteiten
+    public ScrollField getMatches() {
+        return matches;
+    }
+
+    public ScrollField getNoMatches() {
+        return noMatches;
+    }
 }

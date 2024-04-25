@@ -66,7 +66,6 @@ public class Connector {
             System.out.println("THROUGH");
 
         } catch(WebDriverException e){ //(5)
-            System.out.println("ERROR");
             open();
             driver.get(url);
         }

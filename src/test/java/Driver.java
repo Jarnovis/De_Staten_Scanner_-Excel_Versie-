@@ -1,22 +1,22 @@
-import org.example.GUI_Search;
+import org.example.*;
 import org.junit.jupiter.api.Assertions;
 
-/*class Driver{
-    public Driver(GUI_Search search, String website, boolean output){
-        System.out.println(website);
-        search.setText(website);
-        search.setTestRun(true);
-        //search.action(connector, rightData, new SelectFromSheetButton("Test", true));
-
-        // Stimuleert het drukken van op de knop na. (14)
-        //ActionEvent mockEvent = new ActionEvent(search.getSearchButton(), ActionEvent.ACTION_PERFORMED, "Press");
-        //search.getSearchButton().getActionListeners()[0].actionPerformed(mockEvent);
-        search.setTestConnection();
-
-        Assertions.assertEquals(output, search.getConnection()[0]);
+public class Driver {
+    protected static Connector connector = new Connector();
+    protected Driver(){
     }
 
+    protected Driver(GUI_Search search, String website, boolean output){
+        System.out.println(website);
+        search.setText(website);
+        Assertions.assertEquals(output, search.setTestConnection());
+    }
+
+    protected void startDriver(){
+        connector.open();
+    }
+
+    protected void stopDriver(){
+        connector.close();
+    }
 }
-
-
- */
