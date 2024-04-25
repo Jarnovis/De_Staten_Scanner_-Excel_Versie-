@@ -1,7 +1,7 @@
 import org.example.GUI_Search;
 import org.junit.jupiter.api.Assertions;
 
-class Driver{
+/*class Driver{
     public Driver(GUI_Search search, String website, boolean output){
         System.out.println(website);
         search.setText(website);
@@ -17,3 +17,6 @@ class Driver{
     }
 
 }
+
+
+ */

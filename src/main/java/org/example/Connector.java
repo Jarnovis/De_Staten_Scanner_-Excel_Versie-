@@ -28,10 +28,12 @@ public class Connector {
         // Als de URL niet gevonden is crashed de applicatie niet
         url = URL_link;
         try{ //(5)
+            System.out.println("IN");
             driver.get(url); //(5)
             System.out.println("THROUGH");
 
         } catch(WebDriverException e){ //(5)
+            System.out.println("ERROR");
             open();
             driver.get(url);
         }
@@ -56,10 +58,18 @@ public class Connector {
         return driver;
     }
 
-    public void testConnector(String URL) throws InterruptedException {
-        driver.get(URL);
-        System.out.println("TEST");
-        Thread.sleep(1000);
+    public void testConnector(String URL){
+        url = URL;
+        try{ //(5)
+            System.out.println("IN");
+            driver.get(url); //(5)
+            System.out.println("THROUGH");
+
+        } catch(WebDriverException e){ //(5)
+            System.out.println("ERROR");
+            open();
+            driver.get(url);
+        }
     }
 
 }

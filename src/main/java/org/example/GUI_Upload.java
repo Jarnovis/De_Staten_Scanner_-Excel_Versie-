@@ -194,9 +194,19 @@ public class GUI_Upload extends GUI_Search implements IGUI {
     }
 
     // TestOnly functionaliteiten
-    public void setFile(){
+    public void setFile() throws Exception {
         file = new File("UML- en tetxtfiles/Index_Failed_States_PWS.xlsx");
         submit = true;
 
+        sheets.updateComboBoxSheets(file);
+        sheets.getComboBox().setSelectedIndex(1);
+
+        keySource.updateComboBoxKeySource(sheets);
+        keySource.getComboBox().setSelectedIndex(2);
+
+        website.updateComboBoxWebsite(keySource, rightData);
+        website.getComboBox().setSelectedIndex(0);
+
+        System.out.println(website.getComboBox().getSelectedItem());
     }
 }

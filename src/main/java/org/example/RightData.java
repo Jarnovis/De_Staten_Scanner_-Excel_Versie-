@@ -98,6 +98,7 @@ public class RightData {
         // Verzameld de zoektermen van de gevonden gegevens van de website uit
         for (WebElement element : connector.getDriver().findElements(By.xpath("//th"))) {
             rowData.add(element.getText());
+            System.out.println(element.getText());
         }
 
         collectedRows.add(rowData);
@@ -131,11 +132,9 @@ public class RightData {
         if (neededCollomWebsite == null){
             for (ArrayList<String> headTable : collected.getFirst()) {
                 for (String head : headTable) {
-                    System.out.println(head);
                     if (!found) {
                         positionsHead++;
                         for (int i = 0; i< firstRow.getFirst().size(); i++){
-                            System.out.println(firstRow.getFirst().size());
                             if (neededCollom == null){
                                 if (head.equals(firstRow.getFirst().get(i)) && !head.equals(keySource)) {
                                     neededCollom = firstRow.getFirst().get(i).toString();
@@ -206,7 +205,6 @@ public class RightData {
                                         headData.add(row.get(positionsDataSource));
                                         positioningData.add(data);
                                         match = true;
-                                        System.out.println("A NEW MATCH IS FOUND");
                                     }
                                 }
                             }

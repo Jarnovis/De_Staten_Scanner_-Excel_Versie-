@@ -13,7 +13,7 @@ public class DriverTest {
     private final GUI_Search search = new GUI_Search(upload, commit, connector, rightData, true);
 
     @Test
-    public void ConnectionWebsiteGood() throws InterruptedException {
+    public void ConnectionWebsiteGood() {
         connector.open();
 
         Driver website1 = new Driver(search,  "https://hdr.undp.org/data-center/country-insights#/ranks", true);
@@ -25,8 +25,12 @@ public class DriverTest {
     }
 
     @Test
-    public void ConnectionWebsiteBad() throws InterruptedException {
+    public void ConnectionWebsiteBad() {
         connector.open();
+        var rightData = new RightData();
+        var upload = new GUI_Upload(rightData);
+        var commit = new GUI_Commit();
+        var search = new GUI_Search(upload, commit, connector, rightData, true);
 
         Driver website1 = new Driver(search,  "https://www.dehaagsehogeschool.nl", false);
         Driver website2 = new Driver(search,  "https://programmerhumor.io", false);
@@ -51,4 +55,14 @@ public class DriverTest {
         connector.close();
 
     }
+}
+
+class Driver{
+    public Driver(GUI_Search search, String website, boolean output) {
+        System.out.println(website);
+        search.setText(website);
+
+        Assertions.assertEquals(output, search.setTestConnection());
+    }
+
 }

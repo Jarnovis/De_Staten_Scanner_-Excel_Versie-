@@ -3,6 +3,7 @@ package org.example;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 
 public class GUI_Search implements IGUI{
     private GUI_Upload gui_upload;
@@ -198,25 +199,17 @@ public class GUI_Search implements IGUI{
         @Override
         public String doInBackground() {
             if(search && gui_upload.submit){
-                System.out.println(-3);
                 try{
-                   connector.connect(textField.getText());
-
+                    connector.connect(textField.getText());
                     rightData.getData(connector);
-                    System.out.println(0);
+
                     if (gui_upload.website.getComboBox().getSelectedItem().toString().equals("Website Fail")){
-                        System.out.println(1);
                         if (!rightData.checkData(gui_upload.keySource.getComboBox().getSelectedItem().toString(), null)){
-                            System.out.println(2);
-                            if (!testRun){
                                 GUI_Error error = new GUI_Error(null, "No Automatic Match Detected", "Auto Match");
                                 gui_upload.setVisible(true);
                                 setVisible(false);
                                 gui_upload.updateMatchFailBoxes();
-                                System.out.println(3);
                                 gui_upload.setVisibleErrorMatches(true);
-                                System.out.println(4);
-                            }
                         }
                         else{
                             gui_upload.exelPlacement.getComboBox().removeAllItems();
@@ -238,21 +231,15 @@ public class GUI_Search implements IGUI{
                         gui_commit.setVisible(true);
                         setVisible(false);
                     }
-                    System.out.println(6);
-                    testConnection[0] = true;
-                    System.out.println(7);
 
                 } catch (Exception e){
-                    testConnection[0] = false;
-                    if (!testRun){
-                        GUI_Error error = new GUI_Error(textField.getText(), "Website does not exist or has no table(s)", "Searching Error");
-                    }
+                    GUI_Error error = new GUI_Error(textField.getText(), "Website does not exist or has no table(s)", "Searching Error");
                 } finally {
                     search = false;
                 }
             }
             else if (gui_upload.file == null){
-                if (!gui_upload.frame.isVisible() && search && !testRun){
+                if (!gui_upload.frame.isVisible() && search){
                     GUI_Error error = new GUI_Error(null, "Upload Excel File First", "Upload Error");
                 }
             }
@@ -275,6 +262,8 @@ public class GUI_Search implements IGUI{
     }
 
     // TestOnly Functionaliteiten
+    // Deze test omgeving is gemaakt wegens het crashen van connector.connect(textField.getText())
+    // Terwijl in dezelfde omgeving connector.connect(textField.getText()) niet crashed
     public void setText(String text){
         textField.setText(text);
     }
@@ -284,29 +273,25 @@ public class GUI_Search implements IGUI{
         return searchButton;
     }
 
-    public void setTestRun(boolean run){
-        testRun = run;
-        gui_upload.setFile();
-    }
-
-    public void setTestConnection() {
+    public boolean setTestConnection(){
+        testRun = true;
         try{
             connector.connect(textField.getText());
-
             rightData.getData(connector);
-            System.out.println(0);
+
+            // Boxes setten
+            gui_upload.setFile();
+            rightData.setFile(new File("UML- en tetxtfiles/Index_Failed_States_PWS.xlsx"));
+            rightData.gatherKeySource((String) gui_upload.keySource.getComboBox().getSelectedItem(), (String) gui_upload.sheets.getComboBox().getSelectedItem());
+
             if (gui_upload.website.getComboBox().getSelectedItem().toString().equals("Website Fail")){
-                System.out.println(1);
                 if (!rightData.checkData(gui_upload.keySource.getComboBox().getSelectedItem().toString(), null)){
-                    System.out.println(2);
                     if (!testRun){
                         GUI_Error error = new GUI_Error(null, "No Automatic Match Detected", "Auto Match");
                         gui_upload.setVisible(true);
                         setVisible(false);
                         gui_upload.updateMatchFailBoxes();
-                        System.out.println(3);
                         gui_upload.setVisibleErrorMatches(true);
-                        System.out.println(4);
                     }
                 }
                 else{
@@ -326,25 +311,21 @@ public class GUI_Search implements IGUI{
                 rightData.checkData(gui_upload.keySource.getComboBox().getSelectedItem().toString(), gui_upload.website.getComboBox().getSelectedItem().toString());
                 gui_commit.updateMatchesBox(rightData, gui_upload.keySource.getComboBox(), gui_upload.website.getComboBox());
                 gui_commit.updateNoMatchesBox(rightData);
-                gui_commit.setVisible(true);
-                setVisible(false);
+
+                if(!testRun){
+                    gui_commit.setVisible(true);
+                    setVisible(false);
+                }
             }
-            System.out.println(6);
-            testConnection[0] = true;
-            System.out.println(7);
+            return true;
 
         } catch (Exception e){
-            testConnection[0] = false;
             if (!testRun){
                 GUI_Error error = new GUI_Error(textField.getText(), "Website does not exist or has no table(s)", "Searching Error");
             }
+            return false;
         } finally {
             search = false;
         }
     }
-
-    public boolean[] getConnection(){
-        return testConnection;
-    }
-
 }
