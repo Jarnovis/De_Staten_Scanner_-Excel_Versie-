@@ -181,6 +181,10 @@ public class GUI_Upload extends GUI_Search implements IGUI {
                 keySource.updateComboBoxKeySource(sheets);
                 lastSheet = sheets.getComboBox().getSelectedItem();
             }
+
+            if (frame.isVisible()){
+                (new GUI_Updater()).execute();
+            }
             return null;
         }
     }
