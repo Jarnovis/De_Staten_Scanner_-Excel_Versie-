@@ -3,9 +3,8 @@ package org.example;
 import com.aspose.cells.Workbook;
 import com.aspose.cells.Worksheet;
 import com.aspose.cells.WorksheetCollection;
-import deletedClasses.IButton;
 
-public class Writer implements IButton {
+public class Writer {
     private Workbook workbook;
     private WorksheetCollection collection;
     public Writer(RightData rightData) throws Exception {
